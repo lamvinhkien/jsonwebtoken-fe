@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Nav from './components/Navigation/Nav';
+import { BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AppRoutes from './routes/App-Routes';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello world React with Hoi Dan IT
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = (props) => {
+    return (
+        <Router>
+            <div className='app-header'>
+                <Nav />
+            </div>
+
+            <div className='app-container'>
+                <AppRoutes />
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
+            </div>
+        </Router>
+    )
 }
 
 export default App;
