@@ -67,9 +67,9 @@ const Register = (props) => {
         if (check) {
             let res = await registerNewUser(email, phone, username, password)
             console.log(res)
-            let result = res.data.EC
-            let message = res.data.EM
-            let dataInvalid = res.data.DT
+            let result = res.EC
+            let message = res.EM
+            let dataInvalid = res.DT
 
             if (result === "0") {
                 if (dataInvalid === "email") {

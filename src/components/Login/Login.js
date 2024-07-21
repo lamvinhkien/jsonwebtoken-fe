@@ -34,16 +34,16 @@ const Login = (props) => {
         }
 
         let res = await loginUser(valueLogin, password)
-        if (res.data.EC === "1") {
+        if (res.EC === "1") {
             let infoToken = {
                 token: "Fake Token",
-                email: res.data.DT
+                email: res.DT
             }
             sessionStorage.setItem("TOKEN", JSON.stringify(infoToken))
-            toast.success(res.data.EM)
+            toast.success(res.EM)
             history.push("/users")
         } else {
-            toast.error(res.data.EM)
+            toast.error(res.EM)
         }
 
     }

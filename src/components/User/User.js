@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllUser, deleteUser } from "../../services/userService";
 import ReactPaginate from 'react-paginate';
 import { toast } from "react-toastify";
-import ModalCreate from "./ModalCreate";
+import ModalUser from "./ModalUser";
 import ModalDelete from "./ModalDelete";
 
 const User = (props) => {
@@ -11,7 +11,7 @@ const User = (props) => {
 
     // Pagination
     const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(2)
+    const [limit, setLimit] = useState(8)
     const [offset, setOffset] = useState(0)
     const [totalPage, setTotalPage] = useState(0)
 
@@ -19,25 +19,35 @@ const User = (props) => {
     const [isShowConfirmDelete, setIsShowConfirmDelete] = useState(false)
     const [dataModalDelete, setDataModal] = useState({})
 
-    // Confirm Create
+    // Confirm Create and Update
     const [isShowCreate, setisShowCreate] = useState(false)
+    const [isShowModal, setIsShowModal] = useState("UPDATE")
+    const [dataModalUpdate, setDataModalUpdate] = useState({})
 
     const fetchData = async () => {
         let res = await getAllUser(page, limit)
         if (res) {
-            setTotalPage(res.data.DT.totalPage)
-            setOffset(res.data.DT.offset)
-            setListUser(res.data.DT.users)
+            setTotalPage(res.DT.totalPage)
+            setOffset(res.DT.offset)
+            setListUser(res.DT.users)
         }
     }
 
     useEffect(() => {
         fetchData()
-    }, [page])
+    }, [page, limit])
 
+
+    // Handle paginations
     const handlePageClick = (event) => {
         setPage(event.selected + 1)
     }
+
+    const handleSetLimit = (event) => {
+        setLimit(event)
+        setPage(1)
+    }
+
 
     // Delete
     const showConfirmDelete = (user) => {
@@ -63,31 +73,49 @@ const User = (props) => {
         }
     }
 
+    
     // Create
     const showCreate = () => {
         setisShowCreate(true)
+        setIsShowModal("CREATE")
     }
 
     const hideCreate = () => {
+        setDataModalUpdate({
+            email: "",
+            password: "",
+            phone: "",
+            username: "",
+            address: "",
+            gender: "Male",
+            group: ""
+        })
         setisShowCreate(false)
     }
 
-    const handleCreateUser = () => {
-        alert("Create success")
+
+    //Update
+    const showUpdate = (user) => {
+        setDataModalUpdate(user)
+        setIsShowModal("UPDATE")
+        setisShowCreate(true)
     }
 
+    const handleRefresh = async () => {
+        await fetchData()
+    }
 
 
     return (
         <>
             <div className="User container">
                 <div className="user-header row mt-3">
-                    <div className="title col-10">
-                        <span className="fs-2 fw-medium">User List</span>
+                    <div className="title col-9">
+                        <span className="fs-2 fw-medium"><i className="fa fa-users"></i> Users List</span>
                     </div>
-                    <div className="action col-2">
-                        <button className="btn btn-primary">Refesh</button>
-                        <button className="btn btn-success mx-2" onClick={()=> {showCreate()}}>Create</button>
+                    <div className="action col-3">
+                        <button className="btn btn-primary" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
+                        <button className="btn btn-success mx-2" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add new user</button>
                     </div>
                 </div>
 
@@ -116,14 +144,14 @@ const User = (props) => {
                                             <td>{item.username}</td>
                                             <td>{item.Group ? item.Group.name : ""}</td>
                                             <td>
-                                                <button className="btn btn-warning">Edit</button>
-                                                <button className="btn btn-danger mx-2" onClick={() => showConfirmDelete(item)}>Delete</button>
+                                                <button className="btn btn-warning text-white" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
+                                                <button className="btn btn-danger mx-2" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
                                             </td>
                                         </tr>
                                     )
                                 })
                                     : <tr>
-                                        <td colSpan={6}>Loading...</td>
+                                        <td colSpan={7} className="text-center">Loading data........</td>
                                     </tr>
                                 }
                             </>
@@ -131,8 +159,19 @@ const User = (props) => {
                     </table>
                 </div>
 
-                <div className="user-footer">
-                    <div className="pagination justify-content-center">
+                <div className="user-footer d-flex justify-content-between">
+                    <div className="">
+                        <label className="fw-medium">Set limit values show: </label>
+                        <select className="form-select-sm mx-2"
+                            value={limit}
+                            onChange={(event) => handleSetLimit(event.target.value)}
+                        >
+                            <option value={8}>8</option>
+                            <option value={16}>16</option>
+                        </select>
+                    </div>
+
+                    <div className="pagination">
                         <>
                             {
                                 totalPage > 0 &&
@@ -162,10 +201,12 @@ const User = (props) => {
                 </div>
             </div>
 
-            <ModalCreate
+            <ModalUser
                 show={isShowCreate}
                 hideCreate={hideCreate}
-                handleCreateUser={handleCreateUser}
+                showModal={isShowModal}
+                dataModalUpdate={dataModalUpdate}
+                fetchData={fetchData}
             />
 
             <ModalDelete
