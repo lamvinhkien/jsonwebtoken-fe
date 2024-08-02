@@ -1,0 +1,13 @@
+.loading-app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 95vh;
+
+    span {
+        font-weight: 500;
+        color: #70a7ff;
+        padding-top: 15px;
+    }
+}

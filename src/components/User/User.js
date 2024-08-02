@@ -26,10 +26,12 @@ const User = (props) => {
 
     const fetchData = async () => {
         let res = await getAllUser(page, limit)
-        if (res) {
+        if (res.EC === "1") {
             setTotalPage(res.DT.totalPage)
             setOffset(res.DT.offset)
             setListUser(res.DT.users)
+        } else {
+            toast.error(res.EM)
         }
     }
 
@@ -62,10 +64,16 @@ const User = (props) => {
 
     const handleDeleteUser = async () => {
         if (dataModalDelete) {
-            await deleteUser(dataModalDelete.id)
-            setIsShowConfirmDelete(false)
-            await fetchData()
-            toast.success("Delete user successfully!")
+            let res = await deleteUser(dataModalDelete.id)
+            if(res.EC === "1"){
+                setIsShowConfirmDelete(false)
+                await fetchData()
+                toast.success("Delete user successfully!")
+            } else {
+                setIsShowConfirmDelete(false)
+                toast.error(res.EM)
+            }
+
         } else {
             setIsShowConfirmDelete(false)
             await fetchData()
@@ -214,6 +222,7 @@ const User = (props) => {
                 hideConfirm={hideConfirmDelete}
                 handleDeleteUser={handleDeleteUser}
                 dataModal={dataModalDelete.email}
+                title={'user'}
             />
 
         </>

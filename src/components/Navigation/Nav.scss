@@ -1,24 +1,28 @@
-.Nav {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #212428ec;
-}
+.nav-header {
+    background-color: #1d2023ec;
 
-.option {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-
-    &:hover {
-        background-color: #2aa0dbe5;
+    .option {
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        padding: 0px 15px 0px 15px;
+        font-weight: 400;
+        &:hover {
+            color: #2aa0dbe5;
+        }
     }
-}
 
-.active {
-    background-color: #2aa0dbe5;
-}
+    .logoJWT {
+        color: #7fd4ffe5;
+        font-weight: 600;
 
+        &:hover {
+            color: white;
+        }
+    }
+
+    .active {
+        color: #2aa0dbe5;
+    }
+
+}

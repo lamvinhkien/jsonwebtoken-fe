@@ -1,8 +1,9 @@
 import "./Login.scss"
 import { useHistory } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../../services/userService";
+import { UserContext } from "../Context/Context";
 
 const Login = (props) => {
     let history = useHistory();
@@ -20,6 +21,8 @@ const Login = (props) => {
 
     const [isValidInput, setIsValidInput] = useState(defaultValidInput)
 
+    const { user, loginContext } = useContext(UserContext);
+
     const handleLogin = async () => {
         if (!valueLogin) {
             setIsValidInput({ ...defaultValidInput, isValidValueLogin: false })
@@ -35,13 +38,9 @@ const Login = (props) => {
 
         let res = await loginUser(valueLogin, password)
         if (res.EC === "1") {
-            let infoToken = {
-                token: "Fake Token",
-                email: res.DT
-            }
-            sessionStorage.setItem("TOKEN", JSON.stringify(infoToken))
-            toast.success(res.EM)
+            loginContext(res.DT)
             history.push("/users")
+            toast.success(res.EM)
         } else {
             toast.error(res.EM)
         }
@@ -54,12 +53,11 @@ const Login = (props) => {
         }
     }
 
-    useEffect(() => {
-        let sessionToken = sessionStorage.getItem("TOKEN")
-        if (sessionToken) {
-            history.push("/users")
+    useEffect(()=>{
+        if(user && user.auth === true){
+            history.push("/")
         }
-    })
+    }, [])
 
     return (
         <div className="Login">

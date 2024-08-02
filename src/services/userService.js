@@ -10,6 +10,11 @@ const loginUser = (valueLogin, password) => {
     return res;
 }
 
+const logoutUser = () => {
+    let res = axios.post("/api/logout")
+    return res;
+}
+
 const getAllUser = (page, limit) => {
     let res = axios.get(`/api/user/show-all?page=${page}&limit=${limit}`)
     return res;
@@ -35,4 +40,9 @@ const getAllGroup = () => {
     return res
 }
 
-export { registerNewUser, loginUser, getAllUser, createNewUser, updateUser, deleteUser, getAllGroup }
+const getUserAccount = () => {
+    let res = axios.get("/api/user/get-account")
+    return res
+}
+
+export { registerNewUser, loginUser, getAllUser, createNewUser, updateUser, deleteUser, getAllGroup, getUserAccount, logoutUser }
