@@ -10,6 +10,11 @@ const getAllRoles = (page, limit) => {
     return res
 }
 
+const getAllRolesWithoutPage = () => {
+    let res = axios.get(`/api/role/get-all`)
+    return res
+}
+
 const deleteRole = (id) => {
     let res = axios.delete('/api/role/delete', { data: { id: id } })
     return res
@@ -20,4 +25,4 @@ const updateRole = (role) => {
     return res
 }
 
-export { createRoles, getAllRoles, deleteRole, updateRole }
+export { createRoles, getAllRoles, deleteRole, updateRole, getAllRolesWithoutPage }

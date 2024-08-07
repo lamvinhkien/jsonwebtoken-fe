@@ -10,10 +10,9 @@ import { toast } from "react-toastify";
 import ModalLogout from '../User/ModalLogout';
 
 const NavHeader = () => {
-    const { user } = useContext(UserContext)
+    const { user, logoutContext } = useContext(UserContext)
     const location = useLocation()
     const history = useHistory()
-    const { logoutContext } = useContext(UserContext)
 
     // Confirm Logout
     const [isShowLogout, setIsShowLogout] = useState(false)
@@ -43,7 +42,7 @@ const NavHeader = () => {
             <>
                 <Navbar collapseOnSelect expand="lg" className="nav-header">
                     <Container>
-                        <Navbar.Brand href="#home" className="logoJWT">
+                        <Navbar.Brand href="#" className="logoJWT">
                             JSONWEBTOKEN
                         </Navbar.Brand>
                         <Navbar.Collapse id="responsive-navbar-nav">
@@ -51,6 +50,7 @@ const NavHeader = () => {
                                 <NavLink to="/" className="option" exact>Home</NavLink>
                                 <NavLink to="/users" className="option">User</NavLink>
                                 <NavLink to="/roles" className="option">Role</NavLink>
+                                <NavLink to="/assign" className="option">Assign</NavLink>
                                 <NavLink to="/projects" className="option">Project</NavLink>
                                 {user.auth === true ? <NavLink to="/change-password" className="option">Change Password</NavLink> : <></>}
                             </Nav>

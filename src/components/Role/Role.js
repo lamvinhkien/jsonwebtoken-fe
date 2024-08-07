@@ -1,5 +1,5 @@
 import './Role.scss'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ const Role = () => {
     const [listChild, setListChild] = useState({
         child: { url: "", description: "", isValidUrl: true },
     })
+    const childRef = useRef()
 
     const handleOnChangeInput = (key, value, name) => {
         let _listChild = _.cloneDeep(listChild)
@@ -36,6 +37,7 @@ const Role = () => {
         setListChild(_listChild)
     }
 
+    // Convert data from object to array
     const buildData = () => {
         let data = []
         Object.entries(listChild).map(([key, value]) => {
@@ -56,6 +58,7 @@ const Role = () => {
             let data = buildData()
             let res = await createRoles(data)
             if (res && res.EC === "1") {
+                childRef.current.fetchRolesBySave()
                 toast.success(res.EM)
                 setListChild({ child: { url: "", description: "", isValidUrl: true } })
             } else {
@@ -71,6 +74,11 @@ const Role = () => {
 
     }
 
+    const handleRefresh = async () => {
+        childRef.current.fetchRolesBySave()
+    }
+
+
     return (
         <div className='Role-component'>
             <div className='container mt-3'>
@@ -80,7 +88,7 @@ const Role = () => {
                     </div>
                     <div className='col-4'>
                         <span className='btn btn-success fw-medium' onClick={() => { addNewRoles() }}><i className="fa fa-plus-circle"></i> Add more role</span>
-                        <span className='btn btn-primary fw-medium mx-3' onClick={() => { }}><i className="fa fa-refresh"></i> Refresh</span>
+                        <span className='btn btn-primary fw-medium mx-3' onClick={() => { handleRefresh() }}><i className="fa fa-refresh"></i> Refresh</span>
                     </div>
                 </div>
             </div>
@@ -118,7 +126,7 @@ const Role = () => {
             </div>
 
             <div className='container mt-3'>
-                <TableRole />
+                <TableRole ref={childRef}/>
             </div>
         </div>
     )

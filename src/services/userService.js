@@ -35,14 +35,9 @@ const deleteUser = (id) => {
     return res
 }
 
-const getAllGroup = () => {
-    let res = axios.get("/api/group/show-all")
-    return res
-}
-
 const getUserAccount = () => {
     let res = axios.get("/api/user/get-account")
     return res
 }
 
-export { registerNewUser, loginUser, getAllUser, createNewUser, updateUser, deleteUser, getAllGroup, getUserAccount, logoutUser }
+export { registerNewUser, loginUser, getAllUser, createNewUser, updateUser, deleteUser, getUserAccount, logoutUser }

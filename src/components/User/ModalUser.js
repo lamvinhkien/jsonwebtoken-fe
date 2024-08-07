@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Row } from 'react-bootstrap';
-import { getAllGroup, createNewUser, updateUser } from '../../services/userService';
+import { createNewUser, updateUser } from '../../services/userService';
+import { getAllGroup } from '../../services/groupService';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 

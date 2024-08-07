@@ -1,5 +1,6 @@
 import { useEffect, useState, createContext } from "react"
 import { getUserAccount } from "../../services/userService";
+import { toast } from 'react-toastify';
 
 const UserContext = createContext({});
 
@@ -26,7 +27,7 @@ const UserProvider = ({ children }) => {
     useEffect(() => {
         setTimeout(() => {
             fetchUser()
-        }, 700)
+        }, 600)
 
     }, [])
 

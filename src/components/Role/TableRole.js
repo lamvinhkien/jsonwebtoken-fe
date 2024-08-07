@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { getAllRoles, deleteRole } from '../../services/rolesService'
 import ReactPaginate from 'react-paginate';
 import ModalDelete from '../User/ModalDelete';
 import ModalUpdate from './ModalUpdate';
 import { toast } from "react-toastify";
 
-const TableRole = (props) => {
+const TableRole = forwardRef((props, ref) => {
 
     // Roles data
     const [listRole, setListRole] = useState([])
@@ -78,6 +78,14 @@ const TableRole = (props) => {
             description: ''
         })
     }
+
+
+    // Handle fetch role by Method Save from Parent (Role component)
+    useImperativeHandle(ref, () => ({
+        fetchRolesBySave() {
+            fetchRoles()
+        }
+    }))
 
 
     // Fetch data roles
@@ -188,6 +196,6 @@ const TableRole = (props) => {
             />
         </div>
     )
-}
+})
 
 export default TableRole;
