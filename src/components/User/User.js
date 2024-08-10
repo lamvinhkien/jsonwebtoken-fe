@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { getAllUser, deleteUser } from "../../services/userService";
 import ReactPaginate from 'react-paginate';
 import { toast } from "react-toastify";
 import ModalUser from "./ModalUser";
 import ModalDelete from "./ModalDelete";
+import { UserContext } from "../Context/Context";
 
 const User = (props) => {
     // Data
@@ -23,6 +24,8 @@ const User = (props) => {
     const [isShowCreate, setisShowCreate] = useState(false)
     const [isShowModal, setIsShowModal] = useState("UPDATE")
     const [dataModalUpdate, setDataModalUpdate] = useState({})
+
+    const { user } = useContext(UserContext)
 
     const fetchData = async () => {
         let res = await getAllUser(page, limit)
@@ -65,7 +68,7 @@ const User = (props) => {
     const handleDeleteUser = async () => {
         if (dataModalDelete) {
             let res = await deleteUser(dataModalDelete.id)
-            if(res.EC === "1"){
+            if (res.EC === "1") {
                 setIsShowConfirmDelete(false)
                 await fetchData()
                 toast.success("Delete user successfully!")
@@ -81,7 +84,7 @@ const User = (props) => {
         }
     }
 
-    
+
     // Create
     const showCreate = () => {
         setisShowCreate(true)
@@ -122,8 +125,8 @@ const User = (props) => {
                         <span className="fs-2 fw-medium"><i className="fa fa-users"></i> Users List</span>
                     </div>
                     <div className="action col-3">
-                        <button className="btn btn-primary" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
-                        <button className="btn btn-success mx-2" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add new user</button>
+                        <button className="btn btn-success" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add new user</button>
+                        <button className="btn btn-primary mx-2" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
                     </div>
                 </div>
 
@@ -132,7 +135,6 @@ const User = (props) => {
                         <thead className="">
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Id</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Username</th>
@@ -145,15 +147,20 @@ const User = (props) => {
                                 {listUser && listUser.length > 0 ? listUser.map((item, index) => {
                                     return (
                                         <tr key={"row" + index}>
-                                            <td>{index + 1 + offset}</td>
-                                            <td>{item.id}</td>
-                                            <td>{item.email}</td>
-                                            <td>{item.phone}</td>
-                                            <td>{item.username}</td>
-                                            <td>{item.Group ? item.Group.name : ""}</td>
+                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{index + 1 + offset}</td>
+                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.email}</td>
+                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.phone}</td>
+                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.username}</td>
+                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.Group ? item.Group.name : ""}</td>
                                             <td>
-                                                <button className="btn btn-warning text-white" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
-                                                <button className="btn btn-danger mx-2" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
+                                                {
+                                                    item.Group.name === 'Leader' || user.email === item.email || item.Group.name === user.data.name ? <><button className="btn opacity-0">.</button></>
+                                                        :
+                                                        <>
+                                                            <button className="btn btn-warning text-white" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
+                                                            <button className="btn btn-danger mx-2" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
+                                                        </>
+                                                }
                                             </td>
                                         </tr>
                                     )

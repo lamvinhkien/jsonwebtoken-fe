@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Row } from 'react-bootstrap';
@@ -6,6 +6,7 @@ import { createNewUser, updateUser } from '../../services/userService';
 import { getAllGroup } from '../../services/groupService';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
+import { UserContext } from '../Context/Context';
 
 const ModalCreate = (props) => {
     // Define state value for user and list group
@@ -35,6 +36,7 @@ const ModalCreate = (props) => {
     }
     const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
 
+    const { user } = useContext(UserContext)
 
     // fetch data group
     const fetchGroup = async () => {
@@ -61,9 +63,9 @@ const ModalCreate = (props) => {
 
     // Validate and Handle Create
     const handleValidateInput = () => {
-        let arr = props.showModal === "CREATE" ? 
-        ["email", "phone", "password", "username", "group"] :
-        ["username", "group"]
+        let arr = props.showModal === "CREATE" ?
+            ["email", "phone", "password", "username", "group"] :
+            ["username", "group"]
 
         let check = true;
         for (let i = 0; i < arr.length; i++) {
@@ -82,9 +84,9 @@ const ModalCreate = (props) => {
     const handleConfirmUser = async () => {
         let check = handleValidateInput()
         if (check === true) {
-            let res = props.showModal === "CREATE" ? 
-            await createNewUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group }) :
-            await updateUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group })
+            let res = props.showModal === "CREATE" ?
+                await createNewUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group }) :
+                await updateUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group })
 
             if (res.EC === "1") {
                 setIsValidInput(defaultIsValidInput)
@@ -106,7 +108,7 @@ const ModalCreate = (props) => {
     useEffect(() => {
         if (props.showModal === "UPDATE") {
             setValueInput(props.dataModalUpdate)
-        } 
+        }
     }, [props.dataModalUpdate])
 
     const handleHideModal = () => {
@@ -126,7 +128,7 @@ const ModalCreate = (props) => {
                 <Modal.Body className="grid-example">
                     <Container>
                         <Row>
-                            <div className={props.showModal === "CREATE" ? "form-group mb-3 col-6" : "form-group mb-3 col-12"}>
+                            <div className={props.showModal === "CREATE" ? "form-group mb-3 col-6" : "form-group mb-3 col-6"}>
                                 <label className="py-1">Email<span className='text-danger'>*</span></label>
                                 <input type="text"
                                     disabled={props.showModal === "CREATE" ? false : true}
@@ -135,17 +137,6 @@ const ModalCreate = (props) => {
                                     onChange={(event) => handleOnChangeInput(event.target.value, "email")}
                                 />
                             </div>
-                            {props.showModal === "CREATE" &&
-                                <>
-                                    <div className="form-group mb-3 col-6">
-                                        <label className="py-1">Password<span className='text-danger'>*</span></label>
-                                        <input type="password" className={isValidInput.password ? "form-control" : "form-control is-invalid"}
-                                            placeholder="Password" value={valueInput.password}
-                                            onChange={(event) => handleOnChangeInput(event.target.value, "password")}
-                                        />
-                                    </div>
-                                </>
-                            }
 
                             <div className="form-group mb-3 col-6">
                                 <label className="py-1">Phone<span className='text-danger'>*</span></label>
@@ -156,23 +147,7 @@ const ModalCreate = (props) => {
                                     onChange={(event) => handleOnChangeInput(event.target.value, "phone")}
                                 />
                             </div>
-                            <div className="form-group mb-3 col-6">
-                                <label className="py-1">Group<span className='text-danger'>*</span></label>
-                                <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
-                                    value={valueInput.group}
-                                    onChange={(event) => handleOnChangeInput(event.target.value, "group")}
-                                >
-                                    {
-                                        listGroup.length > 0 ? listGroup.map((item, index) => {
-                                            return (
-                                                <option key={`group-${index}`} value={item.id}>{item.name}</option>
-                                            )
-                                        })
-                                            :
-                                            <option>Group loading...</option>
-                                    }
-                                </select>
-                            </div>
+
                             <div className="form-group mb-3 col-6">
                                 <label className="py-1">Username<span className='text-danger'>*</span></label>
                                 <input type="text" className={isValidInput.username ? "form-control" : "form-control is-invalid"}
@@ -180,6 +155,7 @@ const ModalCreate = (props) => {
                                     onChange={(event) => handleOnChangeInput(event.target.value, "username")}
                                 />
                             </div>
+
                             <div className="form-group mb-3 col-6">
                                 <label className="py-1">Gender</label>
                                 <select className="form-select"
@@ -191,12 +167,46 @@ const ModalCreate = (props) => {
                                     <option value="Others">Others</option>
                                 </select>
                             </div>
+
+                            {
+                                user.data.name === 'Leader' &&
+                                <div className="form-group mb-3 col-12">
+                                    <label className="py-1">Group<span className='text-danger'>*</span></label>
+                                    <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
+                                        value={valueInput.group}
+                                        onChange={(event) => handleOnChangeInput(event.target.value, "group")}
+                                    >
+                                        {
+                                            listGroup.length > 0 ? listGroup.map((item, index) => {
+                                                return (
+                                                    <option key={`group-${index}`} value={item.id}>{item.name}</option>
+                                                )
+                                            })
+                                                :
+                                                <option>Group loading...</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+
                             <div className="form-group mb-3 col-12">
                                 <label className="py-1">Address</label>
                                 <input type="text" className="form-control" placeholder="Address" value={valueInput.address}
                                     onChange={(event) => handleOnChangeInput(event.target.value, "address")}
                                 />
                             </div>
+
+                            {props.showModal === "CREATE" &&
+                                <>
+                                    <div className="form-group mb-3 col-12">
+                                        <label className="py-1">Password<span className='text-danger'>*</span></label>
+                                        <input type="password" className={isValidInput.password ? "form-control" : "form-control is-invalid"}
+                                            placeholder="Password" value={valueInput.password}
+                                            onChange={(event) => handleOnChangeInput(event.target.value, "password")}
+                                        />
+                                    </div>
+                                </>
+                            }
                         </Row>
                     </Container>
                 </Modal.Body>

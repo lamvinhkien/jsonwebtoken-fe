@@ -6,43 +6,55 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
-import { updateRole } from '../../services/rolesService';
+import { updateGroup } from '../../services/groupService';
 
 
-const ModalUpdate = (props) => {
+const ModalUpdate2 = (props) => {
 
     const [valueInput, setValueInput] = useState({
         id: '',
-        url: '',
+        name: '',
         description: ''
     })
 
+    const [isValidInput, setIsValidInput] = useState(true)
+
     const handleOnChangeInput = (event, name) => {
         let _valueInput = _.cloneDeep(valueInput)
+        if(name === 'name'){
+            setIsValidInput(true)
+        }
         _valueInput[name] = event
         setValueInput(_valueInput)
     }
 
     const handleUpdate = async () => {
-        let res = await updateRole(valueInput)
-
-        if (res && res.EC === "1") {
-            props.fetchData()
-            props.onHide()
-            toast.success(res.EM)
+        if (!valueInput.name) {
+            setIsValidInput(false)
+            toast.error("Please enter name.")
         } else {
-            toast.error(res.EM)
+            let res = await updateGroup(valueInput)
+
+            if (res && res.EC === "1") {
+                setIsValidInput(true)
+                props.fetchData()
+                props.onHide()
+                toast.success(res.EM)
+            } else {
+                toast.error(res.EM)
+            }
         }
     }
 
     const handleHideModal = () => {
         props.onHide()
+        setIsValidInput(true)
     }
 
 
     useEffect(() => {
         if (props.data) {
-            setValueInput({ id: props.data.id, url: props.data.url, description: props.data.description })
+            setValueInput({ id: props.data.id, name: props.data.name, description: props.data.description })
         }
     }, [props.data])
 
@@ -51,19 +63,26 @@ const ModalUpdate = (props) => {
             <Modal show={props.show} centered aria-labelledby="contained-modal-title-vcenter" onHide={handleHideModal}>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Update role: <span className='fw-normal'>{valueInput.url}</span>
+                        Update group
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="grid-example">
                     <Container>
                         <Row>
-                            <Col xs={12} className=''>
-                                <label className='fw-medium'>Description:</label>
-                                <input type='text' className='form-control mt-1'
+                            <Col xs={12}>
+                                <label>Name<span className='text-danger'>*</span></label>
+                                <input type='text' className={isValidInput ? 'form-control' : 'form-control is-invalid'}
+                                    onChange={(event) => { handleOnChangeInput(event.target.value, 'name') }}
+                                    value={valueInput.name} />
+                            </Col>
+                            <Col xs={12} className='mt-2'>
+                                <label>Description</label>
+                                <input type='text' className='form-control'
                                     onChange={(event) => { handleOnChangeInput(event.target.value, 'description') }}
                                     value={valueInput.description} />
                             </Col>
                         </Row>
+
                     </Container>
                 </Modal.Body>
                 <Modal.Footer>
@@ -75,4 +94,4 @@ const ModalUpdate = (props) => {
     )
 }
 
-export default ModalUpdate;
+export default ModalUpdate2;

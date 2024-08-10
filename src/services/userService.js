@@ -40,4 +40,14 @@ const getUserAccount = () => {
     return res
 }
 
-export { registerNewUser, loginUser, getAllUser, createNewUser, updateUser, deleteUser, getUserAccount, logoutUser }
+const changeInfor = (email, groupId, changeData) => {
+    let res = axios.post('/api/user/change-infor', { email: email, groupId: groupId, changeData: changeData })
+    return res
+}
+
+const changePassword = (email, changeData) => {
+    let res = axios.post('/api/user/change-password', { email: email, changeData: changeData })
+    return res
+}
+
+export { registerNewUser, loginUser, getAllUser, createNewUser, updateUser, deleteUser, getUserAccount, logoutUser, changeInfor, changePassword }

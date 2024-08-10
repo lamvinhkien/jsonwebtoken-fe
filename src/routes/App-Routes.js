@@ -2,19 +2,21 @@ import { Switch, Route } from "react-router-dom";
 import Login from '../components/Login/Login';
 import Register from '../components/Register/Register';
 import User from '../components/User/User';
-import Project from '../components/Project/Project';
 import Role from "../components/Role/Role";
 import Assign from "../components/Assign/Assign";
+import Groups from '../components/Group/Group';
+import Profile from "../components/Profile/Profile";
 import PrivateRoutes from "./Private-Routes";
-
+import Home from "../components/Home/Home";
 
 const AppRoutes = (props) => {
     return (
         <Switch>
             <PrivateRoutes path="/users" component={User}/>
-            <PrivateRoutes path="/projects" component={Project}/>
+            <PrivateRoutes path="/groups" component={Groups}/>
             <PrivateRoutes path="/roles" component={Role}/>
             <PrivateRoutes path="/assign" component={Assign}/>
+            <PrivateRoutes path="/profile" component={Profile}/>
 
             <Route path="/login">
                 <Login />
@@ -23,7 +25,7 @@ const AppRoutes = (props) => {
                 <Register />
             </Route>
             <Route path="/" exact>
-                Home
+                <Home />
             </Route>
             <Route path="*">
                 404 NOT FOUND

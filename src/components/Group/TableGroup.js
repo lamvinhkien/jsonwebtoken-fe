@@ -1,14 +1,14 @@
 import { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
-import { getAllRoles, deleteRole } from '../../services/rolesService'
+import { getGroupWithPagination, deleteGroup } from '../../services/groupService'
 import ReactPaginate from 'react-paginate';
 import ModalDelete from '../User/ModalDelete';
-import ModalUpdate from './ModalUpdate';
+import ModalUpdate2 from './ModalUpdate2';
 import { toast } from "react-toastify";
 
-const TableRole = forwardRef((props, ref) => {
+const TableGroup = forwardRef((props, ref) => {
 
-    // Roles data
-    const [listRole, setListRole] = useState([])
+    // Groups data
+    const [listGroup, setListGroup] = useState([])
 
     // Pagination
     const [page, setPage] = useState(1)
@@ -24,7 +24,7 @@ const TableRole = forwardRef((props, ref) => {
     const [isShowUpdate, setIsShowUpdate] = useState(false)
     const [dataModalUpdate, setDataModalUpdate] = useState({
         id: '',
-        url: '',
+        name: '',
         description: ''
     })
 
@@ -48,12 +48,12 @@ const TableRole = forwardRef((props, ref) => {
         setIsShowDelete(false)
         setDataModalDelete({})
     }
-    const handleDeleteRole = async () => {
+    const handleDeleteGroup = async () => {
         if (dataModalDelete) {
-            let res = await deleteRole(dataModalDelete.id)
+            let res = await deleteGroup(dataModalDelete.id)
 
             if (res && res.EC === "1") {
-                fetchRoles()
+                fetchGroups()
                 toast.success(res.EM)
             } else {
                 toast.error(res.EM)
@@ -74,55 +74,55 @@ const TableRole = forwardRef((props, ref) => {
         setIsShowUpdate(false)
         setDataModalUpdate({
             id: '',
-            url: '',
+            name: '',
             description: ''
         })
     }
 
 
-    // Handle fetch role by Method Save from Parent (Role component)
+    // Handle fetch group by Method Save from Parent (Group component)
     useImperativeHandle(ref, () => ({
-        fetchRolesBySave() {
-            fetchRoles()
+        fetchGroupsBySave() {
+            fetchGroups()
         }
     }))
 
 
     // Fetch data roles
-    const fetchRoles = async () => {
-        let data = await getAllRoles(page, limit)
+    const fetchGroups = async () => {
+        let data = await getGroupWithPagination(page, limit)
         if (data && data.EC === "1") {
             setOffset(data.DT.offset)
             setTotalPage(data.DT.totalPage)
-            setListRole(data.DT.roles)
+            setListGroup(data.DT.roles)
+        } else {
+            toast.error(data.EM)
         }
     }
     useEffect(() => {
-        fetchRoles()
+        fetchGroups()
     }, [page, limit])
 
 
 
     return (
-        <div className="Table-Role">
+        <div className="Table-Group">
             <table className="table table-striped table-hover">
                 <thead className="">
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Id</th>
-                        <th scope="col">URL</th>
+                        <th scope="col">Name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <>
-                        {listRole && listRole.length > 0 ? listRole.map((item, index) => {
+                        {listGroup && listGroup.length > 0 ? listGroup.map((item, index) => {
                             return (
                                 <tr key={"row" + index}>
                                     <td>{index + 1 + offset}</td>
-                                    <td>{item.id}</td>
-                                    <td>{item.url}</td>
+                                    <td>{item.name}</td>
                                     <td>{item.description}</td>
                                     <td>
                                         <button className="btn btn-warning text-white" onClick={() => showUpdate(item)}><i className="fa fa-pencil-square-o"></i></button>
@@ -181,21 +181,21 @@ const TableRole = forwardRef((props, ref) => {
             </div>
 
             <ModalDelete
-                title={`role`}
+                title={`group`}
                 show={isShowDelete}
                 hideConfirm={hideConfirmDelete}
-                handleDeleteUser={handleDeleteRole}
-                dataModal={dataModalDelete.url}
+                handleDeleteUser={handleDeleteGroup}
+                dataModal={dataModalDelete.name}
             />
 
-            <ModalUpdate
+            <ModalUpdate2
                 show={isShowUpdate}
                 onHide={hideUpdate}
                 data={dataModalUpdate}
-                fetchData={fetchRoles}
+                fetchData={fetchGroups}
             />
         </div>
     )
 })
 
-export default TableRole;
+export default TableGroup;

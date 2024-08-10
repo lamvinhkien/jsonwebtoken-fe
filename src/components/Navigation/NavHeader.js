@@ -42,21 +42,24 @@ const NavHeader = () => {
             <>
                 <Navbar collapseOnSelect expand="lg" className="nav-header">
                     <Container>
-                        <Navbar.Brand href="#" className="logoJWT">
-                            JSONWEBTOKEN
+                        <Navbar.Brand href="#" >
+                            <span className="logoJWT">
+                                <img src='/logo192.png' width={'7%'} className='mb-1 mx-1' />
+                                Assign User Project
+                            </span>
                         </Navbar.Brand>
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="me-auto">
                                 <NavLink to="/" className="option" exact>Home</NavLink>
                                 <NavLink to="/users" className="option">User</NavLink>
+                                <NavLink to="/groups" className="option">Group</NavLink>
                                 <NavLink to="/roles" className="option">Role</NavLink>
                                 <NavLink to="/assign" className="option">Assign</NavLink>
-                                <NavLink to="/projects" className="option">Project</NavLink>
-                                {user.auth === true ? <NavLink to="/change-password" className="option">Change Password</NavLink> : <></>}
+                                {user.auth === true ? <NavLink to="/profile" className="option">Profile</NavLink> : <></>}
                             </Nav>
 
                             <Nav>
-                                {user.username ? <Nav.Link className="option">Welcome {user.username}!</Nav.Link> : <></>}
+                                {user.username ? <Nav.Link className="option"><span className='fst-italic'>Welcome!</span> {user.username}</Nav.Link> : <></>}
                                 {user.auth === true ? <Nav.Link to="/logout" className="option"><span onClick={() => { handleShowLogout() }}>Logout</span></Nav.Link>
                                     : <Link to="/login" className="option">Login</Link>}
                             </Nav>

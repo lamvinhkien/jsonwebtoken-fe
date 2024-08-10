@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getAllGroup, getGroupWithRoles, assignRoleForGroup } from '../../services/groupService';
 import { getAllRolesWithoutPage } from '../../services/rolesService';
 import './Assign.scss'
 import { toast } from 'react-toastify';
 import _ from 'lodash'
+import { UserContext } from '../Context/Context';
 
 const Assign = (props) => {
     const [listGroup, setListGroup] = useState([])
     const [listRole, setListRole] = useState([])
     const [selectGroup, setSelectGroup] = useState('')
+    const { user, fetchUser } = useContext(UserContext)
 
     const fetchGroup = async () => {
         let res = await getAllGroup()
@@ -53,6 +55,7 @@ const Assign = (props) => {
             let res = await fetchGroupWithRoles(event)
             setSelectGroup(event)
             buildDataForAssign(res)
+            console.log(res)
         } else {
             setSelectGroup('')
             buildDataForAssign([])
@@ -69,6 +72,8 @@ const Assign = (props) => {
         let result = {}
         let _listRole = _.cloneDeep(listRole)
 
+        result.user = user
+        result.user.groupId = user.data.id
         result.groupId = +selectGroup
         result.roles = []
 
@@ -86,6 +91,7 @@ const Assign = (props) => {
         let res = await assignRoleForGroup(data)
 
         if (res && res.EC === '1') {
+            await fetchUser()
             toast.success(res.EM)
         } else {
             toast.error(res.EM)
@@ -124,9 +130,7 @@ const Assign = (props) => {
                             </select>
                         </div>
 
-                        <div className='col-3'>
-                            <button className='btn btn-success' onClick={() => { handleSave() }}>Save</button>
-                        </div>
+
                     </div>
 
                 </div>
@@ -140,24 +144,33 @@ const Assign = (props) => {
                         {
                             selectGroup !== ''
                                 ?
-                                <div className=''>
-                                    {
-                                        listRole && listRole.length > 0
-                                            ? listRole.map((item, index) => {
-                                                return (
-                                                    <div className="form-check form-switch py-1 select-fs" key={`role-${index}`}>
-                                                        <input
-                                                            className="form-check-input" type="checkbox" id={`role-${index}`}
-                                                            value={item.id}
-                                                            checked={item.isAssign}
-                                                            onChange={() => { handleOnChangeRoles(index) }} />
-                                                        <label className="form-check-label" htmlFor={`role-${index}`}>{item.url}</label>
-                                                    </div>
-                                                )
-                                            })
-                                            : <>Loading data......</>
-                                    }
-                                </div>
+                                <>
+                                    <div className='row row-cols-4'>
+                                        {
+                                            listRole && listRole.length > 0
+                                                ? listRole.map((item, index) => {
+                                                    return (
+                                                        <div className='col' key={`role-${index}`}>
+                                                            <div className="form-check form-switch py-1 select-fs" >
+                                                                <input
+                                                                    className="form-check-input" type="checkbox" id={`role-${index}`}
+                                                                    value={item.id}
+                                                                    checked={item.isAssign}
+                                                                    onChange={() => { handleOnChangeRoles(index) }} 
+                                                                />
+                                                                    
+                                                                <label className="form-check-label" htmlFor={`role-${index}`}>{item.description}</label>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                                : <>Loading data......</>
+                                        }
+                                    </div>
+                                    <div className='row mt-3'>
+                                        <button className='btn btn-success col-1 ' onClick={() => { handleSave() }}>Save</button>
+                                    </div>
+                                </>
                                 :
                                 <div className=''>
                                     <span className='fst-italic'>Please select a group to show roles...</span>
@@ -166,6 +179,8 @@ const Assign = (props) => {
 
                     </div>
                 </div>
+
+
             </div>
         </div>
     )
