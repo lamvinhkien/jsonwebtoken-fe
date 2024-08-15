@@ -48,13 +48,17 @@ const Login = (props) => {
     }
 
     const handlePressEnter = (event) => {
-        if(event.key === "Enter" && event.keyCode === 13){
+        if (event.key === "Enter" && event.keyCode === 13) {
             handleLogin()
         }
     }
 
-    useEffect(()=>{
-        if(user && user.auth === true){
+    const returnToHomePage = () => {
+        history.push("/")
+    }
+
+    useEffect(() => {
+        if (user && user.auth === true) {
             history.push("/")
         }
     }, [])
@@ -86,19 +90,22 @@ const Login = (props) => {
                                 className={isValidInput.isValidValueLogin ? "form-control form-control-lg" : "form-control form-control-lg is-invalid"}
                                 placeholder="Email address or phone number"
                                 value={valueLogin} onChange={(event) => { setValueLogin(event.target.value) }}
-                                onKeyDown={(event)=> handlePressEnter(event)} />
+                                onKeyDown={(event) => handlePressEnter(event)} />
 
                             <input type="password"
                                 className={isValidInput.isValidPassword ? "form-control form-control-lg mt-3" : "form-control form-control-lg mt-3 is-invalid"}
                                 placeholder="Password"
                                 value={password} onChange={(event) => { setPassword(event.target.value) }}
-                                onKeyDown={(event)=> handlePressEnter(event)} />
+                                onKeyDown={(event) => handlePressEnter(event)} />
 
                             <button className="mt-3 login-btn" onClick={() => handleLogin()} >Log In</button>
-                            <a className="mt-3 mb-1 forget-password" href="https://facebook.com/lamvinhkien1709">Forgotten password?</a>
+                            <div className="d-flex justify-content-between back-forget mt-2">
+                                <span className="" onClick={() => returnToHomePage()}>Return to homepage <i class="fa fa-undo"></i></span>
+                                <span className="">Forgotten password?</span>
+                            </div>
                             <hr />
                             <div className="text-center">
-                                <button className="mt-2 create-new-account" onClick={() => handleCreateNewAccount()}>Create New Account</button>
+                                <button className="create-new-account" onClick={() => handleCreateNewAccount()}>Create New Account</button>
                             </div>
                         </div>
                     </div>

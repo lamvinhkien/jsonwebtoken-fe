@@ -45,7 +45,7 @@ const NavHeader = () => {
                         <Navbar.Brand href="#" >
                             <span className="logoJWT">
                                 <img src='/logo192.png' width={'7%'} className='mb-1 mx-1' />
-                                Assign User Project
+                                Assign-User Project
                             </span>
                         </Navbar.Brand>
                         <Navbar.Collapse id="responsive-navbar-nav">

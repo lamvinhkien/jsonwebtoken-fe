@@ -89,6 +89,7 @@ const Profile = () => {
     useEffect(() => {
         if (user && user.auth === true) {
             let _valueInput = _.cloneDeep(valueInput)
+            console.log(user)
             setValueInput({ ..._valueInput, email: user.email, phone: user.phone, username: user.username })
         }
     }, [user])
@@ -104,21 +105,32 @@ const Profile = () => {
                             user && user.auth === true ?
                                 <>
                                     <div className=''>
-                                        <span className='fs-4 fw-medium'><i className="fa fa-address-book"></i> Your email/phone</span>
+                                        <span className='fs-4 fw-medium'><i className="fa fa-address-book"></i> Change your information</span>
                                         <div className='mt-2'>
-                                            <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
-                                                value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')} />
-                                            <input type="text" className={checkValidInput.isValidPhone ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Phone number"
-                                                value={valueInput.phone} onChange={(event) => handleOnChangeInput(event.target.value, 'phone')} />
-                                            <input type="text" className={checkValidInput.isValidUsername ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Username"
-                                                value={valueInput.username} onChange={(event) => handleOnChangeInput(event.target.value, 'username')} />
+                                            <div className='d-flex justify-content-between'>
+                                                <div className='align-content-center fw-medium p-label'>Email:</div>
+                                                <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
+                                                    value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')} />
+                                            </div>
+
+                                            <div className='d-flex justify-content-between mt-3'>
+                                                <div className='align-content-center fw-medium p-label'>Phone:</div>
+                                                <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control mt-3 is-invalid"} placeholder="Phone number"
+                                                    value={valueInput.phone} onChange={(event) => handleOnChangeInput(event.target.value, 'phone')} />
+                                            </div>
+
+                                            <div className='d-flex justify-content-between mt-3'>
+                                                <div className='align-content-center fw-medium p-label'>Name:</div>
+                                                <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control mt-3 is-invalid"} placeholder="Username"
+                                                    value={valueInput.username} onChange={(event) => handleOnChangeInput(event.target.value, 'username')} />
+                                            </div>
                                         </div>
                                         <div className='d-flex justify-content-end'>
                                             <button className='btn btn-success mt-3' onClick={() => { handleSaveEmailPhone() }}>Save changes</button>
                                         </div>
                                     </div>
                                     <div className='mt-3'>
-                                        <span className='fs-4 fw-medium'><i className="fa fa-lock"></i> Your password</span>
+                                        <span className='fs-4 fw-medium'><i className="fa fa-lock"></i> Change your password</span>
                                         <div className='mt-2'>
                                             <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
                                                 value={valueInput.currentPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'currentPassword')} />
