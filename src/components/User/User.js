@@ -154,7 +154,7 @@ const User = (props) => {
                                             <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.Group ? item.Group.name : ""}</td>
                                             <td>
                                                 {
-                                                    item.Group.name === 'Leader' || user.email === item.email || item.Group.name === user.data.name ? <><button className="btn opacity-0">.</button></>
+                                                    item.Group.name === 'Leader' || user.email === item.email || item.Group.name === user.data.name || user.data.name === 'Customer'  ? <><button className="btn opacity-0">.</button></>
                                                         :
                                                         <>
                                                             <button className="btn btn-warning text-white" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
