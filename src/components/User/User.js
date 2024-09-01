@@ -139,6 +139,7 @@ const User = (props) => {
                                 <th scope="col">Phone</th>
                                 <th scope="col">Username</th>
                                 <th scope="col">Group</th>
+                                <th scope="col">Type Account</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -147,14 +148,15 @@ const User = (props) => {
                                 {listUser && listUser.length > 0 ? listUser.map((item, index) => {
                                     return (
                                         <tr key={"row" + index}>
-                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{index + 1 + offset}</td>
-                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.email}</td>
-                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.phone}</td>
-                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.username}</td>
-                                            <td className={ user.email === item.email ? 'text-primary fw-medium' : '' }>{item.Group ? item.Group.name : ""}</td>
+                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
+                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
+                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.phone ? item.phone : ''}</td>
+                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
+                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.Group ? item.Group.name : ''}</td>
+                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.typeAccount ? item.typeAccount : ''}</td>
                                             <td>
                                                 {
-                                                    item.Group.name === 'Leader' || user.email === item.email || item.Group.name === user.data.name || user.data.name === 'Customer'  ? <><button className="btn opacity-0">.</button></>
+                                                    item.Group.name === 'Leader' || user.id === item.id || item.Group.name === user.data.name || user.data.name === 'Customer' ? <><button className="btn opacity-0">.</button></>
                                                         :
                                                         <>
                                                             <button className="btn btn-warning text-white" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>

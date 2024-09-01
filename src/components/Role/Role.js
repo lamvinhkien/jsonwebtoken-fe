@@ -1,6 +1,5 @@
 import './Role.scss'
 import { useState, useEffect } from 'react'
-import _ from 'lodash';
 import ModalUpdate from './ModalUpdate';
 import { toast } from "react-toastify";
 import { getAllRoles } from '../../services/rolesService'

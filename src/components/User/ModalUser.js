@@ -12,7 +12,7 @@ const ModalCreate = (props) => {
     // Define state value for user and list group
     const [listGroup, setListGroup] = useState([])
 
-    const [defaultValueInput, setDefaultValueInput] = useState({
+    const defaultValueInput = {
         email: "",
         password: "",
         phone: "",
@@ -20,7 +20,8 @@ const ModalCreate = (props) => {
         address: "",
         gender: "Male",
         group: ""
-    })
+    }
+
     const [valueInput, setValueInput] = useState(defaultValueInput)
 
 

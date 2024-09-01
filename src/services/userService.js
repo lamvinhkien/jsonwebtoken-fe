@@ -40,8 +40,8 @@ const getUserAccount = () => {
     return res
 }
 
-const changeInfor = (email, groupId, changeData) => {
-    let res = axios.post('/api/user/change-infor', { email: email, groupId: groupId, changeData: changeData })
+const changeInfor = (email, groupId, typeAccount, changeData) => {
+    let res = axios.post('/api/user/change-infor', { email: email, groupId: groupId, typeAccount: typeAccount, changeData: changeData })
     return res
 }
 

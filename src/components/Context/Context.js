@@ -1,6 +1,5 @@
 import { useEffect, useState, createContext } from "react"
 import { getUserAccount } from "../../services/userService";
-import { toast } from 'react-toastify';
 
 const UserContext = createContext({});
 

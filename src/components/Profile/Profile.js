@@ -37,7 +37,7 @@ const Profile = () => {
     }
 
     const handleSaveEmailPhone = async () => {
-        let res = await changeInfor(user.email, user.data.id, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username })
+        let res = await changeInfor(user.email, user.data.id, user.typeAccount, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username })
         if (res && res.EC === '1') {
             await fetchUser()
             setCheckValidInput(defaultValid)
@@ -89,7 +89,6 @@ const Profile = () => {
     useEffect(() => {
         if (user && user.auth === true) {
             let _valueInput = _.cloneDeep(valueInput)
-            console.log(user)
             setValueInput({ ..._valueInput, email: user.email, phone: user.phone, username: user.username })
         }
     }, [user])
@@ -107,21 +106,25 @@ const Profile = () => {
                                     <div className=''>
                                         <span className='fs-4 fw-medium'><i className="fa fa-address-book"></i> Change your information</span>
                                         <div className='mt-2'>
-                                            <div className='d-flex justify-content-between'>
-                                                <div className='align-content-center fw-medium p-label'>Email:</div>
-                                                <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
-                                                    value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')} />
-                                            </div>
-
+                                            {
+                                                user.typeAccount === 'FACEBOOK' ? <></> :
+                                                    <div className='d-flex justify-content-between'>
+                                                        <div className='align-content-center fw-medium p-label'>Email:</div>
+                                                        <input disabled={user.typeAccount === 'LOCAL' ? false : true}
+                                                            type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
+                                                            value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')}
+                                                        />
+                                                    </div>
+                                            }
                                             <div className='d-flex justify-content-between mt-3'>
                                                 <div className='align-content-center fw-medium p-label'>Phone:</div>
-                                                <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control mt-3 is-invalid"} placeholder="Phone number"
+                                                <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control is-invalid"} placeholder="Phone number"
                                                     value={valueInput.phone} onChange={(event) => handleOnChangeInput(event.target.value, 'phone')} />
                                             </div>
 
                                             <div className='d-flex justify-content-between mt-3'>
                                                 <div className='align-content-center fw-medium p-label'>Name:</div>
-                                                <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control mt-3 is-invalid"} placeholder="Username"
+                                                <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control is-invalid"} placeholder="Username"
                                                     value={valueInput.username} onChange={(event) => handleOnChangeInput(event.target.value, 'username')} />
                                             </div>
                                         </div>
@@ -129,20 +132,26 @@ const Profile = () => {
                                             <button className='btn btn-success mt-3' onClick={() => { handleSaveEmailPhone() }}>Save changes</button>
                                         </div>
                                     </div>
-                                    <div className='mt-3'>
-                                        <span className='fs-4 fw-medium'><i className="fa fa-lock"></i> Change your password</span>
-                                        <div className='mt-2'>
-                                            <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
-                                                value={valueInput.currentPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'currentPassword')} />
-                                            <input type="password" className={checkValidInput.isValidNewPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="New password"
-                                                value={valueInput.newPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'newPassword')} />
-                                            <input type="password" className={checkValidInput.isValidConfirmNewPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Confirm new password"
-                                                value={valueInput.confirmNewPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'confirmNewPassword')} />
-                                        </div>
-                                        <div className='d-flex justify-content-end'>
-                                            <button className='btn btn-success mt-3' onClick={() => { handleSaveNewPassword() }}>Save changes</button>
-                                        </div>
-                                    </div>
+                                    {
+                                        user.typeAccount === 'LOCAL' ?
+                                            <div className='mt-3'>
+                                                <span className='fs-4 fw-medium'><i className="fa fa-lock"></i> Change your password</span>
+                                                <div className='mt-2'>
+                                                    <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
+                                                        value={valueInput.currentPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'currentPassword')} />
+                                                    <input type="password" className={checkValidInput.isValidNewPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="New password"
+                                                        value={valueInput.newPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'newPassword')} />
+                                                    <input type="password" className={checkValidInput.isValidConfirmNewPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Confirm new password"
+                                                        value={valueInput.confirmNewPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'confirmNewPassword')} />
+                                                </div>
+                                                <div className='d-flex justify-content-end'>
+                                                    <button className='btn btn-success mt-3' onClick={() => { handleSaveNewPassword() }}>Save changes</button>
+                                                </div>
+                                            </div>
+                                            :
+                                            <></>
+                                    }
+
                                 </>
                                 :
                                 <div className=''>

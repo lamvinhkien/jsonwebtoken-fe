@@ -57,6 +57,20 @@ const Login = (props) => {
         history.push("/")
     }
 
+    const [isVisible, setVisible] = useState(false);
+
+    const handleShowPassword = () => {
+        setVisible(!isVisible);
+    }
+
+    const handleGoogle = async () => {
+        window.location.href = `http://localhost:8080/api/login/google`
+    }
+
+    const handleFacebook = async () => {
+        window.location.href = `http://localhost:8080/api/login/facebook`
+    }
+
     useEffect(() => {
         if (user && user.auth === true) {
             history.push("/")
@@ -92,21 +106,42 @@ const Login = (props) => {
                                 value={valueLogin} onChange={(event) => { setValueLogin(event.target.value) }}
                                 onKeyDown={(event) => handlePressEnter(event)} />
 
-                            <input type="password"
-                                className={isValidInput.isValidPassword ? "form-control form-control-lg mt-3" : "form-control form-control-lg mt-3 is-invalid"}
-                                placeholder="Password"
-                                value={password} onChange={(event) => { setPassword(event.target.value) }}
-                                onKeyDown={(event) => handlePressEnter(event)} />
+                            <div className="input-group mt-3">
+                                <input type={!isVisible ? "password" : "text"}
+                                    className={isValidInput.isValidPassword ? "form-control form-control-lg" : "form-control form-control-lg is-invalid"}
+                                    placeholder="Password"
+                                    value={password} onChange={(event) => { setPassword(event.target.value) }}
+                                    onKeyDown={(event) => handlePressEnter(event)} />
+
+                                <button className="btn btn-outline-secondary" onClick={() => { handleShowPassword() }}>
+                                    <i className={!isVisible ? "fa fa-eye" : "fa fa-eye-slash"}></i>
+                                </button>
+                            </div>
 
                             <button className="mt-3 login-btn" onClick={() => handleLogin()} >Log In</button>
                             <div className="d-flex justify-content-between back-forget mt-2">
-                                <span className="" onClick={() => returnToHomePage()}>Return to homepage <i class="fa fa-undo"></i></span>
+                                <span className="" onClick={() => returnToHomePage()}>Return to homepage <i className="fa fa-undo"></i></span>
                                 <span className="">Forgotten password?</span>
                             </div>
+
                             <hr />
-                            <div className="text-center">
-                                <button className="create-new-account" onClick={() => handleCreateNewAccount()}>Create New Account</button>
+
+                            <p className="fs-6 text-center">Don't have an account?</p>
+                            <button className="create-new-account" onClick={() => handleCreateNewAccount()}>Create New Account</button>
+
+                            <hr />
+
+                            <p className="text-center">Or</p>
+                            <div className="d-flex justify-content-center text-center">
+                                <div type="button" className="google-button" onClick={() => { handleGoogle() }}>
+                                    <i className="fa fa-google"></i> Log in with Google
+                                </div>
+
+                                <div type="button" className="facebook-button" onClick={() => { handleFacebook() }}>
+                                    <i className="fa fa-facebook-f"></i> Log in with Facebook
+                                </div>
                             </div>
+
                         </div>
                     </div>
 

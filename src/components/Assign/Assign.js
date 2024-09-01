@@ -16,6 +16,8 @@ const Assign = (props) => {
         let res = await getAllGroup()
         if (res && res.EC === '1') {
             setListGroup(res.DT)
+        } else {
+            setListGroup([])
         }
     }
 
@@ -23,6 +25,8 @@ const Assign = (props) => {
         let res = await getAllRolesWithoutPage()
         if (res && res.EC === '1') {
             setListRole(res.DT)
+        } else {
+            setListRole([])
         }
     }
 
@@ -32,22 +36,27 @@ const Assign = (props) => {
             return res.DT.Roles
         } else {
             toast.error(res.EM)
+            return []
         }
     }
 
     const buildDataForAssign = (groupWithRoles) => {
         let _listRole = _.cloneDeep(listRole)
 
-        _listRole.map((value, index) => {
-            let compare = groupWithRoles.some(item => item.url === value.url)
-            if (compare) {
-                _listRole[index].isAssign = true
-            } else {
-                _listRole[index].isAssign = false
-            }
-        })
+        if (_listRole && _listRole.length > 0) {
+            _listRole.map((value, index) => {
+                let compare = groupWithRoles.some(item => item.url === value.url)
+                if (compare) {
+                    _listRole[index].isAssign = true
+                } else {
+                    _listRole[index].isAssign = false
+                }
+            })
 
-        setListRole(_listRole)
+            setListRole(_listRole)
+        } else {
+            setListRole([])
+        }
     }
 
     const handleOnChangeSelect = async (event) => {
@@ -55,7 +64,6 @@ const Assign = (props) => {
             let res = await fetchGroupWithRoles(event)
             setSelectGroup(event)
             buildDataForAssign(res)
-            console.log(res)
         } else {
             setSelectGroup('')
             buildDataForAssign([])
@@ -156,9 +164,9 @@ const Assign = (props) => {
                                                                     className="form-check-input" type="checkbox" id={`role-${index}`}
                                                                     value={item.id}
                                                                     checked={item.isAssign}
-                                                                    onChange={() => { handleOnChangeRoles(index) }} 
+                                                                    onChange={() => { handleOnChangeRoles(index) }}
                                                                 />
-                                                                    
+
                                                                 <label className="form-check-label" htmlFor={`role-${index}`}>{item.description}</label>
                                                             </div>
                                                         </div>
