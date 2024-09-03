@@ -71,6 +71,10 @@ const Login = (props) => {
         window.location.href = `http://localhost:8080/api/login/facebook`
     }
 
+    const handleForgotPassword = async () => {
+        history.push('/forgot-password')
+    }
+
     useEffect(() => {
         if (user && user.auth === true) {
             history.push("/")
@@ -83,23 +87,30 @@ const Login = (props) => {
                 <div className="row">
                     <div className="col-12 mb-2 d-lg-none d-block">
                         <div className="logo-mobile">
-                            17Sep
+                            JWT Project
                         </div>
                     </div>
 
                     <div className="left mt-3 col-12 col-lg-6 d-none d-lg-block">
                         <div className="left-child">
-                            <div className="logo">
-                                17Sep
+                            <div className="logo text-center">
+                                JWT Project
                             </div>
-                            <div className="description">
-                                17Sep helps you connect and share with the people in your life.
+                            <div className="description text-center mt-2">
+                                <span className='fst-italic content'>Register, Login, Logout, Assign user with</span>
+                                <div className="desProject">
+                                    <img src='/jwt-3.svg' width={'10%'} className='img' />
+                                    <span className='fw-medium'>JSONWEBTOKEN</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="right col-lg-6">
                         <div className="right-child d-flex flex-column">
+                            <div className="fw-medium fs-4 mb-3 text-center">
+                                <span>Account Login</span>
+                            </div>
                             <input type="text"
                                 className={isValidInput.isValidValueLogin ? "form-control form-control-lg" : "form-control form-control-lg is-invalid"}
                                 placeholder="Email address or phone number"
@@ -121,7 +132,7 @@ const Login = (props) => {
                             <button className="mt-3 login-btn" onClick={() => handleLogin()} >Log In</button>
                             <div className="d-flex justify-content-between back-forget mt-2">
                                 <span className="" onClick={() => returnToHomePage()}>Return to homepage <i className="fa fa-undo"></i></span>
-                                <span className="">Forgotten password?</span>
+                                <span className="" onClick={() => { handleForgotPassword() }}>Forgotten password?</span>
                             </div>
 
                             <hr />

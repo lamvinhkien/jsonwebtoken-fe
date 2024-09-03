@@ -40,8 +40,8 @@ const getUserAccount = () => {
     return res
 }
 
-const changeInfor = (email, groupId, typeAccount, changeData) => {
-    let res = axios.post('/api/user/change-infor', { email: email, groupId: groupId, typeAccount: typeAccount, changeData: changeData })
+const changeInfor = (id, email, groupId, typeAccount, changeData) => {
+    let res = axios.post('/api/user/change-infor', { id: id, email: email, groupId: groupId, typeAccount: typeAccount, changeData: changeData })
     return res
 }
 
@@ -50,4 +50,18 @@ const changePassword = (email, changeData) => {
     return res
 }
 
-export { registerNewUser, loginUser, getAllUser, createNewUser, updateUser, deleteUser, getUserAccount, logoutUser, changeInfor, changePassword }
+const sendOTP = (email) => {
+    let res = axios.post('/api/send-otp', { email: email })
+    return res
+}
+
+const resetPassword = (email, codeOTP, newPassword, confirmPassword) => {
+    let res = axios.post('/api/reset-password', { email: email, codeOTP: codeOTP, newPassword: newPassword, confirmPassword: confirmPassword })
+    return res
+}
+
+export {
+    registerNewUser, loginUser, getAllUser, createNewUser, updateUser,
+    deleteUser, getUserAccount, logoutUser, changeInfor, changePassword,
+    sendOTP, resetPassword
+}

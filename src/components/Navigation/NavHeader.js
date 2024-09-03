@@ -37,7 +37,7 @@ const NavHeader = () => {
         }
     }
 
-    if (user && user.auth === true || location.pathname === "/") {
+    if (user && user.auth === true || location.pathname === "/" || location.pathname === "/forgot-password" || location.pathname === "/register") {
         return (
             <>
                 <Navbar collapseOnSelect expand="lg" className="nav-header">
@@ -50,12 +50,16 @@ const NavHeader = () => {
                         </Navbar.Brand>
                         <Navbar.Collapse id="responsive-navbar-nav">
                             <Nav className="me-auto">
-                                <NavLink to="/" className="option" exact>Home</NavLink>
-                                <NavLink to="/users" className="option">User</NavLink>
-                                <NavLink to="/groups" className="option">Group</NavLink>
-                                <NavLink to="/roles" className="option">Role</NavLink>
-                                <NavLink to="/assign" className="option">Assign</NavLink>
-                                {user.auth === true ? <NavLink to="/profile" className="option">Profile</NavLink> : <></>}
+                                {user.auth === true ?
+                                    <>
+                                        <NavLink to="/" className="option" exact>Home</NavLink>
+                                        <NavLink to="/users" className="option">User</NavLink>
+                                        <NavLink to="/groups" className="option">Group</NavLink>
+                                        <NavLink to="/roles" className="option">Role</NavLink>
+                                        <NavLink to="/assign" className="option">Assign</NavLink>
+                                        <NavLink to="/profile" className="option">Profile</NavLink>
+                                    </>
+                                    : <></>}
                             </Nav>
 
                             <Nav>

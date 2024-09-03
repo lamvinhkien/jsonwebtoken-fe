@@ -37,7 +37,7 @@ const Profile = () => {
     }
 
     const handleSaveEmailPhone = async () => {
-        let res = await changeInfor(user.email, user.data.id, user.typeAccount, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username })
+        let res = await changeInfor(user.id, user.email, user.data.id, user.typeAccount, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username })
         if (res && res.EC === '1') {
             await fetchUser()
             setCheckValidInput(defaultValid)
@@ -49,6 +49,10 @@ const Profile = () => {
 
             if (res.DT === 'phone') {
                 setCheckValidInput({ ...defaultValid, isValidPhone: false })
+            }
+
+            if (res.DT === 'username') {
+                setCheckValidInput({ ...defaultValid, isValidUsername: false })
             }
 
             toast.error(res.EM)
@@ -107,14 +111,16 @@ const Profile = () => {
                                         <span className='fs-4 fw-medium'><i className="fa fa-address-book"></i> Change your information</span>
                                         <div className='mt-2'>
                                             {
-                                                user.typeAccount === 'FACEBOOK' ? <></> :
+                                                user.typeAccount === 'LOCAL' ?
                                                     <div className='d-flex justify-content-between'>
                                                         <div className='align-content-center fw-medium p-label'>Email:</div>
-                                                        <input disabled={user.typeAccount === 'LOCAL' ? false : true}
+                                                        <input
                                                             type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
                                                             value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')}
                                                         />
-                                                    </div>
+                                                    </div> :
+                                                    <></>
+
                                             }
                                             <div className='d-flex justify-content-between mt-3'>
                                                 <div className='align-content-center fw-medium p-label'>Phone:</div>

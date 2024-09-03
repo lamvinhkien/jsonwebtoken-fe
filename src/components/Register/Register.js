@@ -66,7 +66,6 @@ const Register = (props) => {
         let check = isValidInput()
         if (check) {
             let res = await registerNewUser(email, phone, username, password)
-            console.log(res)
             let result = res.EC
             let message = res.EM
             let dataInvalid = res.DT
@@ -97,12 +96,12 @@ const Register = (props) => {
         <div className="Register">
             <div className="register-container container-fluid position-absolute top-50 start-50 translate-middle pb-5">
                 <div className="row">
-                    <div className="col-0 col-lg-3"></div>
-                    <div className="father col-12 col-lg-6">
-                        <div className="logo">
-                            17Sep
-                        </div>
+                    <div className="col-0 col-lg-4"></div>
+                    <div className="father col-12 col-lg-4">
                         <div className="child d-flex flex-column">
+                            <div className="fw-medium fs-4 mb-3 text-center">
+                                <span>Create Account</span>
+                            </div>
                             <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
                                 value={email} onChange={(event) => setEmail(event.target.value)} />
                             <input type="text" className={checkValidInput.isValidPhone ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Phone number"
@@ -120,7 +119,7 @@ const Register = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-0 col-lg-3"></div>
+                    <div className="col-0 col-lg-4"></div>
                 </div>
             </div>
         </div>
