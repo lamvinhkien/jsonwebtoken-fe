@@ -3,7 +3,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useHistory } from 'react-router-dom'
 import { sendOTP, resetPassword } from '../../services/userService';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 const ForgotPassword = (props) => {
@@ -22,26 +22,38 @@ const ForgotPassword = (props) => {
     }
     const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
 
+    const [seconds, setSeconds] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (seconds > 0) {
+                setSeconds(seconds - 1);
+            }
+            if (seconds === 0) {
+                clearInterval(interval);
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    });
+
     const handleEmailValue = (event) => {
         setEmailUser(event)
     }
-
     const handleCodeValue = (event) => {
         setCodeOTP(event)
     }
-
     const handleNewPwValue = (event) => {
         setNewPassword(event)
     }
-
     const handleCfPwValue = (event) => {
         setConfrimPassword(event)
     }
-
     const returnToLoginPage = () => {
         history.push('/login')
     }
-
     const handleSendOTP = async () => {
         let res = await sendOTP(emailUser)
         console.log(res)
@@ -53,10 +65,10 @@ const ForgotPassword = (props) => {
 
         if (res.EC === '1') {
             setIsValidInput({ ...defaultIsValidInput })
+            setSeconds(30);
             toast.success(res.EM)
         }
     }
-
     const handleResetPassword = async () => {
         let res = await resetPassword(emailUser, codeOTP, newPassword, confirmPassword)
         console.log(res)
@@ -87,7 +99,6 @@ const ForgotPassword = (props) => {
             history.push('/login')
         }
     }
-
     const renderTooltipSend = (props) => (
         <Tooltip id="button-tooltip" {...props}>
             We will send OTP code to your email or phone number.
@@ -122,7 +133,15 @@ const ForgotPassword = (props) => {
                                     value={emailUser}
                                     onChange={(event) => { handleEmailValue(event.target.value) }}
                                 />
-                                <button className="btn btn-primary" onClick={() => { handleSendOTP() }}>Send code</button>
+                                <button className="btn btn-primary" disabled={seconds > 0 ? true : false} onClick={() => { handleSendOTP() }}>
+                                    {seconds > 0 ? (
+                                        <span>
+                                            {seconds < 10 ? `0${seconds}` : seconds}s
+                                        </span>
+                                    ) : (
+                                        <span>Send code</span>
+                                    )}
+                                </button>
                             </div>
                         </div>
 

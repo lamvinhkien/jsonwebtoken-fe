@@ -135,9 +135,9 @@ const User = (props) => {
                         <thead className="">
                             <tr>
                                 <th scope="col">No</th>
+                                <th scope="col">Username</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Username</th>
                                 <th scope="col">Group</th>
                                 <th scope="col">Type Account</th>
                                 <th scope="col">Actions</th>
@@ -149,9 +149,9 @@ const User = (props) => {
                                     return (
                                         <tr key={"row" + index}>
                                             <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
+                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
                                             <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
                                             <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.phone ? item.phone : ''}</td>
-                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
                                             <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.Group ? item.Group.name : ''}</td>
                                             <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.typeAccount ? item.typeAccount : ''}</td>
                                             <td>

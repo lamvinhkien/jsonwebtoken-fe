@@ -42,7 +42,17 @@ const Login = (props) => {
             history.push("/users")
             toast.success(res.EM)
         } else {
-            toast.error(res.EM)
+            if (res.DT === 'email') {
+                setIsValidInput({ ...defaultValidInput, isValidValueLogin: false })
+                toast.error(res.EM)
+            }
+            if (res.DT === 'password') {
+                setIsValidInput({ ...defaultValidInput, isValidPassword: false })
+                toast.error(res.EM)
+            }
+            if (res.DT === '') {
+                toast.error(res.EM)
+            }
         }
 
     }
