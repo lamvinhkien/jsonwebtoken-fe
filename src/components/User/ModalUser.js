@@ -110,7 +110,7 @@ const ModalCreate = (props) => {
         if (props.showModal === "UPDATE") {
             setValueInput(props.dataModalUpdate)
         }
-    }, [props.dataModalUpdate])
+    }, [props.dataModalUpdate, props.showModal])
 
     const handleHideModal = () => {
         props.hideCreate()

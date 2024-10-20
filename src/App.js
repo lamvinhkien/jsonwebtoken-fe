@@ -7,6 +7,7 @@ import AppRoutes from './routes/App-Routes';
 import { useContext } from "react";
 import { UserContext } from "./components/Context/Context";
 import RingLoader from "react-spinners/RingLoader";
+import Footer from './components/Footer/Footer';
 
 const App = (props) => {
     const { user } = useContext(UserContext)
@@ -34,7 +35,7 @@ const App = (props) => {
                             <NavHeader />
                         </div>
 
-                        <div className='app-container'>
+                        <div className='app-container min-vh-100'>
                             <AppRoutes />
                             <ToastContainer
                                 position="bottom-center"
@@ -48,6 +49,9 @@ const App = (props) => {
                                 pauseOnHover
                                 theme="light"
                             />
+                        </div>
+                        <div className='app-footer'>
+                            <Footer />
                         </div>
                     </>
             }

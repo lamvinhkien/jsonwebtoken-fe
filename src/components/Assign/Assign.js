@@ -44,7 +44,7 @@ const Assign = (props) => {
         let _listRole = _.cloneDeep(listRole)
 
         if (_listRole && _listRole.length > 0) {
-            _listRole.map((value, index) => {
+            _listRole.forEach((value, index) => {
                 let compare = groupWithRoles.some(item => item.url === value.url)
                 if (compare) {
                     _listRole[index].isAssign = true
@@ -85,7 +85,7 @@ const Assign = (props) => {
         result.groupId = +selectGroup
         result.roles = []
 
-        _listRole.map((item, index) => {
+        _listRole.forEach((item, index) => {
             if (item.isAssign === true) {
                 result.roles.push({ groupId: +selectGroup, roleId: item.id })
             }

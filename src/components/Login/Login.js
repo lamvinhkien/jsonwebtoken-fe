@@ -89,7 +89,7 @@ const Login = (props) => {
         if (user && user.auth === true) {
             history.push("/")
         }
-    }, [])
+    }, [history, user])
 
     return (
         <div className="Login">
@@ -109,7 +109,7 @@ const Login = (props) => {
                             <div className="description text-center mt-2">
                                 <span className='fst-italic content'>Register, Login, Logout, Assign user with</span>
                                 <div className="desProject">
-                                    <img src='/jwt-3.svg' width={'10%'} className='img' />
+                                    <img src='/jwt-3.svg' width={'10%'} className='img' alt="" />
                                     <span className='fw-medium'>JSONWEBTOKEN</span>
                                 </div>
                             </div>

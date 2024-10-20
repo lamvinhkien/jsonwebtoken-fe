@@ -23,7 +23,7 @@ const Group = () => {
 
     const addNewGroups = () => {
         let _listChild = _.cloneDeep(listChild)
-        _listChild['child', uuidv4()] = {
+        _listChild['child' + uuidv4()] = {
             name: '',
             description: '',
             isValidName: true
@@ -40,7 +40,7 @@ const Group = () => {
     // Convert data from object to array
     const buildData = () => {
         let data = []
-        Object.entries(listChild).map(([key, value]) => {
+        Object.entries(listChild).forEach(([key, value]) => {
             data.push({
                 name: value.name,
                 description: value.description

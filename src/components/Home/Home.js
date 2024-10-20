@@ -8,7 +8,7 @@ const Home = () => {
                     <div className='title'>
                         <span className='fst-italic content'>Register, Login, Logout, Assign user with</span>
                         <div>
-                            <img src='/jwt-3.svg' width={'12%'} className='img' />
+                            <img src='/jwt-3.svg' width={'12%'} className='img' alt=''/>
                             <span className='fw-medium logo'>JSONWEBTOKEN</span>
                         </div>
                     </div>

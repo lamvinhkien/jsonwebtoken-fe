@@ -56,7 +56,6 @@ const ForgotPassword = (props) => {
     }
     const handleSendOTP = async () => {
         let res = await sendOTP(emailUser)
-        console.log(res)
 
         if (res.EC === '0') {
             setIsValidInput({ ...defaultIsValidInput, emailUser: false })
@@ -71,7 +70,6 @@ const ForgotPassword = (props) => {
     }
     const handleResetPassword = async () => {
         let res = await resetPassword(emailUser, codeOTP, newPassword, confirmPassword)
-        console.log(res)
 
         if (res.EC === '0' && res.DT === 'email') {
             setIsValidInput({ ...defaultIsValidInput, emailUser: false })

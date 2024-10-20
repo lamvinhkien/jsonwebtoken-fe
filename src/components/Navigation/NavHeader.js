@@ -37,14 +37,14 @@ const NavHeader = () => {
         }
     }
 
-    if (user && user.auth === true || location.pathname === "/" || location.pathname === "/forgot-password" || location.pathname === "/register") {
+    if ((user && user.auth === true) || location.pathname === "/" || location.pathname === "/forgot-password" || location.pathname === "/register") {
         return (
             <>
                 <Navbar collapseOnSelect expand="lg" className="nav-header">
                     <Container>
                         <Navbar.Brand href="#" >
                             <span className="logoJWT">
-                                <img src='/logo192.png' width={'7%'} className='mb-1 mx-1' />
+                                <img src='/logo192.png' width={'7%'} className='mb-1 mx-1' alt='' />
                                 JWT Project
                             </span>
                         </Navbar.Brand>
