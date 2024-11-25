@@ -26,7 +26,7 @@ const UserProvider = ({ children }) => {
     useEffect(() => {
         setTimeout(() => {
             fetchUser()
-        }, 600)
+        }, 500)
 
     }, [])
 

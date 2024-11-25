@@ -53,10 +53,20 @@ const NavHeader = () => {
                                 {user.auth === true ?
                                     <>
                                         <NavLink to="/" className="option" exact>Home</NavLink>
-                                        <NavLink to="/users" className="option">User</NavLink>
-                                        <NavLink to="/groups" className="option">Group</NavLink>
-                                        <NavLink to="/roles" className="option">Role</NavLink>
-                                        <NavLink to="/assign" className="option">Assign</NavLink>
+                                        <NavLink to="/tasks" className="option">Task</NavLink>
+                                        {user.data && user.data.name === "Manager" &&
+                                            <>
+                                                <NavLink to="/users" className="option">User</NavLink>
+                                            </>
+                                        }
+                                        {user.data && user.data.name === "Admin" &&
+                                            <>
+                                                <NavLink to="/users" className="option">User</NavLink>
+                                                <NavLink to="/groups" className="option">Group</NavLink>
+                                                <NavLink to="/roles" className="option">Role</NavLink>
+                                                <NavLink to="/assign" className="option">Assign</NavLink>
+                                            </>
+                                        }
                                         <NavLink to="/profile" className="option">Profile</NavLink>
                                     </>
                                     : <></>}

@@ -144,8 +144,8 @@ const User = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <>
-                                {listUser && listUser.length > 0 ? listUser.map((item, index) => {
+                            {listUser && listUser.length > 0 ? listUser.map((item, index) => {
+                                if (item.Group.name !== 'Admin') {
                                     return (
                                         <tr key={"row" + index}>
                                             <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
@@ -156,7 +156,7 @@ const User = (props) => {
                                             <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.typeAccount ? item.typeAccount : ''}</td>
                                             <td>
                                                 {
-                                                    item.Group.name === 'Leader' || user.id === item.id || item.Group.name === user.data.name || user.data.name === 'Customer' ? <><button className="btn opacity-0">.</button></>
+                                                    user.id === item.id || item.Group.name === user.data.name ? <><button className="btn opacity-0">.</button></>
                                                         :
                                                         <>
                                                             <button className="btn btn-warning text-white" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
@@ -166,12 +166,13 @@ const User = (props) => {
                                             </td>
                                         </tr>
                                     )
-                                })
-                                    : <tr>
-                                        <td colSpan={7} className="text-center">Loading data........</td>
-                                    </tr>
                                 }
-                            </>
+
+                            })
+                                : <tr>
+                                    <td colSpan={7} className="text-center">Loading data........</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

@@ -137,7 +137,7 @@ const ForgotPassword = (props) => {
                                             {seconds < 10 ? `0${seconds}` : seconds}s
                                         </span>
                                     ) : (
-                                        <span>Send code</span>
+                                        <span>Send OTP</span>
                                     )}
                                 </button>
                             </div>
@@ -175,7 +175,7 @@ const ForgotPassword = (props) => {
 
                                 <div className='text-end'>
                                     <button className='btn btn-success mt-3' onClick={() => { handleResetPassword() }}>
-                                        Reset
+                                        Reset password
                                     </button>
                                 </div>
                             </div>

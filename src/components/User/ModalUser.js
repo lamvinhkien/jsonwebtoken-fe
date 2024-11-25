@@ -50,7 +50,9 @@ const ModalCreate = (props) => {
         }
     }
     useEffect(() => {
-        fetchGroup()
+        if(user && user.data && user.data.name === 'Admin'){
+            fetchGroup()
+        }
     }, [])
 
 
@@ -61,12 +63,11 @@ const ModalCreate = (props) => {
         setValueInput(_valueInput)
     }
 
-
     // Validate and Handle Create
     const handleValidateInput = () => {
         let arr = props.showModal === "CREATE" ?
-            ["email", "phone", "password", "username", "group"] :
-            ["username", "group"]
+            ["email", "phone", "password", "username"] :
+            ["username"]
 
         let check = true;
         for (let i = 0; i < arr.length; i++) {
@@ -86,8 +87,8 @@ const ModalCreate = (props) => {
         let check = handleValidateInput()
         if (check === true) {
             let res = props.showModal === "CREATE" ?
-                await createNewUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group }) :
-                await updateUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group })
+                await createNewUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 4 }) :
+                await updateUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 4 })
 
             if (res.EC === "1") {
                 setIsValidInput(defaultIsValidInput)
@@ -170,18 +171,20 @@ const ModalCreate = (props) => {
                             </div>
 
                             {
-                                user.data.name === 'Leader' &&
+                                user.data.name === 'Admin' &&
                                 <div className="form-group mb-3 col-12">
                                     <label className="py-1">Group<span className='text-danger'>*</span></label>
                                     <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
-                                        value={valueInput.group}
+                                        value={valueInput.group ? valueInput.group : ''}
                                         onChange={(event) => handleOnChangeInput(event.target.value, "group")}
                                     >
                                         {
                                             listGroup.length > 0 ? listGroup.map((item, index) => {
-                                                return (
-                                                    <option key={`group-${index}`} value={item.id}>{item.name}</option>
-                                                )
+                                                if (item.name !== 'Admin') {
+                                                    return (
+                                                        <option key={`group-${index}`} value={item.id}>{item.name}</option>
+                                                    )
+                                                }
                                             })
                                                 :
                                                 <option>Group loading...</option>

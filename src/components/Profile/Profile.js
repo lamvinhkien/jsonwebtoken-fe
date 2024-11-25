@@ -95,7 +95,7 @@ const Profile = () => {
             let _valueInput = _.cloneDeep(valueInput)
             setValueInput({ ..._valueInput, email: user.email, phone: user.phone, username: user.username })
         }
-    }, [user, valueInput])
+    }, [])
 
     return (
         <div className="Profile-component">

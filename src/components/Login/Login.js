@@ -39,7 +39,7 @@ const Login = (props) => {
         let res = await loginUser(valueLogin, password)
         if (res.EC === "1") {
             loginContext(res.DT)
-            history.push("/users")
+            history.push("/")
             toast.success(res.EM)
         } else {
             if (res.DT === 'email') {

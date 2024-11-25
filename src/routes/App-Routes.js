@@ -6,6 +6,7 @@ import Role from "../components/Role/Role";
 import Assign from "../components/Assign/Assign";
 import Groups from '../components/Group/Group';
 import Profile from "../components/Profile/Profile";
+import Task from "../components/Task/Task";
 import PrivateRoutes from "./Private-Routes";
 import Home from "../components/Home/Home";
 import ForgotPassword from "../components/ForgotPassword/ForgotPassword";
@@ -16,6 +17,7 @@ const AppRoutes = (props) => {
             <PrivateRoutes path="/users" component={User} />
             <PrivateRoutes path="/groups" component={Groups} />
             <PrivateRoutes path="/roles" component={Role} />
+            <PrivateRoutes path="/tasks" component={Task} />
             <PrivateRoutes path="/assign" component={Assign} />
             <PrivateRoutes path="/profile" component={Profile} />
 
