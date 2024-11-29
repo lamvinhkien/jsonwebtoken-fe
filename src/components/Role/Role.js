@@ -68,8 +68,8 @@ const Role = () => {
 
 
     return (
-        <div className='Role-component'>
-            <div className='container mt-3'>
+        <div className='Role-component container'>
+            <div className='mt-3'>
                 <div className='row'>
                     <div className='col-10'>
                         <span className='fw-medium fs-2'><i className="fa fa-users"></i> Roles List</span>
@@ -80,7 +80,9 @@ const Role = () => {
                 </div>
             </div>
 
-            <div className='container mt-3'>
+            <hr />
+
+            <div className='mt-3'>
                 <table className="table table-striped table-hover">
                     <thead className="">
                         <tr>

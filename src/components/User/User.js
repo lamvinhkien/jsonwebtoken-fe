@@ -130,6 +130,8 @@ const User = (props) => {
                     </div>
                 </div>
 
+                <hr />
+
                 <div className="user-body mt-3 row">
                     <table className="table table-striped table-hover">
                         <thead className="">

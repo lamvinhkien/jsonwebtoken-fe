@@ -97,14 +97,14 @@ const Login = (props) => {
                 <div className="row">
                     <div className="col-12 mb-2 d-lg-none d-block">
                         <div className="logo-mobile">
-                            JWT Project
+                            <i className="fa fa-users"></i> JWT Project
                         </div>
                     </div>
 
                     <div className="left mt-3 col-12 col-lg-6 d-none d-lg-block">
                         <div className="left-child">
                             <div className="logo text-center">
-                                JWT Project
+                                <i className="fa fa-users"></i> HR Portals
                             </div>
                             <div className="description text-center mt-2">
                                 <span className='fst-italic content'>Register, Login, Logout, Assign user with</span>

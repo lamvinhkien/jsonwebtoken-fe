@@ -50,7 +50,7 @@ const ModalCreate = (props) => {
         }
     }
     useEffect(() => {
-        if(user && user.data && user.data.name === 'Admin'){
+        if (user && user.data && user.data.name === 'Admin') {
             fetchGroup()
         }
     }, [])
@@ -116,7 +116,7 @@ const ModalCreate = (props) => {
     const handleHideModal = () => {
         props.hideCreate()
         setIsValidInput(defaultIsValidInput)
-        setValueInput({ ...defaultValueInput, group: listGroup[0].id })
+        setValueInput({ ...defaultValueInput, group: listGroup[0] ? listGroup[0].id : '' })
     }
 
     return (

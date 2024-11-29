@@ -143,6 +143,8 @@ const Assign = (props) => {
 
                 </div>
 
+                <hr />
+
                 <div className='row mt-4'>
                     <div className='title-roles'>
                         <span className='fw-medium fs-2'><i className="fa fa-wrench"></i> Roles of group selected</span>

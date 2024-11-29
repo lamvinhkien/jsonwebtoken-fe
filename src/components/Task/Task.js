@@ -12,7 +12,7 @@ const Task = (props) => {
     const [isShowCreate, setIsShowCreate] = useState(false)
     const [isShowDetail, setIsShowDetail] = useState(false)
     const [taskDetail, setTaskDetail] = useState({})
-
+    
     const { user } = useContext(UserContext)
 
     const showCreate = () => {
@@ -59,31 +59,83 @@ const Task = (props) => {
                     <button className="btn btn-primary mx-2" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
                 </div>
             </div>
+
+            <div className='separator'>
+                <span className="fs-4 fw-medium"><i className="fa fa-circle" style={{ color: '#fffc3f' }}></i> In Progress</span>
+            </div>
+
             <div className='task-body row mt-3'>
                 {
                     task && task.length > 0 && task.map((item, index) => {
-                        return (
-                            <div className='col-3 mb-3' key={index}>
-                                <div className="card text-center">
-                                    <div className="card-header">
-                                        Task end at: <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title">{item.title}</h5>
-                                        <p className="card-text">{item.description}</p>
-                                        <button className="btn btn-primary" onClick={() => { showDetail(item) }}>View Details</button>
-                                    </div>
-                                    <div className="card-footer text-body-secondary">
-                                        <div>
-                                            <span className='fst-italic'>By:</span> <span className='fw-medium'>{item.postBy}</span>.
+                        if (+moment(new Date(item.endDate)).format('x') > Date.now()) {
+                            return (
+                                <div className='col-3 mb-3' key={index}>
+                                    <div className="card text-center">
+                                        <div className="card-header d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i className="fa fa-circle" style={{ color: '#fffc3f' }}></i>
+                                            </div>
+                                            <div>
+                                                Task end at: <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span className='fst-italic'>At:</span> <span className='fw-medium'>{moment(item.createdAt).format('lll')}</span>.
+                                        <div className="card-body">
+                                            <h5 className="card-title">{item.title}</h5>
+                                            <p className="card-text">{item.description}</p>
+                                            <button className="btn btn-primary" onClick={() => { showDetail(item) }}>View Details</button>
+                                        </div>
+                                        <div className="card-footer text-body-secondary">
+                                            <div>
+                                                <span className='fst-italic'>By:</span> <span className='fw-medium'>{item.postBy}</span>.
+                                            </div>
+                                            <div>
+                                                <span className='fst-italic'>At:</span> <span className='fw-medium'>{moment(item.createdAt).format('lll')}</span>.
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
+                            )
+                        }
+                    })
+                }
+            </div>
+
+            <div className='separator'>
+                <span className="fs-4 fw-medium"><i className="fa fa-circle" style={{ color: '#ff3a3a' }}></i> Out of time</span>
+            </div>
+
+            <div className='task-body row mt-3'>
+                {
+                    task && task.length > 0 && task.map((item, index) => {
+                        if (+moment(new Date(item.endDate)).format('x') <= Date.now()) {
+                            return (
+                                <div className='col-3 mb-3' key={index}>
+                                    <div className="card text-center">
+                                        <div className="card-header d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i className="fa fa-circle" style={{ color: '#ff3a3a' }}></i>
+                                            </div>
+                                            <div>
+                                                Task end at: <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
+                                            </div>
+                                        </div>
+                                        <div className="card-body">
+                                            <h5 className="card-title">{item.title}</h5>
+                                            <p className="card-text">{item.description}</p>
+                                            <button className="btn btn-primary" onClick={() => { showDetail(item) }}>View Details</button>
+                                        </div>
+                                        <div className="card-footer text-body-secondary">
+                                            <div>
+                                                <span className='fst-italic'>By:</span> <span className='fw-medium'>{item.postBy}</span>.
+                                            </div>
+                                            <div>
+                                                <span className='fst-italic'>At:</span> <span className='fw-medium'>{moment(item.createdAt).format('lll')}</span>.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
                     })
                 }
             </div>

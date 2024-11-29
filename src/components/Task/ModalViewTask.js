@@ -21,6 +21,12 @@ const ModalViewTask = (props) => {
     const [permission, setPermission] = useState('')
     const [isCheckUpdate, setIsCheckUpdate] = useState(true)
     const [isCheckDelete, setIsCheckDelete] = useState(true)
+    const defaultIsValidInput = {
+        title: true,
+        description: true,
+        endAt: true,
+    }
+    const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
 
     const handleHide = () => {
         props.hide()
@@ -32,6 +38,7 @@ const ModalViewTask = (props) => {
         setExistingFiles([])
         setNewFiles([])
         setFilesToDelete([])
+        setIsValidInput(defaultIsValidInput)
     }
     const handleChangeTitle = (event) => {
         setTitle(event)
@@ -60,6 +67,10 @@ const ModalViewTask = (props) => {
         }
     }
     const handleUpdate = async () => {
+        if (title === '') { setIsValidInput({ ...defaultIsValidInput, title: isValidInput.title = false }); toast.error('Please enter Title.'); return; }
+        if (description === '') { setIsValidInput({ ...defaultIsValidInput, description: isValidInput.description = false }); toast.error('Please enter Description.'); return; }
+        if (endAt === '') { setIsValidInput({ ...defaultIsValidInput, endAt: isValidInput.endAt = false }); toast.error('Please set end time.'); return; }
+
         let formData = new FormData();
         formData.append('id', props.dataModal ? props.dataModal.id : '')
         formData.append('title', title)
@@ -73,6 +84,7 @@ const ModalViewTask = (props) => {
             handleHide()
             props.fetch()
             toast.success(res.EM)
+            setIsValidInput(defaultIsValidInput)
             return
         }
         toast.error(res.EM)
@@ -139,18 +151,21 @@ const ModalViewTask = (props) => {
                         <Row>
                             <div className="col-6 mb-3">
                                 <label className="form-label">Title:</label>
-                                <input type="text" className="form-control" value={title} disabled={isCheckUpdate}
+                                <input type="text" className={isValidInput.title === true ? 'form-control' : 'form-control is-invalid'}
+                                    value={title} disabled={isCheckUpdate}
                                     onChange={(e) => { handleChangeTitle(e.target.value) }} />
                             </div>
                             <div className="col-6 mb-3">
                                 <label className="form-label">End At:</label>
-                                <input type="datetime-local" className="form-control" value={endAt} disabled={isCheckUpdate}
+                                <input type="datetime-local" className={isValidInput.endAt === true ? 'form-control' : 'form-control is-invalid'}
+                                    value={endAt} disabled={isCheckUpdate}
                                     onChange={(e) => { handleChangeEnd(e.target.value) }} />
 
                             </div>
                             <div className="col-6 mb-3">
                                 <label className="form-label">Description:</label>
-                                <textarea className="form-control" rows="7" value={description} disabled={isCheckUpdate}
+                                <textarea className={isValidInput.description === true ? 'form-control' : 'form-control is-invalid'}
+                                    rows="7" value={description} disabled={isCheckUpdate}
                                     onChange={(e) => { handleChangeDes(e.target.value) }}></textarea>
                             </div>
                             <div className="col-6 mb-3">
@@ -171,7 +186,7 @@ const ModalViewTask = (props) => {
                                                 {isCheckUpdate === false &&
                                                     <button
                                                         className="btn btn-danger btn-sm"
-                                                        style={{marginLeft: "7px"}}
+                                                        style={{ marginLeft: "7px" }}
                                                         onClick={() => handleRemoveExistingFile(file)}
                                                     >
                                                         <i className="fa fa-trash-o"></i>

@@ -42,10 +42,9 @@ const NavHeader = () => {
             <>
                 <Navbar collapseOnSelect expand="lg" className="nav-header">
                     <Container>
-                        <Navbar.Brand href="#" >
+                        <Navbar.Brand href="#" className='w-25'>
                             <span className="logoJWT">
-                                <img src='/logo192.png' width={'7%'} className='mb-1 mx-1' alt='' />
-                                JWT Project
+                                <i className="fa fa-users"></i> HR Portals
                             </span>
                         </Navbar.Brand>
                         <Navbar.Collapse id="responsive-navbar-nav">

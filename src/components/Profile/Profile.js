@@ -138,6 +138,9 @@ const Profile = () => {
                                             <button className='btn btn-success mt-3' onClick={() => { handleSaveEmailPhone() }}>Save changes</button>
                                         </div>
                                     </div>
+
+                                    <hr />
+
                                     {
                                         user.typeAccount === 'LOCAL' ?
                                             <div className='mt-3'>

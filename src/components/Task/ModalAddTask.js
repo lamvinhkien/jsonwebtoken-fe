@@ -12,6 +12,13 @@ const ModalAddTask = (props) => {
     const [description, setDescription] = useState('')
     const [endAt, setEndAt] = useState('')
     const [uploadedFiles, setUploadedFiles] = useState([]);
+    const defaultIsValidInput = {
+        title: true,
+        description: true,
+        endAt: true,
+    }
+    const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
+
     const { user } = useContext(UserContext)
 
     const handleHide = () => {
@@ -20,6 +27,7 @@ const ModalAddTask = (props) => {
         setDescription('')
         setEndAt('')
         setUploadedFiles([])
+        setIsValidInput(defaultIsValidInput)
     }
     const handleChangeTitle = (event) => {
         setTitle(event)
@@ -40,6 +48,10 @@ const ModalAddTask = (props) => {
         );
     };
     const handleAddTask = async () => {
+        if (title === '') { setIsValidInput({ ...defaultIsValidInput, title: isValidInput.title = false }); toast.error('Please enter Title.'); return; }
+        if (description === '') { setIsValidInput({ ...defaultIsValidInput, description: isValidInput.description = false }); toast.error('Please enter Description.'); return; }
+        if (endAt === '') { setIsValidInput({ ...defaultIsValidInput, endAt: isValidInput.endAt = false }); toast.error('Please set end time.'); return; }
+
         let formData = new FormData();
         formData.append('title', title)
         formData.append('description', description)
@@ -54,6 +66,7 @@ const ModalAddTask = (props) => {
             toast.success(res.EM)
             handleHide()
             props.fetch()
+            setIsValidInput(defaultIsValidInput)
             return
         }
         toast.error(res.EM)
@@ -72,16 +85,19 @@ const ModalAddTask = (props) => {
                         <Row>
                             <div className="col-6 mb-3">
                                 <label className="form-label">Title:</label>
-                                <input type="text" className="form-control" value={title} onChange={(e) => handleChangeTitle(e.target.value)} />
+                                <input type="text" className={isValidInput.title === true ? 'form-control' : 'form-control is-invalid'}
+                                    value={title} onChange={(e) => handleChangeTitle(e.target.value)} />
                             </div>
                             <div className="col-6 mb-3">
                                 <label className="form-label">End At:</label>
-                                <input type="datetime-local" className="form-control" value={endAt} onChange={(e) => handleChangeEnd(e.target.value)} />
+                                <input type="datetime-local" className={isValidInput.endAt === true ? 'form-control' : 'form-control is-invalid'}
+                                    value={endAt} onChange={(e) => handleChangeEnd(e.target.value)} />
 
                             </div>
                             <div className="col-6 mb-3">
                                 <label className="form-label">Description:</label>
-                                <textarea className="form-control" rows="7" value={description} onChange={(e) => handleChangeDes(e.target.value)}></textarea>
+                                <textarea className={isValidInput.description === true ? 'form-control' : 'form-control is-invalid'} rows="7"
+                                    value={description} onChange={(e) => handleChangeDes(e.target.value)}></textarea>
                             </div>
                             <div className="col-6 mb-3">
                                 <label className="form-label">Documents:</label>

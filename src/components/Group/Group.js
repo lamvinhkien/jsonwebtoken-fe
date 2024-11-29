@@ -80,8 +80,8 @@ const Group = () => {
 
 
     return (
-        <div className='Group-component'>
-            <div className='container mt-3'>
+        <div className='Group-component container'>
+            <div className='mt-3'>
                 <div className='row'>
                     <div className='col-8'>
                         <span className='fw-medium fs-2'><i className="fa fa-users"></i> Groups List</span>
@@ -92,7 +92,10 @@ const Group = () => {
                     </div>
                 </div>
             </div>
-            <div className='container parent'>
+            
+            <hr />
+
+            <div className='parent'>
                 {
                     Object.entries(listChild).map(([key, value], index) => {
                         return (
@@ -117,7 +120,7 @@ const Group = () => {
                 }
 
             </div>
-            <div className='container mt-3'>
+            <div className='mt-3'>
                 <div className='row'>
                     <div className='col-2'>
                         <button className='btn btn-success' onClick={() => { handleSaveGroups() }}>Save</button>
@@ -125,7 +128,9 @@ const Group = () => {
                 </div>
             </div>
 
-            <div className='container mt-3'>
+            <hr />
+
+            <div className='mt-3'>
                 <TableGroup ref={childRef}/>
             </div>
         </div>
