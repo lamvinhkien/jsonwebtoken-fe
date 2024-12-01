@@ -25,6 +25,26 @@ const deleteTask = (id) => {
     return res;
 }
 
+const getAllReportByManager = (id) => {
+    let res = axios.post(`/task/show-all-report-by-manager`, { TaskID: id })
+    return res;
+}
+
+const getAllReportByEmployee = (data) => {
+    let res = axios.post(`/task/show-all-report-by-employee`, { TaskID: data.TaskID, UserID: data.UserID })
+    return res;
+}
+
+const uploadTaskReport = (formdata) => {
+    let res = axios.post(`/task/create-report`, formdata)
+    return res;
+}
+
+const deleteTaskReport = (id) => {
+    let res = axios.post(`/task/delete-report`, { id: id })
+    return res;
+}
+
 export {
-    getAllTask, createTask, updateTask, getDocument, deleteTask
+    getAllTask, createTask, updateTask, getDocument, deleteTask, getAllReportByManager, getAllReportByEmployee, uploadTaskReport, deleteTaskReport
 }

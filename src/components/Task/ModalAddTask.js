@@ -120,7 +120,6 @@ const ModalAddTask = (props) => {
                                         </li>
                                     ))}
                                 </ul>
-
                             </div>
                         </Row>
                     </Container>

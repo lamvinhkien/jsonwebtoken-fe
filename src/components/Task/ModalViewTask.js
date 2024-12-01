@@ -7,8 +7,10 @@ import moment from 'moment';
 import { updateTask, getDocument, deleteTask } from '../../services/taskService';
 import { toast } from 'react-toastify';
 import ModalDeleteTask from './ModalDeleteTask';
+import ModalTaskReport from './ModalTaskReport';
 
 const ModalViewTask = (props) => {
+    const [idTask, setIdTask] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [endAt, setEndAt] = useState('')
@@ -27,6 +29,8 @@ const ModalViewTask = (props) => {
         endAt: true,
     }
     const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
+    const [isShowTaskReport, setIsShowTaskReport] = useState(false)
+
 
     const handleHide = () => {
         props.hide()
@@ -120,9 +124,14 @@ const ModalViewTask = (props) => {
             })
         }
     }
+    const handleShowTaskReport = () => {
+        setIsShowTaskReport(!isShowTaskReport)
+        props.hide()
+    }
 
     useEffect(() => {
-        if (props.dataModal && props.permission) {
+        if (props && props.show && props.dataModal && props.permission) {
+            setIdTask(props.dataModal.id)
             setTitle(props.dataModal.title)
             setDescription(props.dataModal.description)
             setEndAt(props.dataModal.endDate)
@@ -223,12 +232,23 @@ const ModalViewTask = (props) => {
                         </Row>
                     </Container>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={handleHide} variant='secondary'>Close</Button>
-                    {isCheckDelete === false && <Button onClick={handleShowDelete} variant='danger'>Delete</Button>}
-                    {isCheckUpdate === false && <Button onClick={handleUpdate} variant='success'>Update</Button>}
+                <Modal.Footer className='d-flex justify-content-between'>
+                    <div>
+                        <Button onClick={() => { handleShowTaskReport() }} variant='primary'>Task Report</Button>
+                    </div>
+                    <div>
+                        <Button onClick={handleHide} variant='secondary' style={{ marginRight: '8px' }}>Close</Button>
+                        {isCheckDelete === false && <Button onClick={handleShowDelete} variant='danger' style={{ marginRight: '8px' }}>Delete</Button>}
+                        {isCheckUpdate === false && <Button onClick={handleUpdate} variant='success'>Update</Button>}
+                    </div>
                 </Modal.Footer>
             </Modal>
+
+            <ModalTaskReport
+                show={isShowTaskReport}
+                hide={handleShowTaskReport}
+                idTask={idTask ? idTask : ''}
+            />
 
             <ModalDeleteTask
                 show={isShowDelete}
