@@ -76,7 +76,7 @@ const ModalViewTask = (props) => {
         if (endAt === '') { setIsValidInput({ ...defaultIsValidInput, endAt: isValidInput.endAt = false }); toast.error('Please set end time.'); return; }
 
         let formData = new FormData();
-        formData.append('id', props.dataModal ? props.dataModal.id : '')
+        formData.append('id', idTask)
         formData.append('title', title)
         formData.append('description', description)
         formData.append('endDate', endAt)
@@ -97,9 +97,8 @@ const ModalViewTask = (props) => {
         setIsShowDelete(!isShowDelete)
     }
     const handleDeleteTask = async () => {
-        let id = props.dataModal ? props.dataModal.id : ''
-        if (id !== '') {
-            let res = await deleteTask(id)
+        if (idTask !== '') {
+            let res = await deleteTask(idTask)
             if (res && res.EC === "1") {
                 props.fetch()
                 handleShowDelete()
@@ -109,6 +108,7 @@ const ModalViewTask = (props) => {
             }
             toast.error(res.EM)
         }
+        toast.error("Not found Task.")
     }
     const handleCheckPermission = () => {
         if (permission && permission.Roles.length > 0) {
@@ -130,7 +130,7 @@ const ModalViewTask = (props) => {
     }
 
     useEffect(() => {
-        if (props && props.show && props.dataModal && props.permission) {
+        if (props && props.dataModal && props.permission) {
             setIdTask(props.dataModal.id)
             setTitle(props.dataModal.title)
             setDescription(props.dataModal.description)
@@ -247,7 +247,7 @@ const ModalViewTask = (props) => {
             <ModalTaskReport
                 show={isShowTaskReport}
                 hide={handleShowTaskReport}
-                idTask={idTask ? idTask : ''}
+                idTask={idTask}
             />
 
             <ModalDeleteTask
