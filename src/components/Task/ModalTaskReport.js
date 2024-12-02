@@ -203,13 +203,6 @@ const ModalTaskReport = (props) => {
                                                     <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
                                                         <i className="fa fa-download"></i>
                                                     </a>
-                                                    <button
-                                                        className="btn btn-danger btn-sm"
-                                                        style={{ marginLeft: "7px" }}
-                                                        onClick={() => { handleDeleteReport(file.id) }}
-                                                    >
-                                                        <i className="fa fa-trash-o"></i>
-                                                    </button>
                                                 </td>
                                             </tr>
                                         )) :
