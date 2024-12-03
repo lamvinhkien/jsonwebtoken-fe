@@ -28,6 +28,7 @@ const ModalTaskReport = (props) => {
         const files = Array.from(event.target.files);
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
         setIsValidInput(defaultIsValidInput)
+        event.target.value = null
     };
     const handleRemoveFile = (indexToRemove) => {
         setUploadedFiles((prevFiles) =>
@@ -116,12 +117,15 @@ const ModalTaskReport = (props) => {
                                     <input type='file' multiple className={isValidInput.uploadedFiles === true ? 'form-control' : 'form-control is-invalid'}
                                         onChange={handleFileChange} />
                                     <ul className="list-group mt-3">
-                                        {uploadedFiles.map((file, index) => (
+                                        {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
                                             <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
+                                                <div className='w-25'>
+                                                    {index + 1}.
+                                                </div>
+                                                <div className='w-100'>
                                                     {file.name}
                                                 </div>
-                                                <div>
+                                                <div className='w-25 text-end'>
                                                     <button
                                                         className="btn btn-danger btn-sm"
                                                         onClick={() => handleRemoveFile(index)}
@@ -131,7 +135,12 @@ const ModalTaskReport = (props) => {
                                                 </div>
 
                                             </li>
-                                        ))}
+                                        ))
+                                            :
+                                            <div className='text-center mt-2'>
+                                                <span className='fst-italic'>No files available.....</span>
+                                            </div>
+                                        }
                                     </ul>
                                     <div className='w-100 text-center mt-3'>
                                         <button className='btn btn-success w-25' onClick={() => { handleUploadReport() }}>Upload Report</button>
@@ -148,14 +157,17 @@ const ModalTaskReport = (props) => {
                                     <ul className="list-group">
                                         {existingFiles && existingFiles.length > 0 ?
                                             existingFiles.map((file, index) => (
-                                                <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div>
+                                                <li key={index} className="list-group-item d-flex justify-content-start align-items-center">
+                                                    <div className='w-25'>
+                                                        {index + 1}.
+                                                    </div>
+                                                    <div className='w-75'>
                                                         {moment(file.createdAt).format('lll')}
                                                     </div>
-                                                    <div>
+                                                    <div className='w-100'>
                                                         {file.FilePath.replace(/^report-\d+-/, '')}
                                                     </div>
-                                                    <div>
+                                                    <div className='w-25 text-end'>
                                                         <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
                                                             <i className="fa fa-download"></i>
                                                         </a>

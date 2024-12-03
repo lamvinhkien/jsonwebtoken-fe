@@ -41,6 +41,7 @@ const ModalAddTask = (props) => {
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
         setUploadedFiles(prevFiles => [...prevFiles, ...files]);
+        event.target.value = null
     };
     const handleRemoveFile = (indexToRemove) => {
         setUploadedFiles((prevFiles) =>
@@ -101,14 +102,22 @@ const ModalAddTask = (props) => {
                             </div>
                             <div className="col-6 mb-3">
                                 <label className="form-label">Documents:</label>
-                                <input type='file' multiple className='form-control' onChange={handleFileChange} />
-                                <ul className="list-group mt-3">
-                                    {uploadedFiles.map((file, index) => (
+                                <div className='col-12'>
+                                    <label htmlFor="file-upload" className="custom-file-upload btn btn-primary w-100">
+                                        Upload files
+                                    </label>
+                                    <input type='file' id="file-upload" multiple onChange={handleFileChange} />
+                                </div>
+                                <ul className="list-group mt-2">
+                                    {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
                                         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
+                                            <div className='w-25'>
+                                                {index + 1}.
+                                            </div>
+                                            <div className='w-100'>
                                                 {file.name}
                                             </div>
-                                            <div>
+                                            <div className='w-25 text-end'>
                                                 <button
                                                     className="btn btn-danger btn-sm"
                                                     onClick={() => handleRemoveFile(index)}
@@ -116,9 +125,13 @@ const ModalAddTask = (props) => {
                                                     <i className="fa fa-trash-o"></i>
                                                 </button>
                                             </div>
-
                                         </li>
-                                    ))}
+                                    ))
+                                        :
+                                        <div className='text-center mt-2'>
+                                            <span className='fst-italic'>No files available.....</span>
+                                        </div>
+                                    }
                                 </ul>
                             </div>
                         </Row>

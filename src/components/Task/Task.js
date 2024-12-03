@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import './Task.scss';
+import './InputFile.scss';
 import { getAllTask } from '../../services/taskService';
 import moment from 'moment';
 import ModalAddTask from './ModalAddTask';

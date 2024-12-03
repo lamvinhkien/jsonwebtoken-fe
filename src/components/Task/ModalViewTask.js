@@ -30,7 +30,7 @@ const ModalViewTask = (props) => {
     }
     const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
     const [isShowTaskReport, setIsShowTaskReport] = useState(false)
-
+    const [indexLoadFiles, setIndexLoadFiles] = useState(0)
 
     const handleHide = () => {
         props.hide()
@@ -60,6 +60,9 @@ const ModalViewTask = (props) => {
     const handleRemoveExistingFile = (fileToRemove) => {
         setFilesToDelete((prev) => [...prev, fileToRemove]); // Thêm vào danh sách cần xóa
         setExistingFiles((prev) => prev.filter((file) => file !== fileToRemove)); // Loại khỏi danh sách hiển thị
+        if (existingFiles.length > 0) {
+            setIndexLoadFiles(indexLoadFiles - 1)
+        }
     };
     const handleRemoveNewFile = (indexToRemove) => {
         setNewFiles((prev) => prev.filter((_, index) => index !== indexToRemove));
@@ -68,6 +71,7 @@ const ModalViewTask = (props) => {
         let res = await getDocument(id)
         if (res && res.EC === "1") {
             setExistingFiles(res.DT)
+            setIndexLoadFiles(res.DT.length)
         }
     }
     const handleUpdate = async () => {
@@ -180,45 +184,73 @@ const ModalViewTask = (props) => {
                             <div className="col-6 mb-3">
                                 <label className="form-label">Documents:</label>
                                 {isCheckUpdate === false &&
-                                    <input type='file' multiple className='form-control mb-3' onChange={handleNewFileChange} />
+                                    <div className='col-12 mb-2'>
+                                        <label htmlFor="file-upload" className="custom-file-upload btn btn-primary w-100">
+                                            Upload files
+                                        </label>
+                                        <input type='file' id="file-upload" multiple onChange={handleNewFileChange} />
+                                    </div>
                                 }
                                 <ul className="list-group">
-                                    {existingFiles.map((file, index) => (
-                                        <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                {file.FilePath.replace(/^files-\d+-/, '')}
+                                    {
+                                        existingFiles.length === 0 && newFiles.length === 0 ?
+                                            <div className='text-center mt-2'>
+                                                <span className='fst-italic'>No files available.....</span>
                                             </div>
-                                            <div>
-                                                <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
-                                                    <i className="fa fa-download"></i>
-                                                </a>
-                                                {isCheckUpdate === false &&
-                                                    <button
-                                                        className="btn btn-danger btn-sm"
-                                                        style={{ marginLeft: "7px" }}
-                                                        onClick={() => handleRemoveExistingFile(file)}
-                                                    >
-                                                        <i className="fa fa-trash-o"></i>
-                                                    </button>
-                                                }
-                                            </div>
-                                        </li>
-                                    ))}
-                                    {isCheckUpdate === false && newFiles.map((file, index) => (
-                                        <li key={`new-${index}`} className="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                {file.name}
-                                            </div>
-                                            <div>
-                                                <button
-                                                    className="btn btn-danger btn-sm"
-                                                    onClick={() => handleRemoveNewFile(index)}
-                                                >
-                                                    <i className="fa fa-trash-o"></i>
-                                                </button>
-                                            </div>
-                                        </li>
-                                    ))}
+                                            :
+                                            <>
+                                                <>
+                                                    {
+                                                        existingFiles.map((file, index) => (
+                                                            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div className='w-25'>
+                                                                    {index + 1}.
+                                                                </div>
+                                                                <div className='w-100'>
+                                                                    {file.FilePath.replace(/^files-\d+-/, '')}
+                                                                </div>
+                                                                <div className='w-50 text-end'>
+                                                                    <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
+                                                                        <i className="fa fa-download"></i>
+                                                                    </a>
+                                                                    {isCheckUpdate === false &&
+                                                                        <button
+                                                                            className="btn btn-danger btn-sm"
+                                                                            style={{ marginLeft: "7px" }}
+                                                                            onClick={() => handleRemoveExistingFile(file)}
+                                                                        >
+                                                                            <i className="fa fa-trash-o"></i>
+                                                                        </button>
+                                                                    }
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </>
+                                                <>
+                                                    {
+                                                        isCheckUpdate === false && newFiles.map((file, index) => (
+                                                            <li key={`new-${index}`} className="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div className='w-25'>
+                                                                    {index + 1 + indexLoadFiles}.
+                                                                </div>
+                                                                <div className='w-100'>
+                                                                    {file.name}
+                                                                </div>
+                                                                <div className='w-50 text-end'>
+                                                                    <button
+                                                                        className="btn btn-danger btn-sm"
+                                                                        onClick={() => handleRemoveNewFile(index)}
+                                                                    >
+                                                                        <i className="fa fa-trash-o"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </>
+                                            </>
+                                    }
                                 </ul>
                             </div>
                             <div className="col-6 mb-3">
