@@ -68,7 +68,7 @@ const Role = () => {
 
 
     return (
-        <div className='Role-component container'>
+        <div className='Role-component'>
             <div className='mt-3'>
                 <div className='row'>
                     <div className='col-10'>

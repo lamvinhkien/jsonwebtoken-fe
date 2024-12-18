@@ -3,7 +3,7 @@ const Footer = () => {
     return (
         <div className="Footer">
             <div className="footer-box">
-                <span>@lamvinhkien</span>
+                <span>@2025 lamvinhkien</span>
             </div>
         </div>
     )

@@ -113,84 +113,71 @@ const Assign = (props) => {
 
     return (
         <div className="GroupRole-container">
-            <div className="container">
-                <div className="row mt-3">
-                    <div className='col-12'>
-                        <span className='fw-medium fs-2'><i className="fa fa-users"></i> Assign User</span>
-                    </div>
+            <div className="row mt-1">
+                <div className='col-12'>
+                    <span className='fw-medium fs-3'><i className="fa fa-users"></i> Assign User</span>
+                </div>
+                <div className='col-md-12 col-lg-6 mt-2'>
+                    <select className="form-select form-select-lg" onChange={(event) => { handleOnChangeSelect(event.target.value) }}>
+                        <option value={``}>Please select group</option>
+                        <option value={``}>-----------------------</option>
+                        {
+                            listGroup && listGroup.length > 0
+                                ?
+                                listGroup.map((item, index) => {
+                                    return (
+                                        <option key={`group-${index}`} value={item.id}>{item.name}</option>
+                                    )
+                                })
+                                :
+                                <option>Group loading.......</option>
+                        }
+                    </select>
+                </div>
+            </div>
 
-                    <div className='row mt-2'>
-                        <div className='col-4'>
-                            <select className="form-select" onChange={(event) => { handleOnChangeSelect(event.target.value) }}>
-                                <option value={``}>Please select group</option>
-                                <option value={``}>-----------------------</option>
+            <hr />
+
+            <div className='row'>
+                <div className='title-roles col-12'>
+                    <span className='fw-medium fs-3'><i className="fa fa-wrench"></i> Roles of group selected</span>
+                </div>
+
+                {
+                    selectGroup !== ''
+                        ?
+                        <>
+                            <div className='row mt-1'>
                                 {
-                                    listGroup && listGroup.length > 0
-                                        ?
-                                        listGroup.map((item, index) => {
+                                    listRole && listRole.length > 0
+                                        ? listRole.map((item, index) => {
                                             return (
-                                                <option key={`group-${index}`} value={item.id}>{item.name}</option>
+                                                <div className='col-12 col-sm-6 col-md-4' key={`role-${index}`}>
+                                                    <div className="form-check form-switch py-1 select-fs" >
+                                                        <input
+                                                            className="form-check-input" type="checkbox" id={`role-${index}`}
+                                                            value={item.id}
+                                                            checked={item.isAssign}
+                                                            onChange={() => { handleOnChangeRoles(index) }}
+                                                        />
+
+                                                        <label className="form-check-label" htmlFor={`role-${index}`}>{item.description}</label>
+                                                    </div>
+                                                </div>
                                             )
                                         })
-                                        :
-                                        <option>Group loading.......</option>
+                                        : <>Loading data......</>
                                 }
-                            </select>
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-                <hr />
-
-                <div className='row mt-4'>
-                    <div className='title-roles'>
-                        <span className='fw-medium fs-2'><i className="fa fa-wrench"></i> Roles of group selected</span>
-                    </div>
-
-                    <div className='form-check-roles mt-2'>
-                        {
-                            selectGroup !== ''
-                                ?
-                                <>
-                                    <div className='row row-cols-4'>
-                                        {
-                                            listRole && listRole.length > 0
-                                                ? listRole.map((item, index) => {
-                                                    return (
-                                                        <div className='col' key={`role-${index}`}>
-                                                            <div className="form-check form-switch py-1 select-fs" >
-                                                                <input
-                                                                    className="form-check-input" type="checkbox" id={`role-${index}`}
-                                                                    value={item.id}
-                                                                    checked={item.isAssign}
-                                                                    onChange={() => { handleOnChangeRoles(index) }}
-                                                                />
-
-                                                                <label className="form-check-label" htmlFor={`role-${index}`}>{item.description}</label>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
-                                                : <>Loading data......</>
-                                        }
-                                    </div>
-                                    <div className='row mt-3'>
-                                        <button className='btn btn-success col-1 ' onClick={() => { handleSave() }}>Save</button>
-                                    </div>
-                                </>
-                                :
-                                <div className=''>
-                                    <span className='fst-italic'>Please select a group to show roles...</span>
+                                <div className='col-10 col-md-3 col-lg-2 mt-2'>
+                                    <button className='btn btn-success w-100' onClick={() => { handleSave() }}>Save</button>
                                 </div>
-                        }
-
-                    </div>
-                </div>
-
-
+                            </div>
+                        </>
+                        :
+                        <div className='col-12 mt-2'>
+                            <span className='fst-italic'>Please select a group to show roles...</span>
+                        </div>
+                }
             </div>
         </div>
     )

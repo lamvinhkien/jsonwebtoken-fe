@@ -80,7 +80,7 @@ const Group = () => {
 
 
     return (
-        <div className='Group-component container'>
+        <div className='Group-component'>
             <div className='mt-3'>
                 <div className='row'>
                     <div className='col-8'>

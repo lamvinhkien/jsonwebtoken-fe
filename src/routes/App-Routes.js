@@ -20,7 +20,6 @@ const AppRoutes = (props) => {
             <PrivateRoutes path="/tasks" component={Task} />
             <PrivateRoutes path="/assign" component={Assign} />
             <PrivateRoutes path="/profile" component={Profile} />
-
             <Route path="/login">
                 <Login />
             </Route>
@@ -30,9 +29,7 @@ const AppRoutes = (props) => {
             <Route path="/forgot-password">
                 <ForgotPassword />
             </Route>
-            <Route path="/" exact>
-                <Home />
-            </Route>
+            <PrivateRoutes path="/" component={Home} />
             <Route path="*">
                 404 NOT FOUND
             </Route>

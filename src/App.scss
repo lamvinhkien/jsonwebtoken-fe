@@ -4,10 +4,18 @@
     align-items: center;
     flex-direction: column;
     min-height: 95vh;
-
     span {
         font-weight: 500;
-        color: #70a7ff;
+        color: #0CBDDF;
         padding-top: 15px;
     }
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
 }

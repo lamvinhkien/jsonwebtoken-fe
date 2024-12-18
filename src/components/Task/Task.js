@@ -41,7 +41,7 @@ const Task = (props) => {
     }, [])
 
     return (
-        <div className='Task container'>
+        <div className='Task'>
             <div className="task-header row mt-3">
                 <div className="title col-9">
                     <span className="fs-2 fw-medium"><i className="fa fa-tasks"></i> Tasks List</span>

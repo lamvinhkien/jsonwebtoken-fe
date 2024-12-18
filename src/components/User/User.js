@@ -119,7 +119,7 @@ const User = (props) => {
 
     return (
         <>
-            <div className="User container">
+            <div className="User">
                 <div className="user-header row mt-3">
                     <div className="title col-9">
                         <span className="fs-2 fw-medium"><i className="fa fa-users"></i> Users List</span>

@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../../services/userService";
 import { UserContext } from "../Context/Context";
+import logo from '../../assets/logo-project-hd.png'
 
 const Login = (props) => {
     let history = useHistory();
@@ -63,10 +64,6 @@ const Login = (props) => {
         }
     }
 
-    const returnToHomePage = () => {
-        history.push("/")
-    }
-
     const [isVisible, setVisible] = useState(false);
 
     const handleShowPassword = () => {
@@ -96,21 +93,30 @@ const Login = (props) => {
             <div className="login-container container position-absolute top-50 start-50 translate-middle px-md-5 pb-5 px-4">
                 <div className="row">
                     <div className="col-12 mb-2 d-lg-none d-block">
-                        <div className="logo-mobile">
-                            <i className="fa fa-users"></i> JWT Project
+                        <div style={{ textAlign: "center", marginBottom: "15px" }}>
+                            <img
+                                src={logo}
+                                alt="Logo"
+                                style={{ width: "120px", height: "auto" }}
+                            />
                         </div>
                     </div>
 
                     <div className="left mt-3 col-12 col-lg-6 d-none d-lg-block">
                         <div className="left-child">
-                            <div className="logo text-center">
-                                <i className="fa fa-users"></i> HR Portals
+                            <div style={{ textAlign: "center", margin: "0" }}>
+                                <img
+                                    src={logo}
+                                    alt="Logo"
+                                    style={{ width: "170px", height: "auto" }}
+                                />
                             </div>
                             <div className="description text-center mt-2">
-                                <span className='fst-italic content'>Register, Login, Logout, Assign user with</span>
-                                <div className="desProject">
-                                    <img src='/jwt-3.svg' width={'10%'} className='img' alt="" />
-                                    <span className='fw-medium'>JSONWEBTOKEN</span>
+                                <div>
+                                    Streamline Tasks, Enhance Collaboration
+                                </div>
+                                <div>
+                                    and Empower Your Workforce.
                                 </div>
                             </div>
                         </div>
@@ -118,12 +124,12 @@ const Login = (props) => {
 
                     <div className="right col-lg-6">
                         <div className="right-child d-flex flex-column">
-                            <div className="fw-medium fs-4 mb-3 text-center">
-                                <span>Account Login</span>
+                            <div className="fw-bold fs-4 mb-3 text-center">
+                                <span className="title-form-login">Account Login</span>
                             </div>
                             <input type="text"
                                 className={isValidInput.isValidValueLogin ? "form-control form-control-lg" : "form-control form-control-lg is-invalid"}
-                                placeholder="Email address or phone number"
+                                placeholder="Email or phone number"
                                 value={valueLogin} onChange={(event) => { setValueLogin(event.target.value) }}
                                 onKeyDown={(event) => handlePressEnter(event)} />
 
@@ -139,33 +145,35 @@ const Login = (props) => {
                                 </button>
                             </div>
 
-                            <button className="mt-3 login-btn" onClick={() => handleLogin()} >Log In</button>
-                            <div className="d-flex justify-content-between back-forget mt-2">
-                                <span className="" onClick={() => returnToHomePage()}>Return to homepage <i className="fa fa-undo"></i></span>
+                            <button className="mt-3 btn login-btn" onClick={() => handleLogin()} >Log In</button>
+                            <div className="d-flex justify-content-end forget mt-2">
                                 <span className="" onClick={() => { handleForgotPassword() }}>Forgotten password?</span>
                             </div>
 
                             <hr />
 
-                            <p className="fs-6 text-center">Don't have an account?</p>
-                            <button className="create-new-account" onClick={() => handleCreateNewAccount()}>Create New Account</button>
+                            <span className="fs-6 text-center">Don't have an account?</span>
+                            <div className="mt-2">
+                                <button className="btn create-new-account w-100" onClick={() => handleCreateNewAccount()}>Create New Account</button>
+                            </div>
 
                             <hr />
 
-                            <p className="text-center">Or</p>
-                            <div className="d-flex justify-content-center text-center">
-                                <div type="button" className="google-button" onClick={() => { handleGoogle() }}>
-                                    <i className="fa fa-google"></i> Log in with Google
+                            <span className="text-center">Or login with</span>
+                            <div className="row">
+                                <div className="col-lg-6 col-md-12 mt-2">
+                                    <button className="btn google-button w-100" onClick={() => { handleGoogle() }}>
+                                        <i className="fa fa-google"></i> Google
+                                    </button>
                                 </div>
-
-                                <div type="button" className="facebook-button" onClick={() => { handleFacebook() }}>
-                                    <i className="fa fa-facebook-f"></i> Log in with Facebook
+                                <div className="col-lg-6 col-md-12 mt-2">
+                                    <button className="btn facebook-button w-100" onClick={() => { handleFacebook() }}>
+                                        <i className="fa fa-facebook-f"></i> Facebook
+                                    </button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

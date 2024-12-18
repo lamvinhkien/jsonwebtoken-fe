@@ -1,51 +1,38 @@
 .Register {
     background-color: #f0f2f5;
 }
+
 .register-container {
-    .father {
-        .logo {
-            font-size: 35px;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            color: #0866FF;
-            font-weight: 600;
-            text-align: center;
+    .title-form-register {
+        color: #0CBDDF;
+    }
+
+    .child {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+        padding: 15px 18px 25px 18px;
+
+        .register-btn {
+            background-color: #0CBDDF;
+            border: none;
+            color: #fff;
+            font-weight: 650;
+
+            &:hover {
+                background-color: #0db1d2;
+            }
         }
 
-        .child {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
-            padding: 15px 18px 25px 18px;
+        .create-new-account {
+            border: none;
+            background-color: #42b72a;
+            color: #fff;
+            font-weight: 650;
 
-            .register-btn {
-                background-color: #0866ff;
-                border: none;
-                border-radius: 6px;
-                font-size: 18px;
-                padding: 6px 0px 6px 0px;
-                color: #fff;
-                font-weight: 700;
-
-                &:hover {
-                    background-color: #0867ffd5;
-                }
-            }
-
-            .create-new-account {
-                border: none;
-                border-radius: 6px;
-                font-size: 15px;
-                padding: 6px 14px 6px 14px;
-                background-color: #42b72a;
-                color: #fff;
-                font-weight: 650;
-                font-size: 16px;
-                &:hover {
-                    background-color: #3daa28;
-                }
+            &:hover {
+                background-color: #3daa28;
             }
         }
     }
-
-
 }

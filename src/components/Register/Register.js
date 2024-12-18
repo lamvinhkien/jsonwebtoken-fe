@@ -1,6 +1,7 @@
 import "./Register.scss"
 import { useHistory } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../Context/Context";
 import { toast } from 'react-toastify';
 import { registerNewUser } from "../../services/userService";
 
@@ -9,6 +10,7 @@ const Register = (props) => {
     const handleLogin = () => {
         history.push("/login")
     }
+    const { user } = useContext(UserContext);
 
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
@@ -59,7 +61,10 @@ const Register = (props) => {
     }
 
     useEffect(() => {
-    }, [])
+        if (user && user.auth === true) {
+            history.push("/")
+        }
+    }, [history, user])
 
     const handleRegister = async () => {
 
@@ -95,12 +100,11 @@ const Register = (props) => {
     return (
         <div className="Register">
             <div className="register-container container-fluid position-absolute top-50 start-50 translate-middle pb-5">
-                <div className="row">
-                    <div className="col-0 col-lg-4"></div>
-                    <div className="father col-12 col-lg-4">
+                <div className="row justify-content-center">
+                    <div className="col-12 col-md-10 col-lg-6">
                         <div className="child d-flex flex-column">
-                            <div className="fw-medium fs-4 mb-3 text-center">
-                                <span>Create Account</span>
+                            <div className="fw-bold fs-4 mb-3 text-center">
+                                <span className="title-form-register">Create Account</span>
                             </div>
                             <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
                                 value={email} onChange={(event) => setEmail(event.target.value)} />
@@ -112,14 +116,13 @@ const Register = (props) => {
                                 value={password} onChange={(event) => setPassword(event.target.value)} />
                             <input type="password" className={checkValidInput.isValidConfirmPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Confirm password"
                                 value={confirmPassword} onChange={(event) => setconfirmPassword(event.target.value)} />
-                            <button className="mt-3 register-btn" onClick={() => handleRegister()}>Create New</button>
+                            <button className="mt-3 btn register-btn" onClick={() => handleRegister()}>Create New</button>
                             <hr />
                             <div className="text-center">
-                                <button className="mt-2 create-new-account" onClick={() => handleLogin()}>Already have an account? Login.</button>
+                                <button className="mt-2 btn create-new-account" onClick={() => handleLogin()}>Already have an account? Login.</button>
                             </div>
                         </div>
                     </div>
-                    <div className="col-0 col-lg-4"></div>
                 </div>
             </div>
         </div>
