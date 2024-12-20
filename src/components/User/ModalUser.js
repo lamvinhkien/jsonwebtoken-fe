@@ -9,9 +9,7 @@ import { toast } from 'react-toastify';
 import { UserContext } from '../Context/Context';
 
 const ModalCreate = (props) => {
-    // Define state value for user and list group
     const [listGroup, setListGroup] = useState([])
-
     const defaultValueInput = {
         email: "",
         password: "",
@@ -19,13 +17,9 @@ const ModalCreate = (props) => {
         username: "",
         address: "",
         gender: "Male",
-        group: ""
+        group: 2
     }
-
     const [valueInput, setValueInput] = useState(defaultValueInput)
-
-
-    // Valid Input
     const defaultIsValidInput = {
         email: true,
         password: true,
@@ -36,21 +30,17 @@ const ModalCreate = (props) => {
         username: true,
     }
     const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
-
     const { user } = useContext(UserContext)
 
-    // fetch data group
     const fetchGroup = async () => {
         let res = await getAllGroup()
         if (res) {
             setListGroup(res.DT)
-
-            let group = res.DT
-            setValueInput({ ...valueInput, group: group[0].id })
         }
     }
+
     useEffect(() => {
-        if (user && user.data && user.data.name === 'Admin') {
+        if (user && user.data) {
             fetchGroup()
         }
     }, [])
@@ -87,12 +77,12 @@ const ModalCreate = (props) => {
         let check = handleValidateInput()
         if (check === true) {
             let res = props.showModal === "CREATE" ?
-                await createNewUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 4 }) :
-                await updateUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 4 })
+                await createNewUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 2 }) :
+                await updateUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 2 })
 
             if (res.EC === "1") {
                 setIsValidInput(defaultIsValidInput)
-                setValueInput({ ...defaultValueInput, group: listGroup && listGroup.length > 0 ? listGroup[0].id : "" })
+                setValueInput(defaultValueInput)
                 props.hideCreate()
                 await props.fetchData()
                 toast.success(res.EM)
@@ -105,8 +95,6 @@ const ModalCreate = (props) => {
         }
     }
 
-
-    // Show data for update and handle null for modal when turn off
     useEffect(() => {
         if (props.showModal === "UPDATE") {
             setValueInput(props.dataModalUpdate)
@@ -116,7 +104,7 @@ const ModalCreate = (props) => {
     const handleHideModal = () => {
         props.hideCreate()
         setIsValidInput(defaultIsValidInput)
-        setValueInput({ ...defaultValueInput, group: listGroup[0] ? listGroup[0].id : '' })
+        setValueInput(defaultValueInput)
     }
 
     return (
@@ -130,7 +118,7 @@ const ModalCreate = (props) => {
                 <Modal.Body className="grid-example">
                     <Container>
                         <Row>
-                            <div className={props.showModal === "CREATE" ? "form-group mb-3 col-6" : "form-group mb-3 col-6"}>
+                            <div className={props.showModal === "CREATE" ? "form-group mb-3 col-12 col-md-6" : "form-group mb-3 col-12 col-md-6"}>
                                 <label className="py-1">Email<span className='text-danger'>*</span></label>
                                 <input type="text"
                                     disabled={props.showModal === "CREATE" ? false : true}
@@ -140,7 +128,7 @@ const ModalCreate = (props) => {
                                 />
                             </div>
 
-                            <div className="form-group mb-3 col-6">
+                            <div className="form-group mb-3 col-12 col-md-6">
                                 <label className="py-1">Phone<span className='text-danger'>*</span></label>
                                 <input type="text"
                                     disabled={props.showModal === "CREATE" ? false : true}
@@ -150,7 +138,7 @@ const ModalCreate = (props) => {
                                 />
                             </div>
 
-                            <div className="form-group mb-3 col-6">
+                            <div className="form-group mb-3 col-12 col-md-6">
                                 <label className="py-1">Username<span className='text-danger'>*</span></label>
                                 <input type="text" className={isValidInput.username ? "form-control" : "form-control is-invalid"}
                                     placeholder="Username" value={valueInput.username}
@@ -158,7 +146,7 @@ const ModalCreate = (props) => {
                                 />
                             </div>
 
-                            <div className="form-group mb-3 col-6">
+                            <div className="form-group mb-3 col-12 col-md-6">
                                 <label className="py-1">Gender</label>
                                 <select className="form-select"
                                     value={valueInput.gender}
@@ -170,28 +158,23 @@ const ModalCreate = (props) => {
                                 </select>
                             </div>
 
-                            {
-                                user.data.name === 'Admin' &&
-                                <div className="form-group mb-3 col-12">
-                                    <label className="py-1">Group<span className='text-danger'>*</span></label>
-                                    <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
-                                        value={valueInput.group ? valueInput.group : ''}
-                                        onChange={(event) => handleOnChangeInput(event.target.value, "group")}
-                                    >
-                                        {
-                                            listGroup.length > 0 ? listGroup.map((item, index) => {
-                                                if (item.name !== 'Admin') {
-                                                    return (
-                                                        <option key={`group-${index}`} value={item.id}>{item.name}</option>
-                                                    )
-                                                }
-                                            })
-                                                :
-                                                <option>Group loading...</option>
-                                        }
-                                    </select>
-                                </div>
-                            }
+                            <div className="form-group mb-3 col-12">
+                                <label className="py-1">Group<span className='text-danger'>*</span></label>
+                                <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
+                                    value={valueInput.group}
+                                    onChange={(event) => handleOnChangeInput(event.target.value, "group")}
+                                >
+                                    {
+                                        listGroup.length > 0 ? listGroup.map((item, index) => {
+                                            return (
+                                                <option key={`group-${index}`} value={item.id}>{item.name}</option>
+                                            )
+                                        })
+                                            :
+                                            <option>Group loading...</option>
+                                    }
+                                </select>
+                            </div>
 
                             <div className="form-group mb-3 col-12">
                                 <label className="py-1">Address</label>

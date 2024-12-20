@@ -119,7 +119,7 @@ const Register = (props) => {
                             <button className="mt-3 btn register-btn" onClick={() => handleRegister()}>Create New</button>
                             <hr />
                             <div className="text-center">
-                                <button className="mt-2 btn create-new-account" onClick={() => handleLogin()}>Already have an account? Login.</button>
+                                <button className="btn create-new-account" onClick={() => handleLogin()}>Already have an account? Login.</button>
                             </div>
                         </div>
                     </div>

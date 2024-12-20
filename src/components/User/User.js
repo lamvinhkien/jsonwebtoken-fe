@@ -118,21 +118,21 @@ const User = (props) => {
 
 
     return (
-        <>
-            <div className="User">
-                <div className="user-header row mt-3">
-                    <div className="title col-9">
-                        <span className="fs-2 fw-medium"><i className="fa fa-users"></i> Users List</span>
+        <div className="User">
+            <div className="content-card-body">
+                <div className="row align-items-center">
+                    <div className="col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-start">
+                        <span className="fs-4 fw-bold text-info"><i className="fa fa-user"></i> Users</span>
                     </div>
-                    <div className="action col-3">
+                    <div className="col-12 d-flex justify-content-center mt-2 col-sm-8 d-sm-flex justify-content-sm-end mt-sm-0 gap-2">
                         <button className="btn btn-success" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add new user</button>
-                        <button className="btn btn-primary mx-2" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
+                        <button className="btn btn-primary" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
                     </div>
                 </div>
 
                 <hr />
 
-                <div className="user-body mt-3 row">
+                <div className="table-responsive" style={{ minHeight: '495px' }}>
                     <table className="table table-striped table-hover">
                         <thead className="">
                             <tr>
@@ -141,35 +141,32 @@ const User = (props) => {
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Group</th>
-                                <th scope="col">Type Account</th>
+                                <th scope="col">Type</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {listUser && listUser.length > 0 ? listUser.map((item, index) => {
-                                if (item.Group.name !== 'Admin') {
-                                    return (
-                                        <tr key={"row" + index}>
-                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
-                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
-                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
-                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.phone ? item.phone : ''}</td>
-                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.Group ? item.Group.name : ''}</td>
-                                            <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.typeAccount ? item.typeAccount : ''}</td>
-                                            <td>
-                                                {
-                                                    user.id === item.id || item.Group.name === user.data.name ? <><button className="btn opacity-0">.</button></>
-                                                        :
-                                                        <>
-                                                            <button className="btn btn-warning text-white" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
-                                                            <button className="btn btn-danger mx-2" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
-                                                        </>
-                                                }
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-
+                                return (
+                                    <tr key={"row" + index}>
+                                        <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
+                                        <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
+                                        <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
+                                        <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.phone ? item.phone : ''}</td>
+                                        <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.Group ? item.Group.name : 'None'}</td>
+                                        <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.typeAccount ? item.typeAccount : ''}</td>
+                                        <td>
+                                            {
+                                                user.id === item.id || (item.Group && item.Group.name === user.data.name) ? <><button className="btn opacity-0">.</button></>
+                                                    :
+                                                    <div className="text-nowrap">
+                                                        <button className="btn btn-warning text-white mx-2" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
+                                                        <button className="btn btn-danger" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
+                                                    </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                )
                             })
                                 : <tr>
                                     <td colSpan={7} className="text-center">Loading data........</td>
@@ -179,10 +176,10 @@ const User = (props) => {
                     </table>
                 </div>
 
-                <div className="user-footer d-flex justify-content-between">
-                    <div className="">
+                <div className="row">
+                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
                         <label className="fw-medium">Set limit values show: </label>
-                        <select className="form-select-sm mx-2"
+                        <select className="form-select-sm"
                             value={limit}
                             onChange={(event) => handleSetLimit(event.target.value)}
                         >
@@ -191,32 +188,30 @@ const User = (props) => {
                         </select>
                     </div>
 
-                    <div className="pagination">
-                        <>
-                            {
-                                totalPage > 0 &&
-                                <ReactPaginate
-                                    nextLabel="next >"
-                                    onPageChange={handlePageClick}
-                                    pageRangeDisplayed={3}
-                                    marginPagesDisplayed={2}
-                                    pageCount={totalPage}
-                                    previousLabel="< previous"
-                                    pageClassName="page-item"
-                                    pageLinkClassName="page-link"
-                                    previousClassName="page-item"
-                                    previousLinkClassName="page-link"
-                                    nextClassName="page-item"
-                                    nextLinkClassName="page-link"
-                                    breakLabel="..."
-                                    breakClassName="page-item"
-                                    breakLinkClassName="page-link"
-                                    containerClassName="pagination"
-                                    activeClassName="active"
-                                    renderOnZeroPageCount={null}
-                                />
-                            }
-                        </>
+                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-end mt-md-2">
+                        {
+                            totalPage > 0 &&
+                            <ReactPaginate
+                                nextLabel="next >"
+                                onPageChange={handlePageClick}
+                                pageRangeDisplayed={3}
+                                marginPagesDisplayed={2}
+                                pageCount={totalPage}
+                                previousLabel="< previous"
+                                pageClassName="page-item"
+                                pageLinkClassName="page-link"
+                                previousClassName="page-item"
+                                previousLinkClassName="page-link"
+                                nextClassName="page-item"
+                                nextLinkClassName="page-link"
+                                breakLabel="..."
+                                breakClassName="page-item"
+                                breakLinkClassName="page-link"
+                                containerClassName="pagination"
+                                activeClassName="active"
+                                renderOnZeroPageCount={null}
+                            />
+                        }
                     </div>
                 </div>
             </div>
@@ -236,9 +231,7 @@ const User = (props) => {
                 dataModal={dataModalDelete.email}
                 title={'user'}
             />
-
-        </>
-
+        </div>
     )
 }
 export default User;

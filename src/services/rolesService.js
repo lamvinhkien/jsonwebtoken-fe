@@ -6,7 +6,7 @@ const getAllRoles = (page, limit) => {
 }
 
 const getAllRolesWithoutPage = () => {
-    let res = axios.get(`/role/get-all`)
+    let res = axios.get(`/role/show-all-for-assign`)
     return res
 }
 

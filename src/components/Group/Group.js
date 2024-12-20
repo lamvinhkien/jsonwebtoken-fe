@@ -81,57 +81,51 @@ const Group = () => {
 
     return (
         <div className='Group-component'>
-            <div className='mt-3'>
+            <div className='content-card-body'>
                 <div className='row'>
-                    <div className='col-8'>
-                        <span className='fw-medium fs-2'><i className="fa fa-users"></i> Groups List</span>
+                    <div className='col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-start'>
+                        <span className='fw-bold fs-4 text-info'><i className="fa fa-users"></i> Groups</span>
                     </div>
-                    <div className='col-4'>
-                        <span className='btn btn-success fw-medium' onClick={() => { addNewGroups() }}><i className="fa fa-plus-circle"></i> Add more group</span>
-                        <span className='btn btn-primary fw-medium mx-3' onClick={() => { handleRefresh() }}><i className="fa fa-refresh"></i> Refresh</span>
+                    <div className='col-12 d-flex justify-content-center mt-2 col-sm-8 d-sm-flex justify-content-sm-end mt-sm-0 gap-2'>
+                        <button className='btn btn-success fw-medium mt-1' onClick={() => { addNewGroups() }}><i className="fa fa-plus-circle"></i> Add more group</button>
+                        <button className='btn btn-primary fw-medium mt-1' onClick={() => { handleRefresh() }}><i className="fa fa-refresh"></i> Refresh</button>
                     </div>
                 </div>
-            </div>
-            
-            <hr />
 
-            <div className='parent'>
+                <hr />
+
                 {
                     Object.entries(listChild).map(([key, value], index) => {
                         return (
-                            <div className={`row child mb-1 ${key}`} key={key}>
-                                <div className='col-5 box'>
-                                    <label className='py-1 fw-medium'>Name</label>
+                            <div className='row mb-1' key={index}>
+                                <div className='col-5'>
+                                    <label className='fw-medium'>Name</label>
                                     <input className={value.isValidName ? 'form-control' : 'form-control is-invalid'}
                                         value={value.name}
                                         onChange={(event) => { handleOnChangeInput(key, event.target.value, 'name') }} />
                                 </div>
-                                <div className='col-5 box'>
-                                    <label className='py-1 fw-medium'>Description</label>
+                                <div className='col-5'>
+                                    <label className='fw-medium'>Description</label>
                                     <input className='form-control' value={value.description}
                                         onChange={(event) => { handleOnChangeInput(key, event.target.value, 'description') }} />
                                 </div>
-                                <div className='col-2 box'>
-                                    {index >= 1 && <span onClick={() => { deleteGroups(key) }}><i className="fa fa-trash-o text-danger fs-2 marginButton"></i></span>}
+                                <div className='col-2 pt-4'>
+                                    {index >= 1 && <button onClick={() => { deleteGroups(key) }} className='btn btn-danger'><i className="fa fa-trash-o"></i></button>}
                                 </div>
                             </div>
                         )
                     })
                 }
 
-            </div>
-            <div className='mt-3'>
-                <div className='row'>
-                    <div className='col-2'>
-                        <button className='btn btn-success' onClick={() => { handleSaveGroups() }}>Save</button>
+                <div className='row mt-3'>
+                    <div className='col-12 col-md-3 col-lg-2'>
+                        <button className='btn btn-success w-100' onClick={() => { handleSaveGroups() }}>Save</button>
                     </div>
                 </div>
-            </div>
 
-            <hr />
+                <hr />
 
-            <div className='mt-3'>
-                <TableGroup ref={childRef}/>
+                <TableGroup ref={childRef} />
             </div>
         </div>
     )

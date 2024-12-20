@@ -84,55 +84,63 @@ const ModalAddTask = (props) => {
                 <Modal.Body className="grid-example">
                     <Container>
                         <Row>
-                            <div className="col-6 mb-3">
+                            <div className="col-lg-6 mb-2">
                                 <label className="form-label">Title:</label>
                                 <input type="text" className={isValidInput.title === true ? 'form-control' : 'form-control is-invalid'}
                                     value={title} onChange={(e) => handleChangeTitle(e.target.value)} />
                             </div>
-                            <div className="col-6 mb-3">
+                            <div className="col-lg-6 mb-2">
                                 <label className="form-label">End At:</label>
                                 <input type="datetime-local" className={isValidInput.endAt === true ? 'form-control' : 'form-control is-invalid'}
                                     value={endAt} onChange={(e) => handleChangeEnd(e.target.value)} />
 
                             </div>
-                            <div className="col-6 mb-3">
+                            <div className="col-lg-12 mb-3">
                                 <label className="form-label">Description:</label>
-                                <textarea className={isValidInput.description === true ? 'form-control' : 'form-control is-invalid'} rows="7"
+                                <textarea className={isValidInput.description === true ? 'form-control' : 'form-control is-invalid'} rows="3"
                                     value={description} onChange={(e) => handleChangeDes(e.target.value)}></textarea>
                             </div>
-                            <div className="col-6 mb-3">
-                                <label className="form-label">Documents:</label>
-                                <div className='col-12'>
-                                    <label htmlFor="file-upload" className="custom-file-upload btn btn-primary w-100">
-                                        Upload files
-                                    </label>
-                                    <input type='file' id="file-upload" multiple onChange={handleFileChange} />
+                            <div className="col-lg-12">
+                                <div className='row align-items-center'>
+                                    <div className='col-sm-9 d-sm-flex justify-content-sm-start'>
+                                        <label className="form-label">Documents:</label>
+                                    </div>
+                                    <div className='col-sm-3 d-sm-flex justify-content-sm-end'>
+                                        <label htmlFor="file-upload" className="custom-file-upload btn btn-primary btn-sm w-100">
+                                            Upload files
+                                        </label>
+                                        <input type='file' id="file-upload" multiple onChange={handleFileChange} />
+                                    </div>
                                 </div>
-                                <ul className="list-group mt-2">
-                                    {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
-                                        <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                            <div className='w-25'>
-                                                {index + 1}.
-                                            </div>
-                                            <div className='w-100'>
-                                                {file.name}
-                                            </div>
-                                            <div className='w-25 text-end'>
-                                                <button
-                                                    className="btn btn-danger btn-sm"
-                                                    onClick={() => handleRemoveFile(index)}
-                                                >
-                                                    <i className="fa fa-trash-o"></i>
-                                                </button>
-                                            </div>
-                                        </li>
-                                    ))
-                                        :
-                                        <div className='text-center mt-2'>
-                                            <span className='fst-italic'>No files available.....</span>
-                                        </div>
-                                    }
-                                </ul>
+                                <div className='table-responsive'>
+                                    <table className='table'>
+                                        <tbody>
+                                            {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
+                                                <tr key={index}>
+                                                    <td>
+                                                        {index + 1}.
+                                                    </td>
+                                                    <td className='w-100'>
+                                                        {file.name}
+                                                    </td>
+                                                    <td className='text-end text-nowrap'>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => handleRemoveFile(index)}
+                                                        >
+                                                            <i className="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                                :
+                                                <tr>
+                                                    <td className='fst-italic text-center'>No files available.....</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </Row>
                     </Container>

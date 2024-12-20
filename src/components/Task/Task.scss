@@ -1,20 +1,9 @@
-.separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
-
-.separator::before,
-.separator::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid #b4b4b4;
-}
-
-.separator:not(:empty)::before {
-    margin-right: .50em;
-}
-
-.separator:not(:empty)::after {
-    margin-left: .50em;
+.hiddenContent {
+    display: -webkit-box;       /* Sử dụng layout flexbox đặc biệt */
+    -webkit-line-clamp: 2;     /* Giới hạn hiển thị 3 dòng */
+    -webkit-box-orient: vertical; /* Thiết lập hướng hiển thị là dọc */
+    overflow: hidden;          /* Ẩn phần nội dung thừa */
+    text-overflow: ellipsis;   /* Thêm dấu ba chấm cho phần thừa */
+    max-height: calc(1.4em * 2); /* Tối đa 3 dòng với chiều cao mỗi dòng là 1.2em */
+    min-height: calc(1.4em * 2);
 }

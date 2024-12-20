@@ -5,11 +5,15 @@ const getAllGroup = () => {
     return res
 }
 
+const getAllGroupByAdmin = () => {
+    let res = axios.get("/group/show-all-for-assign")
+    return res
+}
+
 const getGroupWithPagination = (page, limit) => {
     let res = axios.get(`/group/show-all-with-pagination?page=${page}&limit=${limit}`)
     return res
 }
-
 
 const getGroupWithRoles = (id) => {
     let res = axios.post("/group/get-group-with-roles", { id: id })
@@ -36,4 +40,7 @@ const updateGroup = (group) => {
     return res
 }
 
-export { getAllGroup, getGroupWithRoles, assignRoleForGroup, createGroups, deleteGroup, updateGroup, getGroupWithPagination }
+export {
+    getAllGroup, getGroupWithRoles, assignRoleForGroup, createGroups, deleteGroup, updateGroup,
+    getAllGroupByAdmin, getGroupWithPagination
+}

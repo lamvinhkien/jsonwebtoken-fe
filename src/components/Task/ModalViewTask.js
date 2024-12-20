@@ -162,109 +162,114 @@ const ModalViewTask = (props) => {
                 <Modal.Body className="grid-example">
                     <Container>
                         <Row>
-                            <div className="col-6 mb-3">
+                            <div className="col-lg-6 mb-2">
                                 <label className="form-label">Title:</label>
                                 <input type="text" className={isValidInput.title === true ? 'form-control' : 'form-control is-invalid'}
                                     value={title} disabled={isCheckUpdate}
                                     onChange={(e) => { handleChangeTitle(e.target.value) }} />
                             </div>
-                            <div className="col-6 mb-3">
+                            <div className="col-lg-6 mb-2">
                                 <label className="form-label">End At:</label>
                                 <input type="datetime-local" className={isValidInput.endAt === true ? 'form-control' : 'form-control is-invalid'}
                                     value={endAt} disabled={isCheckUpdate}
                                     onChange={(e) => { handleChangeEnd(e.target.value) }} />
 
                             </div>
-                            <div className="col-6 mb-3">
+                            <div className="col-lg-12 mb-3">
                                 <label className="form-label">Description:</label>
                                 <textarea className={isValidInput.description === true ? 'form-control' : 'form-control is-invalid'}
-                                    rows="7" value={description} disabled={isCheckUpdate}
+                                    rows="3" value={description} disabled={isCheckUpdate}
                                     onChange={(e) => { handleChangeDes(e.target.value) }}></textarea>
                             </div>
-                            <div className="col-6 mb-3">
-                                <label className="form-label">Documents:</label>
-                                {isCheckUpdate === false &&
-                                    <div className='col-12 mb-2'>
-                                        <label htmlFor="file-upload" className="custom-file-upload btn btn-primary w-100">
-                                            Upload files
-                                        </label>
-                                        <input type='file' id="file-upload" multiple onChange={handleNewFileChange} />
+                            <div className="col-lg-12 mb-1">
+                                <div className='row align-items-center'>
+                                    <div className='col-sm-9 d-sm-flex justify-content-sm-start'>
+                                        <label className="form-label">Documents:</label>
                                     </div>
-                                }
-                                <ul className="list-group">
-                                    {
-                                        existingFiles.length === 0 && newFiles.length === 0 ?
-                                            <div className='text-center mt-2'>
-                                                <span className='fst-italic'>No files available.....</span>
-                                            </div>
-                                            :
-                                            <>
-                                                <>
-                                                    {
-                                                        existingFiles.map((file, index) => (
-                                                            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                                                <div className='w-25'>
-                                                                    {index + 1}.
-                                                                </div>
-                                                                <div className='w-100'>
-                                                                    {file.FilePath.replace(/^files-\d+-/, '')}
-                                                                </div>
-                                                                <div className='w-50 text-end'>
-                                                                    <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
-                                                                        <i className="fa fa-download"></i>
-                                                                    </a>
-                                                                    {isCheckUpdate === false &&
+                                    {isCheckUpdate === false &&
+                                        <div className='col-sm-3 d-sm-flex justify-content-sm-end'>
+                                            <label htmlFor="file-upload" className="custom-file-upload btn btn-primary btn-sm w-100">
+                                                Upload files
+                                            </label>
+                                            <input type='file' id="file-upload" multiple onChange={handleNewFileChange} />
+                                        </div>
+                                    }
+                                </div>
+                                <div className='table-responsive'>
+                                    <table className='table'>
+                                        <tbody>
+                                            {
+                                                existingFiles.length === 0 && newFiles.length === 0 ?
+                                                    <tr>
+                                                        <td className='fst-italic text-center'>No files available.....</td>
+                                                    </tr>
+                                                    :
+                                                    <>
+                                                        {
+                                                            existingFiles.map((file, index) => (
+                                                                <tr key={index}>
+                                                                    <td>
+                                                                        {index + 1}.
+                                                                    </td>
+                                                                    <td className='w-100'>
+                                                                        {file.FilePath.replace(/^files-\d+-/, '')}
+                                                                    </td>
+                                                                    <td className='text-end text-nowrap'>
+                                                                        <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
+                                                                            <i className="fa fa-download"></i>
+                                                                        </a>
+                                                                        {isCheckUpdate === false &&
+                                                                            <button
+                                                                                className="btn btn-danger btn-sm"
+                                                                                style={{ marginLeft: "7px" }}
+                                                                                onClick={() => handleRemoveExistingFile(file)}
+                                                                            >
+                                                                                <i className="fa fa-trash-o"></i>
+                                                                            </button>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                        {
+                                                            isCheckUpdate === false && newFiles.map((file, index) => (
+                                                                <tr key={`new-${index}`}>
+                                                                    <td>
+                                                                        {index + 1 + indexLoadFiles}.
+                                                                    </td>
+                                                                    <td className='w-100'>
+                                                                        {file.name}
+                                                                    </td>
+                                                                    <td className='text-end text-nowrap'>
                                                                         <button
                                                                             className="btn btn-danger btn-sm"
-                                                                            style={{ marginLeft: "7px" }}
-                                                                            onClick={() => handleRemoveExistingFile(file)}
+                                                                            onClick={() => handleRemoveNewFile(index)}
                                                                         >
                                                                             <i className="fa fa-trash-o"></i>
                                                                         </button>
-                                                                    }
-                                                                </div>
-                                                            </li>
-                                                        ))
-                                                    }
-                                                </>
-                                                <>
-                                                    {
-                                                        isCheckUpdate === false && newFiles.map((file, index) => (
-                                                            <li key={`new-${index}`} className="list-group-item d-flex justify-content-between align-items-center">
-                                                                <div className='w-25'>
-                                                                    {index + 1 + indexLoadFiles}.
-                                                                </div>
-                                                                <div className='w-100'>
-                                                                    {file.name}
-                                                                </div>
-                                                                <div className='w-50 text-end'>
-                                                                    <button
-                                                                        className="btn btn-danger btn-sm"
-                                                                        onClick={() => handleRemoveNewFile(index)}
-                                                                    >
-                                                                        <i className="fa fa-trash-o"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </li>
-                                                        ))
-                                                    }
-                                                </>
-                                            </>
-                                    }
-                                </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        }
+                                                    </>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div className="col-6 mb-3">
+
+                            <div className="col-lg-6 mb-2">
                                 <label className="form-label">Post by:</label>
                                 <input type="text" className="form-control" value={postBy} disabled />
                             </div>
-                            <div className="col-6 mb-3">
+                            <div className="col-lg-6 mb-2">
                                 <label className="form-label">Post at:</label>
                                 <input type="text" className="form-control" value={postAt} disabled />
                             </div>
                         </Row>
                     </Container>
                 </Modal.Body>
-                <Modal.Footer className='d-flex justify-content-between'>
+                <Modal.Footer className='d-flex justify-content-center d-sm-flex justify-content-sm-between'>
                     <div>
                         <Button onClick={() => { handleShowTaskReport() }} variant='primary'>Task Report</Button>
                     </div>

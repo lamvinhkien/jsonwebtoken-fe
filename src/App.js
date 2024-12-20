@@ -12,7 +12,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import logo from './assets/logo-project-hd.png'
 
-const App = (props) => {
+const App = () => {
     const { user } = useContext(UserContext)
     const [collapse, setCollapse] = useState(false)
     const [toggled, setToggled] = useState(false)
@@ -63,17 +63,36 @@ const App = (props) => {
                                                         style={{ width: "80px", height: "auto" }}
                                                     />
                                                 </div>
-                                                <SubMenu label="Assign Role" icon={<i className="fa fa-users"></i>}>
-                                                    <MenuItem component={<Link to="/groups" />}> Group</MenuItem>
-                                                    <MenuItem component={<Link to="/roles" />}> Role</MenuItem>
-                                                    <MenuItem component={<Link to="/assign" />}> Assign</MenuItem>
-                                                </SubMenu>
-                                                <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
-                                                    <MenuItem component={<Link to="/tasks" />}> Task</MenuItem>
-                                                </SubMenu>
-                                                <SubMenu label="User Account" icon={<i className="fa fa-user"></i>}>
-                                                    <MenuItem component={<Link to="/users" />}> User</MenuItem>
-                                                </SubMenu>
+                                                {user.data && user.data.name === "Admin" && (
+                                                    <>
+                                                        <SubMenu label="Assign Role" icon={<i className="fa fa-users"></i>}>
+                                                            <MenuItem component={<Link to="/groups" />}> Group</MenuItem>
+                                                            <MenuItem component={<Link to="/roles" />}> Role</MenuItem>
+                                                            <MenuItem component={<Link to="/assign" />}> Assign</MenuItem>
+                                                        </SubMenu>
+                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
+                                                            <MenuItem component={<Link to="/tasks" />}> Task</MenuItem>
+                                                        </SubMenu>
+                                                        <SubMenu label="User Account" icon={<i className="fa fa-user"></i>}>
+                                                            <MenuItem component={<Link to="/users" />}> User</MenuItem>
+                                                        </SubMenu>
+                                                    </>
+                                                )}
+                                                {user.data && user.data.name === "Manager" && (
+                                                    <>
+                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
+                                                            <MenuItem component={<Link to="/tasks" />}> Task</MenuItem>
+                                                        </SubMenu>
+                                                        <SubMenu label="User Account" icon={<i className="fa fa-user"></i>}>
+                                                            <MenuItem component={<Link to="/users" />}> User</MenuItem>
+                                                        </SubMenu>
+                                                    </>
+                                                )}
+                                                {user.data && user.data.name === "Employee" && (
+                                                    <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
+                                                        <MenuItem component={<Link to="/tasks" />}> Task</MenuItem>
+                                                    </SubMenu>
+                                                )}
                                             </Menu>
                                             {
                                                 broken ?
@@ -115,7 +134,7 @@ const App = (props) => {
                                             </div>
                                         }
                                         <div className='app-content col-lg-12' style={user && user.auth ? { minHeight: '617px' } : { minHeight: '685px' }}>
-                                            <div className='px-3 py-1' style={{ height: '100%' }}>
+                                            <div className='' style={{ height: '100%', padding: '7px 15px 0px 10px' }}>
                                                 <AppRoutes />
                                             </div>
                                         </div>
