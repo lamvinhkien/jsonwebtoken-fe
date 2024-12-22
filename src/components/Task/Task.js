@@ -1,33 +1,37 @@
 import { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import './Task.scss';
 import './InputFile.scss';
 import { getAllTask } from '../../services/taskService';
 import moment from 'moment';
 import ModalAddTask from './ModalAddTask';
-import ModalViewTask from './ModalViewTask';
 import { toast } from 'react-toastify';
 import { UserContext } from '../Context/Context';
+import ReactPaginate from 'react-paginate';
 
 const Task = (props) => {
+    const history = useHistory()
     const [task, setTask] = useState([])
     const [isShowCreate, setIsShowCreate] = useState(false)
-    const [isShowDetail, setIsShowDetail] = useState(false)
-    const [taskDetail, setTaskDetail] = useState({})
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(4)
+    const [offset, setOffset] = useState(0)
+    const [totalPage, setTotalPage] = useState(0)
 
     const { user } = useContext(UserContext)
 
     const showCreate = () => {
         setIsShowCreate(!isShowCreate)
     }
-    const showDetail = (task) => {
-        setTaskDetail(task)
-        setIsShowDetail(!isShowDetail)
+    const redirectToDetail = (item) => {
+        history.push(`/task/${item.id}`, { title: item.title, description: item.description, endAt: item.endDate, postBy: item.postBy, postAt: item.createdAt })
     }
     const fetchTask = async () => {
-        let res = await getAllTask()
-
+        let res = await getAllTask(page, limit)
         if (res && res.EC === "1") {
-            setTask(res.DT)
+            setTotalPage(res.DT.totalPage)
+            setOffset(res.DT.offset)
+            setTask(res.DT.task)
             return
         }
         toast.error(res.EM)
@@ -35,19 +39,26 @@ const Task = (props) => {
     const handleRefresh = async () => {
         await fetchTask()
     }
+    const handlePageClick = (event) => {
+        setPage(event.selected + 1)
+    }
+    const handleSetLimit = (event) => {
+        setLimit(event)
+        setPage(1)
+    }
 
     useEffect(() => {
         fetchTask()
-    }, [])
+    }, [page, limit])
 
     return (
         <div className='Task'>
             <div className="content-card-body">
                 <div className='row align-items-center'>
-                    <div className="col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-start">
-                        <span className="fs-4 fw-bold text-info"><i className="fa fa-tasks"></i> Tasks</span>
+                    <div className="col-12 d-flex justify-content-center col-md-7 d-sm-flex justify-content-md-start fs-4 fw-bold text-info">
+                        <span className=""><i className="fa fa-tasks"></i> Tasks List</span>
                     </div>
-                    <div className="col-12 d-flex justify-content-center mt-2 col-sm-8 d-sm-flex justify-content-sm-end mt-sm-0 gap-2">
+                    <div className="col-12 d-flex justify-content-center mt-2 col-md-5 d-sm-flex justify-content-md-end mt-md-0 gap-2">
                         {
                             user && user.data && user.data.Roles.length > 0 ? user.data.Roles.map((item, index) => {
                                 if (item && item.url && item.url === '/task/create') {
@@ -62,11 +73,11 @@ const Task = (props) => {
                     </div>
                 </div>
                 <hr />
-                <div className='row'>
+                <div className='row' style={{ minHeight: '550px' }}>
                     {
                         task && task.length > 0 && task.map((item, index) => {
                             return (
-                                <div className='col-lg-6 col-12 mb-3' key={index}>
+                                <div className='col-lg-6 col-12 mb-4' key={index}>
                                     <div className="card">
                                         <div className="card-header d-flex justify-content-between align-items-center">
                                             <div>
@@ -77,10 +88,10 @@ const Task = (props) => {
                                             </div>
                                         </div>
                                         <div className="card-body">
-                                            <h5 className="card-title text-center">{item.title}</h5>
+                                            <h5 className="card-title text-center hiddenTitle">{item.title}</h5>
                                             <p className="card-text hiddenContent">{item.description}</p>
                                             <div className='text-center'>
-                                                <button className="btn btn-primary" onClick={() => { showDetail(item) }}>View Details</button>
+                                                <button className="btn btn-primary" onClick={() => { redirectToDetail(item) }}>View Details</button>
                                             </div>
                                         </div>
                                         <div className="card-footer text-body-secondary">
@@ -99,20 +110,51 @@ const Task = (props) => {
                         })
                     }
                 </div>
+                <div className="row">
+                    <div className="col-12 d-flex align-items-center justify-content-center col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
+                        <label className="fw-medium">Limit records: </label>
+                        <select className="form-select-sm"
+                            value={limit}
+                            onChange={(event) => handleSetLimit(event.target.value)}
+                        >
+                            <option value={4}>4</option>
+                            <option value={8}>8</option>
+                        </select>
+                    </div>
+
+                    <div className="col-12 d-flex align-items-center justify-content-center mt-3 col-md-6 d-md-flex justify-content-md-end mt-md-2">
+                        {
+                            totalPage > 0 &&
+                            <ReactPaginate
+                                nextLabel=">"
+                                onPageChange={handlePageClick}
+                                pageRangeDisplayed={1}
+                                marginPagesDisplayed={1}
+                                pageCount={totalPage}
+                                previousLabel="<"
+                                pageClassName="page-item"
+                                pageLinkClassName="page-link"
+                                previousClassName="page-item"
+                                previousLinkClassName="page-link"
+                                nextClassName="page-item"
+                                nextLinkClassName="page-link"
+                                breakLabel="..."
+                                breakClassName="page-item"
+                                breakLinkClassName="page-link"
+                                containerClassName="pagination"
+                                activeClassName="active"
+                                renderOnZeroPageCount={null}
+                                forcePage={page - 1}
+                            />
+                        }
+                    </div>
+                </div>
             </div>
 
             <ModalAddTask
                 show={isShowCreate}
                 hide={showCreate}
                 fetch={fetchTask}
-            />
-
-            <ModalViewTask
-                show={isShowDetail}
-                hide={showDetail}
-                dataModal={taskDetail}
-                fetch={fetchTask}
-                permission={user ? user.data : ''}
             />
         </div>
     )

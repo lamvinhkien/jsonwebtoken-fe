@@ -7,3 +7,20 @@
     max-height: calc(1.4em * 2); /* Tối đa 3 dòng với chiều cao mỗi dòng là 1.2em */
     min-height: calc(1.4em * 2);
 }
+
+.hiddenTitle {
+    display: -webkit-box;       /* Sử dụng layout flexbox đặc biệt */
+    -webkit-line-clamp: 1;     /* Giới hạn hiển thị 3 dòng */
+    -webkit-box-orient: vertical; /* Thiết lập hướng hiển thị là dọc */
+    overflow: hidden;          /* Ẩn phần nội dung thừa */
+    text-overflow: ellipsis;   /* Thêm dấu ba chấm cho phần thừa */
+    max-height: calc(1.4em * 1); /* Tối đa 3 dòng với chiều cao mỗi dòng là 1.2em */
+    min-height: calc(1.4em * 1);
+}
+
+.hiddenTitleUrl {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 600px;
+}

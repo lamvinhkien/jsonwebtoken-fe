@@ -50,8 +50,8 @@ const ModalAddTask = (props) => {
     };
     const handleAddTask = async () => {
         if (title === '') { setIsValidInput({ ...defaultIsValidInput, title: isValidInput.title = false }); toast.error('Please enter Title.'); return; }
-        if (description === '') { setIsValidInput({ ...defaultIsValidInput, description: isValidInput.description = false }); toast.error('Please enter Description.'); return; }
         if (endAt === '') { setIsValidInput({ ...defaultIsValidInput, endAt: isValidInput.endAt = false }); toast.error('Please set end time.'); return; }
+        if (description === '') { setIsValidInput({ ...defaultIsValidInput, description: isValidInput.description = false }); toast.error('Please enter Description.'); return; }
 
         let formData = new FormData();
         formData.append('title', title)
@@ -116,14 +116,14 @@ const ModalAddTask = (props) => {
                                     <table className='table'>
                                         <tbody>
                                             {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
-                                                <tr key={index}>
+                                                <tr key={index} className='text-nowrap'>
                                                     <td>
                                                         {index + 1}.
                                                     </td>
-                                                    <td className='w-100'>
+                                                    <td>
                                                         {file.name}
                                                     </td>
-                                                    <td className='text-end text-nowrap'>
+                                                    <td className='text-end'>
                                                         <button
                                                             className="btn btn-danger btn-sm"
                                                             onClick={() => handleRemoveFile(index)}

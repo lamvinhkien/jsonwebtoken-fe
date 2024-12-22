@@ -16,7 +16,7 @@ const App = () => {
     const { user } = useContext(UserContext)
     const [collapse, setCollapse] = useState(false)
     const [toggled, setToggled] = useState(false)
-    const [broken, setBroken] = useState(window.matchMedia('(max-width: 992px').matches)
+    const [broken, setBroken] = useState(window.matchMedia('(max-width: 992px)').matches)
 
     return (
         <Router>
@@ -41,7 +41,7 @@ const App = () => {
                             <div className='d-flex align-items-start'>
                                 {
                                     user && user.auth === true &&
-                                    <div className='app-sidebar' style={{ display: 'flex', minHeight: '729px', height: '100%' }}>
+                                    <div className='app-sidebar' style={{ display: 'flex', minHeight: '820px', height: '100%' }}>
                                         <Sidebar toggled={toggled} collapsed={collapse} width='240px'
                                             customBreakPoint='992px' onBreakPoint={setBroken} backgroundColor='#f4ffff'>
                                             <Menu
@@ -66,31 +66,31 @@ const App = () => {
                                                 {user.data && user.data.name === "Admin" && (
                                                     <>
                                                         <SubMenu label="Assign Role" icon={<i className="fa fa-users"></i>}>
-                                                            <MenuItem component={<Link to="/groups" />}> Group</MenuItem>
-                                                            <MenuItem component={<Link to="/roles" />}> Role</MenuItem>
+                                                            <MenuItem component={<Link to="/group" />}> Group</MenuItem>
+                                                            <MenuItem component={<Link to="/role" />}> Role</MenuItem>
                                                             <MenuItem component={<Link to="/assign" />}> Assign</MenuItem>
                                                         </SubMenu>
-                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
-                                                            <MenuItem component={<Link to="/tasks" />}> Task</MenuItem>
-                                                        </SubMenu>
                                                         <SubMenu label="User Account" icon={<i className="fa fa-user"></i>}>
-                                                            <MenuItem component={<Link to="/users" />}> User</MenuItem>
+                                                            <MenuItem component={<Link to="/user" />}> User</MenuItem>
+                                                        </SubMenu>
+                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
+                                                            <MenuItem component={<Link to="/task" />}> Task</MenuItem>
                                                         </SubMenu>
                                                     </>
                                                 )}
                                                 {user.data && user.data.name === "Manager" && (
                                                     <>
-                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
-                                                            <MenuItem component={<Link to="/tasks" />}> Task</MenuItem>
-                                                        </SubMenu>
                                                         <SubMenu label="User Account" icon={<i className="fa fa-user"></i>}>
-                                                            <MenuItem component={<Link to="/users" />}> User</MenuItem>
+                                                            <MenuItem component={<Link to="/user" />}> User</MenuItem>
+                                                        </SubMenu>
+                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
+                                                            <MenuItem component={<Link to="/task" />}> Task</MenuItem>
                                                         </SubMenu>
                                                     </>
                                                 )}
                                                 {user.data && user.data.name === "Employee" && (
                                                     <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
-                                                        <MenuItem component={<Link to="/tasks" />}> Task</MenuItem>
+                                                        <MenuItem component={<Link to="/task" />}> Task</MenuItem>
                                                     </SubMenu>
                                                 )}
                                             </Menu>

@@ -84,7 +84,7 @@ const Group = () => {
             <div className='content-card-body'>
                 <div className='row'>
                     <div className='col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-start'>
-                        <span className='fw-bold fs-4 text-info'><i className="fa fa-users"></i> Groups</span>
+                        <span className='fw-bold fs-4 text-info'><i className="fa fa-users"></i> Group</span>
                     </div>
                     <div className='col-12 d-flex justify-content-center mt-2 col-sm-8 d-sm-flex justify-content-sm-end mt-sm-0 gap-2'>
                         <button className='btn btn-success fw-medium mt-1' onClick={() => { addNewGroups() }}><i className="fa fa-plus-circle"></i> Add more group</button>

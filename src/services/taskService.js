@@ -1,7 +1,7 @@
 import axios from "../Setup/axios";
 
-const getAllTask = () => {
-    let res = axios.get(`/task/show-all`)
+const getAllTask = (page, limit) => {
+    let res = axios.get(`/task/show-all?page=${page}&limit=${limit}`)
     return res;
 }
 

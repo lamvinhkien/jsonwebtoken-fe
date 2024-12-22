@@ -121,15 +121,13 @@ const TableGroup = forwardRef((props, ref) => {
                         <>
                             {listGroup && listGroup.length > 0 ? listGroup.map((item, index) => {
                                 return (
-                                    <tr key={"row" + index}>
+                                    <tr key={"row" + index} className='text-nowrap'>
                                         <td>{index + 1 + offset}</td>
                                         <td>{item.name}</td>
                                         <td>{item.description}</td>
                                         <td>
-                                            <div className='text-nowrap'>
-                                                <button className="btn btn-warning text-white mx-2" onClick={() => showUpdate(item)}><i className="fa fa-pencil-square-o"></i></button>
-                                                <button className="btn btn-danger" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
-                                            </div>
+                                            <button className="btn btn-warning text-white mx-2" onClick={() => showUpdate(item)}><i className="fa fa-pencil-square-o"></i></button>
+                                            <button className="btn btn-danger" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
                                         </td>
                                     </tr>
                                 )
@@ -145,7 +143,7 @@ const TableGroup = forwardRef((props, ref) => {
 
             <div className='row'>
                 <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
-                    <label className="fw-medium">Set limit values show: </label>
+                    <label className="fw-medium">Limit records: </label>
                     <select className="form-select-sm mx-2"
                         value={limit}
                         onChange={(event) => handleSetLimit(event.target.value)}
@@ -160,12 +158,12 @@ const TableGroup = forwardRef((props, ref) => {
                         {
                             totalPage > 0 &&
                             <ReactPaginate
-                                nextLabel="next >"
+                                nextLabel=">"
                                 onPageChange={handlePageClick}
-                                pageRangeDisplayed={3}
-                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={1}
+                                marginPagesDisplayed={1}
                                 pageCount={totalPage}
-                                previousLabel="< previous"
+                                previousLabel="<"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"

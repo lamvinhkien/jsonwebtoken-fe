@@ -122,7 +122,7 @@ const User = (props) => {
             <div className="content-card-body">
                 <div className="row align-items-center">
                     <div className="col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-start">
-                        <span className="fs-4 fw-bold text-info"><i className="fa fa-user"></i> Users</span>
+                        <span className="fs-4 fw-bold text-info"><i className="fa fa-user"></i> User</span>
                     </div>
                     <div className="col-12 d-flex justify-content-center mt-2 col-sm-8 d-sm-flex justify-content-sm-end mt-sm-0 gap-2">
                         <button className="btn btn-success" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add new user</button>
@@ -148,7 +148,7 @@ const User = (props) => {
                         <tbody>
                             {listUser && listUser.length > 0 ? listUser.map((item, index) => {
                                 return (
-                                    <tr key={"row" + index}>
+                                    <tr key={"row" + index} className="text-nowrap">
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
@@ -178,7 +178,7 @@ const User = (props) => {
 
                 <div className="row">
                     <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
-                        <label className="fw-medium">Set limit values show: </label>
+                        <label className="fw-medium">Limit records: </label>
                         <select className="form-select-sm"
                             value={limit}
                             onChange={(event) => handleSetLimit(event.target.value)}
@@ -192,12 +192,12 @@ const User = (props) => {
                         {
                             totalPage > 0 &&
                             <ReactPaginate
-                                nextLabel="next >"
+                                nextLabel=">"
                                 onPageChange={handlePageClick}
-                                pageRangeDisplayed={3}
-                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={1}
+                                marginPagesDisplayed={1}
                                 pageCount={totalPage}
-                                previousLabel="< previous"
+                                previousLabel="<"
                                 pageClassName="page-item"
                                 pageLinkClassName="page-link"
                                 previousClassName="page-item"
@@ -210,6 +210,7 @@ const User = (props) => {
                                 containerClassName="pagination"
                                 activeClassName="active"
                                 renderOnZeroPageCount={null}
+                                forcePage={page - 1}
                             />
                         }
                     </div>
