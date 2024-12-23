@@ -5,6 +5,11 @@ const getAllTask = (page, limit) => {
     return res;
 }
 
+const getTaskByCondition = (page, limit, condition) => {
+    let res = axios.post(`/task/show-by-condition?page=${page}&limit=${limit}`, { condition: condition })
+    return res;
+}
+
 const createTask = (formdata) => {
     let res = axios.post(`/task/create`, formdata)
     return res;
@@ -46,5 +51,6 @@ const deleteTaskReport = (id) => {
 }
 
 export {
-    getAllTask, createTask, updateTask, getDocument, deleteTask, getAllReportByManager, getAllReportByEmployee, uploadTaskReport, deleteTaskReport
+    getAllTask, createTask, updateTask, getDocument, deleteTask, getAllReportByManager, getAllReportByEmployee,
+    uploadTaskReport, deleteTaskReport, getTaskByCondition
 }

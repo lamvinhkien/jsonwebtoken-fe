@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import './Task.scss';
 import './InputFile.scss';
-import { getAllTask } from '../../services/taskService';
+import { getTaskByCondition } from '../../services/taskService';
 import moment from 'moment';
 import ModalAddTask from './ModalAddTask';
 import { toast } from 'react-toastify';
@@ -11,12 +11,15 @@ import ReactPaginate from 'react-paginate';
 
 const Task = (props) => {
     const history = useHistory()
+    const location = useLocation()
+    const params = new URLSearchParams(location.search);
     const [task, setTask] = useState([])
     const [isShowCreate, setIsShowCreate] = useState(false)
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(4)
     const [offset, setOffset] = useState(0)
     const [totalPage, setTotalPage] = useState(0)
+    const [condition, setCondition] = useState('')
 
     const { user } = useContext(UserContext)
 
@@ -26,8 +29,8 @@ const Task = (props) => {
     const redirectToDetail = (item) => {
         history.push(`/task/${item.id}`, { title: item.title, description: item.description, endAt: item.endDate, postBy: item.postBy, postAt: item.createdAt })
     }
-    const fetchTask = async () => {
-        let res = await getAllTask(page, limit)
+    const fetchTask = async (page, limit, condition) => {
+        let res = await getTaskByCondition(page, limit, condition)
         if (res && res.EC === "1") {
             setTotalPage(res.DT.totalPage)
             setOffset(res.DT.offset)
@@ -41,35 +44,70 @@ const Task = (props) => {
     }
     const handlePageClick = (event) => {
         setPage(event.selected + 1)
+        history.push(`?condition=${condition}&page=${event.selected + 1}&limit=${limit}`)
     }
     const handleSetLimit = (event) => {
         setLimit(event)
-        setPage(1)
+        history.push(`?condition=${condition}&page=${1}&limit=${event}`)
+    }
+    const handleChangeSelect = (value) => {
+        setCondition(value)
+        history.push(`?condition=${value}&page=${1}&limit=${limit}`)
     }
 
     useEffect(() => {
-        fetchTask()
-    }, [page, limit])
+        const savedCondition = params.get('condition');
+        const savedPage = params.get('page');
+        const savedLimit = params.get('limit');
+        if (!savedCondition && !savedPage && !savedLimit) {
+            fetchTask(page, limit, condition)
+        }
+    }, [])
+
+    useEffect(() => {
+        const savedCondition = params.get('condition');
+        const savedPage = params.get('page');
+        const savedLimit = params.get('limit');
+        if (savedCondition || savedPage || savedLimit) {
+            setCondition(savedCondition)
+            setPage(savedPage)
+            setLimit(savedLimit)
+            fetchTask(savedPage, savedLimit, savedCondition)
+        }
+    }, [location]);
 
     return (
         <div className='Task'>
             <div className="content-card-body">
                 <div className='row align-items-center'>
-                    <div className="col-12 d-flex justify-content-center col-md-7 d-sm-flex justify-content-md-start fs-4 fw-bold text-info">
+                    <div className="col-12 col-lg-5 fs-4 fw-bold text-info">
                         <span className=""><i className="fa fa-tasks"></i> Tasks List</span>
                     </div>
-                    <div className="col-12 d-flex justify-content-center mt-2 col-md-5 d-sm-flex justify-content-md-end mt-md-0 gap-2">
-                        {
-                            user && user.data && user.data.Roles.length > 0 ? user.data.Roles.map((item, index) => {
-                                if (item && item.url && item.url === '/task/create') {
-                                    return (
-                                        <button key={index} className="btn btn-success" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add new task</button>
-                                    )
-                                }
-                            }) :
-                                <></>
-                        }
-                        <button className="btn btn-primary" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
+                    <div className="col-12 mt-2 col-lg-7 mt-lg-0">
+                        <div className='row justify-content-lg-end text-nowrap'>
+                            {
+                                user && user.data && user.data.Roles.length > 0 ? user.data.Roles.map((item, index) => {
+                                    if (item && item.url && item.url === '/task/create') {
+                                        return (
+                                            <div className='col-6 col-lg-3' key={index}>
+                                                <button className="btn btn-success w-100" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add</button>
+                                            </div>
+                                        )
+                                    }
+                                }) :
+                                    <></>
+                            }
+                            <div className='col-6 col-lg-4'>
+                                <button className="btn btn-primary w-100" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
+                            </div>
+                            <div className='col-12 mt-2 col-lg-3 mt-lg-0'>
+                                <select className='form-select border-info' value={condition} onChange={(event) => { handleChangeSelect(event.target.value) }}>
+                                    <option value={''}>All</option>
+                                    <option value={'gt'}>Due</option>
+                                    <option value={'lt'}>Overdue</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr />
@@ -79,14 +117,18 @@ const Task = (props) => {
                             return (
                                 <div className='col-lg-6 col-12 mb-4' key={index}>
                                     <div className="card">
-                                        <div className="card-header d-flex justify-content-between align-items-center">
-                                            <div>
-                                                Task end at: <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
-                                            </div>
-                                            <div>
-                                                <i className="fa fa-circle" style={{ color: '#fffc3f' }}></i>
-                                            </div>
-                                        </div>
+                                        {
+                                            moment().isAfter(moment(item.endDate)) ?
+                                                <div className='card-header bg-danger-subtle'>
+                                                    <span className='fst-italic'>Overdue:&nbsp;</span>
+                                                    <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
+                                                </div>
+                                                :
+                                                <div className='card-header bg-info-subtle'>
+                                                    <span className='fst-italic'>Due:&nbsp;</span>
+                                                    <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
+                                                </div>
+                                        }
                                         <div className="card-body">
                                             <h5 className="card-title text-center hiddenTitle">{item.title}</h5>
                                             <p className="card-text hiddenContent">{item.description}</p>
@@ -97,10 +139,10 @@ const Task = (props) => {
                                         <div className="card-footer text-body-secondary">
                                             <div className='row align-items-center'>
                                                 <div className='col-lg-6 d-lg-flex justify-content-lg-start col-12 d-flex justify-content-center'>
-                                                    <span className='fst-italic'>By:</span>&nbsp;<span className='fw-medium'>{item.postBy}</span>
+                                                    <span className='fst-italic'>by</span>&nbsp;<span className='fw-medium'>{item.postBy}</span>
                                                 </div>
-                                                <div className='col-lg-6 d-lg-flex justify-content-lg-end col-12 d-flex justify-content-center'>
-                                                    <span className='fst-italic'>At:</span>&nbsp;<span className='fw-medium'>{moment(item.createdAt).format('lll')}</span>
+                                                <div className='col-lg-6 d-lg-flex justify-content-lg-end col-12 d-flex justify-content-center fw-medium'>
+                                                    <span className='fst-italic'><i className="fa fa-clock-o"></i>&nbsp;{moment(item.createdAt).startOf('hour').fromNow()}</span>
                                                 </div>
                                             </div>
                                         </div>

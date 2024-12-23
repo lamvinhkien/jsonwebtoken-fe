@@ -7,7 +7,7 @@ import { UserContext } from "../Context/Context";
 import { logoutUser } from '../../services/userService';
 import { toast } from "react-toastify";
 import ModalLogout from '../User/ModalLogout';
-import logo from '../../assets/logo-project-hd.png'
+import logo from '../../assets/logo-project.png'
 
 const NavHeader = (props) => {
     const { user, logoutContext } = useContext(UserContext)

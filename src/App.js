@@ -10,7 +10,7 @@ import RingLoader from "react-spinners/RingLoader";
 import Footer from './components/Footer/Footer';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
-import logo from './assets/logo-project-hd.png'
+import logo from './assets/logo-project.png'
 
 const App = () => {
     const { user } = useContext(UserContext)

@@ -45,7 +45,7 @@ const TaskDetail = (props) => {
         setNewFiles([])
         setFilesToDelete([])
         setIsValidInput(defaultIsValidInput)
-        history.push(`/task`)
+        history.goBack()
     }
     const handleChangeTitle = (event) => {
         setTitle(event)
@@ -164,9 +164,9 @@ const TaskDetail = (props) => {
                             onChange={(e) => { handleChangeTitle(e.target.value) }} />
                     </div>
                     <div className="col-lg-4 mb-3">
-                        <label className="form-label">End At:</label>
+                        <label className="form-label">Due:</label>
                         <input type="datetime-local" className={isValidInput.endAt === true ? 'form-control' : 'form-control is-invalid'}
-                            value={endAt} disabled={isCheckUpdate}
+                            value={moment(endAt).format('YYYY-MM-DDTHH:mm')} disabled={isCheckUpdate}
                             onChange={(e) => { handleChangeEnd(e.target.value) }} />
 
                     </div>
@@ -255,11 +255,11 @@ const TaskDetail = (props) => {
                     <div className='col-lg-4 mb-2'>
                         <div className='row'>
                             <div className="col-12 mb-3 mb-lg-3">
-                                <label className="form-label">Post by:</label>
+                                <label className="form-label">Posted by:</label>
                                 <input type="text" className="form-control" value={postBy} disabled />
                             </div>
                             <div className="col-12">
-                                <label className="form-label">Post at:</label>
+                                <label className="form-label">Posted on:</label>
                                 <input type="text" className="form-control" value={postAt} disabled />
                             </div>
                         </div>

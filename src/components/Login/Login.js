@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../../services/userService";
 import { UserContext } from "../Context/Context";
-import logo from '../../assets/logo-project-hd.png'
+import logo from '../../assets/logo-project.png'
 
 const Login = (props) => {
     let history = useHistory();
