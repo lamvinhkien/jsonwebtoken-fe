@@ -87,30 +87,28 @@ const Group = () => {
                         <span className='fw-bold fs-4 text-info'><i className="fa fa-users"></i> Group</span>
                     </div>
                     <div className='col-12 d-flex justify-content-center mt-2 col-sm-8 d-sm-flex justify-content-sm-end mt-sm-0 gap-2'>
-                        <button className='btn btn-success fw-medium mt-1' onClick={() => { addNewGroups() }}><i className="fa fa-plus-circle"></i> Add more group</button>
+                        <button className='btn btn-success fw-medium mt-1' onClick={() => { addNewGroups() }}><i className="fa fa-plus-circle"></i> Add more</button>
                         <button className='btn btn-primary fw-medium mt-1' onClick={() => { handleRefresh() }}><i className="fa fa-refresh"></i> Refresh</button>
                     </div>
                 </div>
-
                 <hr />
-
                 {
                     Object.entries(listChild).map(([key, value], index) => {
                         return (
-                            <div className='row mb-1' key={index}>
-                                <div className='col-5'>
-                                    <label className='fw-medium'>Name</label>
+                            <div className='row mb-3' key={index}>
+                                <div className='col-lg-5'>
+                                    <label className='fw-medium'>{index + 1}. Name</label>
                                     <input className={value.isValidName ? 'form-control' : 'form-control is-invalid'}
                                         value={value.name}
                                         onChange={(event) => { handleOnChangeInput(key, event.target.value, 'name') }} />
                                 </div>
-                                <div className='col-5'>
-                                    <label className='fw-medium'>Description</label>
+                                <div className='pt-2 col-lg-6 pt-lg-0'>
+                                    <label className='fw-medium'>{index + 1}. Description</label>
                                     <input className='form-control' value={value.description}
                                         onChange={(event) => { handleOnChangeInput(key, event.target.value, 'description') }} />
                                 </div>
-                                <div className='col-2 pt-4'>
-                                    {index >= 1 && <button onClick={() => { deleteGroups(key) }} className='btn btn-danger'><i className="fa fa-trash-o"></i></button>}
+                                <div className='pt-2 col-lg-1 pt-lg-4'>
+                                    {index >= 1 && <button onClick={() => { deleteGroups(key) }} className='btn btn-danger w-100'><i className="fa fa-trash-o"></i></button>}
                                 </div>
                             </div>
                         )

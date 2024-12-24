@@ -16,7 +16,7 @@ const TaskReport = (props) => {
         uploadedFiles: true,
     }
     const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
-    const [isCheckRole, setIsCheckRole] = useState(true)
+    const [isCheckRole, setIsCheckRole] = useState(false)
 
     const handleHide = () => {
         props.hide()
@@ -81,20 +81,17 @@ const TaskReport = (props) => {
     }
 
     useEffect(() => {
-        if (props && props.show && props.idTask !== '') {
-            if (user && user.data && user.data.Roles.length > 0) {
-                user.data.Roles.find((item, index) => {
-                    if (item && item.url) {
-                        if (item.url === '/task/create') {
-                            setIsCheckRole(false)
-                            getReportManager()
-                        }
-                        if (item.url === '/task/create-report') {
-                            setIsCheckRole(true)
-                            getReportEmployee()
-                        }
-                    }
-                })
+        if (props?.show && props?.idTask !== '') {
+            if (user?.data?.Roles.length > 0) {
+                const urls = new Set(user.data.Roles.map(item => item.url))
+                const check = urls.has('/task/update') && urls.has('/task/delete')
+                if (check) {
+                    setIsCheckRole(check)
+                    getReportManager()
+                } else {
+                    setIsCheckRole(check)
+                    getReportEmployee()
+                }
             }
         }
     }, [props.idTask, props.show])
@@ -102,14 +99,14 @@ const TaskReport = (props) => {
 
     return (
         <div className="TaskReport">
-            <Modal show={props.show} onHide={handleHide} size={isCheckRole === true ? 'lg' : 'xl'}>
+            <Modal show={props.show} onHide={handleHide} size={isCheckRole === false ? 'lg' : 'xl'}>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        {isCheckRole === true ? 'Upload your report' : 'Task report'}
+                        {isCheckRole === false ? 'Upload your report' : 'Task report'}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="grid-example">
-                    {isCheckRole === true ?
+                    {isCheckRole === false ?
                         <Container>
                             <Row className='justify-content-center'>
                                 <div className="col-12">
@@ -157,7 +154,7 @@ const TaskReport = (props) => {
                                     <div className='fs-5 fw-medium'>Your Report</div>
                                     <button className="btn btn-primary btn-sm" onClick={() => getReportEmployee()}><i className="fa fa-refresh"></i> Refresh</button>
                                 </div>
-                                <div className='table-responsive'>
+                                <div className='table-responsive mt-2'>
                                     <table className='table'>
                                         <tbody>
                                             {existingFiles && existingFiles.length > 0 ?

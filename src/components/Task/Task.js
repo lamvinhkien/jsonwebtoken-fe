@@ -13,6 +13,9 @@ const Task = (props) => {
     const history = useHistory()
     const location = useLocation()
     const params = new URLSearchParams(location.search);
+    const savedCondition = params.get('condition');
+    const savedPage = params.get('page');
+    const savedLimit = params.get('limit');
     const [task, setTask] = useState([])
     const [isShowCreate, setIsShowCreate] = useState(false)
     const [page, setPage] = useState(1)
@@ -40,7 +43,7 @@ const Task = (props) => {
         toast.error(res.EM)
     }
     const handleRefresh = async () => {
-        await fetchTask()
+        await fetchTask(savedPage ? savedPage : page, savedLimit ? savedLimit : limit, savedCondition ? savedCondition : condition)
     }
     const handlePageClick = (event) => {
         setPage(event.selected + 1)
@@ -56,18 +59,12 @@ const Task = (props) => {
     }
 
     useEffect(() => {
-        const savedCondition = params.get('condition');
-        const savedPage = params.get('page');
-        const savedLimit = params.get('limit');
         if (!savedCondition && !savedPage && !savedLimit) {
             fetchTask(page, limit, condition)
         }
     }, [])
 
     useEffect(() => {
-        const savedCondition = params.get('condition');
-        const savedPage = params.get('page');
-        const savedLimit = params.get('limit');
         if (savedCondition || savedPage || savedLimit) {
             setCondition(savedCondition)
             setPage(savedPage)
@@ -86,10 +83,10 @@ const Task = (props) => {
                     <div className="col-12 mt-2 col-lg-7 mt-lg-0">
                         <div className='row justify-content-lg-end text-nowrap'>
                             {
-                                user && user.data && user.data.Roles.length > 0 ? user.data.Roles.map((item, index) => {
+                                user?.data?.Roles.length > 0 ? user.data.Roles.map((item, index) => {
                                     if (item && item.url && item.url === '/task/create') {
                                         return (
-                                            <div className='col-6 col-lg-3' key={index}>
+                                            <div className='col-12 col-lg-3' key={index}>
                                                 <button className="btn btn-success w-100" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add</button>
                                             </div>
                                         )
@@ -97,7 +94,7 @@ const Task = (props) => {
                                 }) :
                                     <></>
                             }
-                            <div className='col-6 col-lg-4'>
+                            <div className='col-12 mt-2 col-lg-4 mt-lg-0'>
                                 <button className="btn btn-primary w-100" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
                             </div>
                             <div className='col-12 mt-2 col-lg-3 mt-lg-0'>
@@ -115,7 +112,7 @@ const Task = (props) => {
                     {
                         task && task.length > 0 && task.map((item, index) => {
                             return (
-                                <div className='col-lg-6 col-12 mb-4' key={index}>
+                                <div className='col-lg-6 col-12 mb-4' key={index + offset}>
                                     <div className="card">
                                         {
                                             moment().isAfter(moment(item.endDate)) ?
@@ -124,7 +121,7 @@ const Task = (props) => {
                                                     <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
                                                 </div>
                                                 :
-                                                <div className='card-header bg-info-subtle'>
+                                                <div className='card-header bg-warning-subtle'>
                                                     <span className='fst-italic'>Due:&nbsp;</span>
                                                     <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
                                                 </div>
@@ -196,7 +193,6 @@ const Task = (props) => {
             <ModalAddTask
                 show={isShowCreate}
                 hide={showCreate}
-                fetch={fetchTask}
             />
         </div>
     )

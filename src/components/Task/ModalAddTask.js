@@ -66,7 +66,6 @@ const ModalAddTask = (props) => {
         if (res && res.EC === "1") {
             toast.success(res.EM)
             handleHide()
-            props.fetch()
             setIsValidInput(defaultIsValidInput)
             return
         }
@@ -112,7 +111,7 @@ const ModalAddTask = (props) => {
                                         <input type='file' id="file-upload" multiple onChange={handleFileChange} />
                                     </div>
                                 </div>
-                                <div className='table-responsive'>
+                                <div className='table-responsive mt-1'>
                                     <table className='table'>
                                         <tbody>
                                             {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (

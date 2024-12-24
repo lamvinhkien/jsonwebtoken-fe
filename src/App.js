@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AppRoutes from './routes/App-Routes';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./components/Context/Context";
 import RingLoader from "react-spinners/RingLoader";
 import Footer from './components/Footer/Footer';
@@ -17,6 +17,12 @@ const App = () => {
     const [collapse, setCollapse] = useState(false)
     const [toggled, setToggled] = useState(false)
     const [broken, setBroken] = useState(window.matchMedia('(max-width: 992px)').matches)
+
+    useEffect(() => {
+        if (broken) {
+            setCollapse(false)
+        }
+    }, [broken])
 
     return (
         <Router>
@@ -41,13 +47,15 @@ const App = () => {
                             <div className='d-flex align-items-start'>
                                 {
                                     user && user.auth === true &&
-                                    <div className='app-sidebar' style={{ display: 'flex', minHeight: '820px', height: '100%' }}>
-                                        <Sidebar toggled={toggled} collapsed={collapse} width='240px'
-                                            customBreakPoint='992px' onBreakPoint={setBroken} backgroundColor='#f4ffff'>
+                                    <div className='app-sidebar'
+                                        style={{
+                                            width: broken ? '0px' : collapse ? '80px' : '240px',
+                                        }}>
+                                        <Sidebar toggled={toggled} collapsed={collapse} width='100%'
+                                            customBreakPoint='992px' onBreakPoint={setBroken} style={{ border: '0' }}>
                                             <Menu
                                                 menuItemStyles={{
                                                     button: ({ level, active, disabled }) => {
-                                                        // only apply styles on first level elements of the tree
                                                         if (level === 0)
                                                             return {
                                                                 color: disabled ? '#0DCAF0' : '#0DCAF0',
@@ -96,31 +104,26 @@ const App = () => {
                                             </Menu>
                                             {
                                                 broken ?
-                                                    <div className='text-center mt-3'>
+                                                    <div className='text-center mt-1'>
                                                         <button className='btn btn-outline-info btn-lg' onClick={() => setToggled(!toggled)}>
                                                             <i className="fa fa-arrow-left"></i>
                                                         </button>
                                                     </div>
                                                     :
-                                                    <>
-                                                        {
-                                                            collapse === false ?
-                                                                <div className='text-center mt-3'>
-                                                                    <button className='btn btn-outline-info btn-lg' onClick={() => setCollapse(!collapse)}
-                                                                    ><i className="fa fa-arrow-left"></i></button>
-                                                                </div>
-                                                                :
-                                                                <div className='text-center mt-3'>
-                                                                    <button className='btn btn-outline-info btn-lg' onClick={() => setCollapse(!collapse)}
-                                                                    ><i className="fa fa-arrow-right"></i></button>
-                                                                </div>
-                                                        }
-                                                    </>
+                                                    <div className='text-center mt-1'>
+                                                        <button className='btn btn-outline-info btn-lg' onClick={() => setCollapse(!collapse)}
+                                                        ><i className={collapse === false ? "fa fa-arrow-left" : "fa fa-arrow-right"}></i></button>
+                                                    </div>
                                             }
                                         </Sidebar>
                                     </div>
                                 }
-                                <div className='app-main w-100' style={{ paddingRight: '15px' }}>
+                                <div className='app-main w-100'
+                                    style={{
+                                        marginLeft: user?.auth === true ? broken ? '0px' : collapse ? '80px' : '240px' : '0px',
+                                        paddingRight: broken ? '0px' : '15px',
+                                        transition: 'all 0.3s ease-in-out'
+                                    }}>
                                     <div className='row align-items-start'>
                                         {
                                             user && user.auth === true &&

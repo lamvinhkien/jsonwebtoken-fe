@@ -125,7 +125,7 @@ const User = (props) => {
                         <span className="fs-4 fw-bold text-info"><i className="fa fa-user"></i> User</span>
                     </div>
                     <div className="col-12 d-flex justify-content-center mt-2 col-sm-8 d-sm-flex justify-content-sm-end mt-sm-0 gap-2">
-                        <button className="btn btn-success" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add new user</button>
+                        <button className="btn btn-success" onClick={() => { showCreate() }}><i className="fa fa-plus-circle"></i> Add</button>
                         <button className="btn btn-primary" onClick={() => handleRefresh()}><i className="fa fa-refresh"></i> Refresh</button>
                     </div>
                 </div>

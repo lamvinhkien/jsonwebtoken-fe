@@ -4,6 +4,7 @@
     align-items: center;
     flex-direction: column;
     min-height: 95vh;
+
     span {
         font-weight: 500;
         color: #0CBDDF;
@@ -11,10 +12,39 @@
     }
 }
 
+.app-sidebar {
+    position: fixed;
+    background-color: #f4ffff;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 25px;
+    height: 100%;
+    border-right: 1.5px solid #eef0f3;
+}
+
+.app-sidebar::-webkit-scrollbar {
+    width: 0px;
+}
+
+// Set color scroll
+// .app-sidebar::-webkit-scrollbar-track {
+//     background: #eef0f3;
+//     /* Màu nền thanh cuộn */
+//     border-radius: 8px;
+// }
+
+// .app-sidebar::-webkit-scrollbar-thumb {
+//     background: #eef0f3;
+//     /* Màu thanh cuộn */
+//     border-radius: 8px;
+// }
+
 .content-card-body {
     background-color: #f8ffff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+    box-shadow: 0px 0px 5px rgba(170, 170, 170, 0.540);
     padding: 10px 15px 12px 15px;
 }
 
