@@ -118,7 +118,7 @@ const ForgotPassword = (props) => {
 
     return (
         <div className="ForgotPassword">
-            <div className="forgotpassword-container container-fluid position-absolute top-50 start-50 translate-middle pb-5">
+            <div className="forgotpassword-container container position-absolute top-50 start-50 translate-middle">
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-10 col-lg-5">
                         <div className="child d-flex flex-column">

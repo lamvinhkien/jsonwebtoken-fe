@@ -51,7 +51,7 @@ const App = () => {
                                         style={{
                                             width: broken ? '0px' : collapse ? '80px' : '240px',
                                         }}>
-                                        <Sidebar toggled={toggled} collapsed={collapse} width='100%'
+                                        <Sidebar toggled={toggled} collapsed={collapse} width='240px' backgroundColor='#f4ffff'
                                             customBreakPoint='992px' onBreakPoint={setBroken} style={{ border: '0' }}>
                                             <Menu
                                                 menuItemStyles={{

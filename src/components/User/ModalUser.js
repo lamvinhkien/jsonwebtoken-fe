@@ -7,6 +7,8 @@ import { getAllGroup } from '../../services/groupService';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import { UserContext } from '../Context/Context';
+import logo from '../../assets/logo-project.png'
+import moment from 'moment/moment';
 
 const ModalCreate = (props) => {
     const [listGroup, setListGroup] = useState([])
@@ -17,6 +19,7 @@ const ModalCreate = (props) => {
         username: "",
         address: "",
         gender: "Male",
+        dateOfBirth: "",
         group: 2
     }
     const [valueInput, setValueInput] = useState(defaultValueInput)
@@ -27,6 +30,7 @@ const ModalCreate = (props) => {
         group: true,
         gender: true,
         address: true,
+        dateOfBirth: true,
         username: true,
     }
     const [isValidInput, setIsValidInput] = useState(defaultIsValidInput)
@@ -38,26 +42,20 @@ const ModalCreate = (props) => {
             setListGroup(res.DT)
         }
     }
-
     useEffect(() => {
         if (user && user.data) {
             fetchGroup()
         }
     }, [])
-
-
-    // OnChange Input
     const handleOnChangeInput = (value, name) => {
         let _valueInput = _.cloneDeep(valueInput)
         _valueInput[name] = value
         setValueInput(_valueInput)
     }
-
-    // Validate and Handle Create
     const handleValidateInput = () => {
         let arr = props.showModal === "CREATE" ?
-            ["email", "phone", "password", "username"] :
-            ["username"]
+            ["email", "phone", "password", "username", "dateOfBirth"] :
+            [""]
 
         let check = true;
         for (let i = 0; i < arr.length; i++) {
@@ -72,13 +70,12 @@ const ModalCreate = (props) => {
         }
         return check
     }
-
     const handleConfirmUser = async () => {
         let check = handleValidateInput()
         if (check === true) {
             let res = props.showModal === "CREATE" ?
-                await createNewUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 2 }) :
-                await updateUser({ ...valueInput, sex: valueInput.gender, groupId: valueInput.group ? valueInput.group : 2 })
+                await createNewUser({ ...valueInput, gender: valueInput.gender, groupId: valueInput.group ? valueInput.group : 2 }) :
+                await updateUser({ ...valueInput, gender: valueInput.gender, groupId: valueInput.group ? valueInput.group : 2 })
 
             if (res.EC === "1") {
                 setIsValidInput(defaultIsValidInput)
@@ -94,105 +91,151 @@ const ModalCreate = (props) => {
             }
         }
     }
-
+    const handleHideModal = () => {
+        props.hideCreate()
+        setIsValidInput(defaultIsValidInput)
+        setValueInput(defaultValueInput)
+    }
     useEffect(() => {
         if (props.showModal === "UPDATE") {
             setValueInput(props.dataModalUpdate)
         }
     }, [props.dataModalUpdate, props.showModal])
 
-    const handleHideModal = () => {
-        props.hideCreate()
-        setIsValidInput(defaultIsValidInput)
-        setValueInput(defaultValueInput)
-    }
 
     return (
         <>
             <Modal show={props.show} onHide={handleHideModal} centered size='lg'>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        {props.showModal === "CREATE" ? "Create new user" : "Update a user"}
+                        {props.showModal === "CREATE" ? "Create new user" : "Update user"}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="grid-example">
                     <Container>
                         <Row>
-                            <div className={props.showModal === "CREATE" ? "form-group mb-3 col-12 col-md-6" : "form-group mb-3 col-12 col-md-6"}>
-                                <label className="py-1">Email<span className='text-danger'>*</span></label>
-                                <input type="text"
-                                    disabled={props.showModal === "CREATE" ? false : true}
-                                    className={isValidInput.email ? "form-control" : "form-control is-invalid"}
-                                    placeholder="Email address" value={valueInput.email}
-                                    onChange={(event) => handleOnChangeInput(event.target.value, "email")}
-                                />
-                            </div>
-
-                            <div className="form-group mb-3 col-12 col-md-6">
-                                <label className="py-1">Phone<span className='text-danger'>*</span></label>
-                                <input type="text"
-                                    disabled={props.showModal === "CREATE" ? false : true}
-                                    className={isValidInput.phone ? "form-control" : "form-control is-invalid"}
-                                    placeholder="Phone number" value={valueInput.phone}
-                                    onChange={(event) => handleOnChangeInput(event.target.value, "phone")}
-                                />
-                            </div>
-
-                            <div className="form-group mb-3 col-12 col-md-6">
-                                <label className="py-1">Username<span className='text-danger'>*</span></label>
-                                <input type="text" className={isValidInput.username ? "form-control" : "form-control is-invalid"}
-                                    placeholder="Username" value={valueInput.username}
-                                    onChange={(event) => handleOnChangeInput(event.target.value, "username")}
-                                />
-                            </div>
-
-                            <div className="form-group mb-3 col-12 col-md-6">
-                                <label className="py-1">Gender</label>
-                                <select className="form-select"
-                                    value={valueInput.gender}
-                                    onChange={(event) => handleOnChangeInput(event.target.value, "gender")}
-                                >
-                                    <option defaultValue={"Male"}>Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Others">Others</option>
-                                </select>
-                            </div>
-
-                            <div className="form-group mb-3 col-12">
-                                <label className="py-1">Group<span className='text-danger'>*</span></label>
-                                <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
-                                    value={valueInput.group}
-                                    onChange={(event) => handleOnChangeInput(event.target.value, "group")}
-                                >
-                                    {
-                                        listGroup.length > 0 ? listGroup.map((item, index) => {
-                                            return (
-                                                <option key={`group-${index}`} value={item.id}>{item.name}</option>
-                                            )
-                                        })
-                                            :
-                                            <option>Group loading...</option>
-                                    }
-                                </select>
-                            </div>
-
-                            <div className="form-group mb-3 col-12">
-                                <label className="py-1">Address</label>
-                                <input type="text" className="form-control" placeholder="Address" value={valueInput.address}
-                                    onChange={(event) => handleOnChangeInput(event.target.value, "address")}
-                                />
-                            </div>
-
-                            {props.showModal === "CREATE" &&
-                                <>
-                                    <div className="form-group mb-3 col-12">
-                                        <label className="py-1">Password<span className='text-danger'>*</span></label>
-                                        <input type="password" className={isValidInput.password ? "form-control" : "form-control is-invalid"}
-                                            placeholder="Password" value={valueInput.password}
-                                            onChange={(event) => handleOnChangeInput(event.target.value, "password")}
-                                        />
-                                    </div>
-                                </>
+                            {
+                                props.showModal === 'UPDATE' ?
+                                    <>
+                                        <div className='col-12 mb-2 col-lg-5 mb-lg-0 text-center'>
+                                            <div className=''>
+                                                <img src={logo} style={{ width: '200px', height: '200px' }} />
+                                            </div>
+                                        </div>
+                                        <div className='col-12 col-lg-7' style={{ fontSize: '17px' }}>
+                                            <div className='row'>
+                                                <div className='col-12 mb-3'>
+                                                    <span className='fw-medium'>Username:</span>&nbsp;<span>{valueInput.username}</span>
+                                                </div>
+                                                <div className='col-12 mb-3'>
+                                                    <span className='fw-medium'>Email:</span>&nbsp;<span>{valueInput.email}</span>
+                                                </div>
+                                                <div className='col-12 mb-3'>
+                                                    <span className='fw-medium'>Phone:</span>&nbsp;<span>{valueInput.phone}</span>
+                                                </div>
+                                                <div className='col-12 mb-3'>
+                                                    <span className='fw-medium'>Gender:</span>&nbsp;<span>{valueInput.gender}</span>
+                                                </div>
+                                                <div className='col-12 mb-3'>
+                                                    <span className='fw-medium'>Date of birth:</span>&nbsp;<span>{moment(valueInput.dateOfBirth).format('DD-MM-YYYY')}</span>
+                                                </div>
+                                                <div className='col-12 mb-3'>
+                                                    <span className='fw-medium'>Address:</span>&nbsp;<span>{valueInput.address}</span>
+                                                </div>
+                                                <div className="col-12 d-flex justify-content-start align-items-center">
+                                                    <span className='fw-medium'>Group:</span>&nbsp;
+                                                    <select className={isValidInput.group ? "w-50 form-select form-select-sm" : "w-50 form-select form-select-sm is-invalid"}
+                                                        value={valueInput.group}
+                                                        onChange={(event) => handleOnChangeInput(event.target.value, "group")}
+                                                    >
+                                                        {
+                                                            listGroup.length > 0 ? listGroup.map((item, index) => {
+                                                                return (
+                                                                    <option key={`group-${index}`} value={item.id}>{item.name}</option>
+                                                                )
+                                                            })
+                                                                :
+                                                                <option>Group loading...</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <div className="form-group mb-2 col-12">
+                                            <label className="py-1">Email</label>
+                                            <input type="text"
+                                                className={isValidInput.email ? "form-control" : "form-control is-invalid"}
+                                                placeholder="Email address" value={valueInput.email}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "email")}
+                                            />
+                                        </div>
+                                        <div className="form-group mb-2 col-12 col-lg-6">
+                                            <label className="py-1">Phone</label>
+                                            <input type="text"
+                                                className={isValidInput.phone ? "form-control" : "form-control is-invalid"}
+                                                placeholder="Phone number" value={valueInput.phone}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "phone")}
+                                            />
+                                        </div>
+                                        <div className="form-group mb-2 col-12 col-lg-6">
+                                            <label className="py-1">Username</label>
+                                            <input type="text" className={isValidInput.username ? "form-control" : "form-control is-invalid"}
+                                                placeholder="Username" value={valueInput.username}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "username")}
+                                            />
+                                        </div>
+                                        <div className="form-group mb-2 col-12 col-lg-6">
+                                            <label className="py-1">Date of birth</label>
+                                            <input type="date" className={isValidInput.dateOfBirth ? "form-control" : "form-control is-invalid"}
+                                                value={valueInput.dateOfBirth}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "dateOfBirth")}
+                                            />
+                                        </div>
+                                        <div className="form-group mb-2 col-12 col-lg-6">
+                                            <label className="py-1">Gender</label>
+                                            <select className="form-select"
+                                                value={valueInput.gender}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "gender")}
+                                            >
+                                                <option defaultValue={"Male"}>Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                        <div className="form-group mb-2 col-12">
+                                            <label className="py-1">Address</label>
+                                            <input type="text" className="form-control" placeholder="Address" value={valueInput.address}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "address")}
+                                            />
+                                        </div>
+                                        <div className="form-group mb-2 col-12">
+                                            <label className="py-1">Password</label>
+                                            <input type="password" className={isValidInput.password ? "form-control" : "form-control is-invalid"}
+                                                placeholder="Password" value={valueInput.password}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "password")}
+                                            />
+                                        </div>
+                                        <div className="form-group mb-2 col-12">
+                                            <label className="py-1">Group</label>
+                                            <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
+                                                value={valueInput.group}
+                                                onChange={(event) => handleOnChangeInput(event.target.value, "group")}
+                                            >
+                                                {
+                                                    listGroup.length > 0 ? listGroup.map((item, index) => {
+                                                        return (
+                                                            <option key={`group-${index}`} value={item.id}>{item.name}</option>
+                                                        )
+                                                    })
+                                                        :
+                                                        <option>Group loading...</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </>
                             }
                         </Row>
                     </Container>

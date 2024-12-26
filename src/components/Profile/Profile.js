@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { UserContext } from '../Context/Context';
 import { changeInfor, changePassword } from '../../services/userService';
 import { toast } from 'react-toastify';
+import logo from '../../assets/logo-project.png'
 
 const Profile = () => {
     let history = useHistory();
@@ -13,6 +14,9 @@ const Profile = () => {
         email: '',
         phone: '',
         username: '',
+        gender: '',
+        address: '',
+        group: '',
         currentPassword: '',
         newPassword: '',
         confirmNewPassword: ''
@@ -22,6 +26,8 @@ const Profile = () => {
         isValidEmail: true,
         isValidPhone: true,
         isValidUsername: true,
+        isValidGender: true,
+        isValidAddress: true,
         isValidCurrentPassword: true,
         isValidNewPassword: true,
         isValidConfirmNewPassword: true
@@ -37,7 +43,7 @@ const Profile = () => {
     }
 
     const handleSaveEmailPhone = async () => {
-        let res = await changeInfor(user.id, user.email, user.data.id, user.typeAccount, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username })
+        let res = await changeInfor(user.id, user.email, user.data.id, user.typeAccount, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username, gender: valueInput.gender, address: valueInput.address })
         if (res && res.EC === '1') {
             await fetchUser()
             setCheckValidInput(defaultValid)
@@ -54,7 +60,6 @@ const Profile = () => {
             if (res.DT === 'username') {
                 setCheckValidInput({ ...defaultValid, isValidUsername: false })
             }
-
             toast.error(res.EM)
         }
     }
@@ -91,88 +96,105 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        if (user && user.auth === true) {
-            let _valueInput = _.cloneDeep(valueInput)
-            setValueInput({ ..._valueInput, email: user.email, phone: user.phone, username: user.username })
+        if (user && user.auth === true && user.data) {
+            setValueInput({ email: user.email, phone: user.phone, username: user.username, gender: user.gender, address: user.address, group: user.data.name })
         }
     }, [])
 
     return (
         <div className="Profile-component">
-            <div className='row mt-3'>
-                <div className="col-0 col-lg-3"></div>
-
-                <div className='col-12 col-lg-6'>
-                    {
-                        user && user.auth === true ?
-                            <>
-                                <div className=''>
-                                    <span className='fs-4 fw-medium'><i className="fa fa-address-book"></i> Change your information</span>
-                                    <div className='mt-2'>
-                                        {
-                                            user.typeAccount === 'LOCAL' ?
-                                                <div className='d-flex justify-content-between'>
-                                                    <div className='align-content-center fw-medium p-label'>Email:</div>
-                                                    <input
-                                                        type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
-                                                        value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')}
-                                                    />
-                                                </div> :
-                                                <></>
-
-                                        }
-                                        <div className='d-flex justify-content-between mt-3'>
-                                            <div className='align-content-center fw-medium p-label'>Phone:</div>
-                                            <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control is-invalid"} placeholder="Phone number"
-                                                value={valueInput.phone} onChange={(event) => handleOnChangeInput(event.target.value, 'phone')} />
-                                        </div>
-
-                                        <div className='d-flex justify-content-between mt-3'>
-                                            <div className='align-content-center fw-medium p-label'>Name:</div>
-                                            <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control is-invalid"} placeholder="Username"
-                                                value={valueInput.username} onChange={(event) => handleOnChangeInput(event.target.value, 'username')} />
-                                        </div>
-                                    </div>
-                                    <div className='d-flex justify-content-end'>
-                                        <button className='btn btn-success mt-3' onClick={() => { handleSaveEmailPhone() }}>Save changes</button>
-                                    </div>
+            <div className='content-card-body'>
+                <div className='row'>
+                    <div className='col-12 mb-3'>
+                        <span className='fs-4 fw-bold text-info'><i className="fa fa-address-book"></i>&nbsp;Change your information</span>
+                    </div>
+                    <div className='col-12 col-lg-4 text-center'>
+                        <div className=''>
+                            <img src={logo} style={{ width: '200px', height: '200px' }} />
+                        </div>
+                        <div className='mt-2'>
+                            <label className='btn btn-outline-info' htmlFor='avatar'>Upload</label>
+                            <input type='file' hidden id='avatar' />
+                        </div>
+                    </div>
+                    <div className='col-12 col-lg-8'>
+                        <div className='row'>
+                            {
+                                user.typeAccount === 'LOCAL' &&
+                                <div className='col-12'>
+                                    <label>Email</label>
+                                    <input
+                                        type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
+                                        value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')}
+                                    />
                                 </div>
-
-                                <hr />
-
-                                {
-                                    user.typeAccount === 'LOCAL' ?
-                                        <div className='mt-3'>
-                                            <span className='fs-4 fw-medium'><i className="fa fa-lock"></i> Change your password</span>
-                                            <div className='mt-2'>
-                                                <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
-                                                    value={valueInput.currentPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'currentPassword')} />
-                                                <input type="password" className={checkValidInput.isValidNewPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="New password"
-                                                    value={valueInput.newPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'newPassword')} />
-                                                <input type="password" className={checkValidInput.isValidConfirmNewPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Confirm new password"
-                                                    value={valueInput.confirmNewPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'confirmNewPassword')} />
-                                            </div>
-                                            <div className='d-flex justify-content-end'>
-                                                <button className='btn btn-success mt-3' onClick={() => { handleSaveNewPassword() }}>Save changes</button>
-                                            </div>
-                                        </div>
-                                        :
-                                        <></>
-                                }
-
-                            </>
-                            :
-                            <div className=''>
-                                <span>Please login...</span>
-                                <button className='btn btn-warning mt-3'>Login here</button>
+                            }
+                            <div className='col-12 col-lg-5 mt-3'>
+                                <label>Name</label>
+                                <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control is-invalid"} placeholder="Username"
+                                    value={valueInput.username} onChange={(event) => handleOnChangeInput(event.target.value, 'username')} />
                             </div>
-                    }
-
+                            <div className='col-12 col-lg-4 mt-3'>
+                                <label>Phone</label>
+                                <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control is-invalid"} placeholder="Phone number"
+                                    value={valueInput.phone} onChange={(event) => handleOnChangeInput(event.target.value, 'phone')} />
+                            </div>
+                            <div className='col-12 col-lg-3 mt-3'>
+                                <label>Gender</label>
+                                <select className="form-select" value={valueInput.gender} onChange={(event) => handleOnChangeInput(event.target.value, "gender")}>
+                                    <option defaultValue={"Male"}>Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                            <div className='col-12 col-lg-9 mt-3'>
+                                <label>Address</label>
+                                <input type="text" className={checkValidInput.isValidAddress ? "form-control" : "form-control is-invalid"} placeholder="Address"
+                                    value={valueInput.address} onChange={(event) => handleOnChangeInput(event.target.value, 'address')} />
+                            </div>
+                            <div className='col-12 col-lg-3 mt-3'>
+                                <label>Group</label>
+                                <input
+                                    type="text" className='form-control' value={valueInput.group} disabled
+                                />
+                            </div>
+                            <div className='col-12 text-end mt-3'>
+                                <button className='btn btn-success' onClick={() => { handleSaveEmailPhone() }}>Save changes</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="col-0 col-lg-3"></div>
+                {
+                    user.typeAccount === 'LOCAL' ?
+                        <>
+                            <hr />
+                            <div className='row'>
+                                <div className='col-12 mb-3'>
+                                    <span className='fs-4 fw-bold text-info'><i className="fa fa-lock"></i>&nbsp;Change your password</span>
+                                </div>
+                                <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
+                                    <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
+                                        value={valueInput.currentPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'currentPassword')} />
+                                </div>
+                                <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
+                                    <input type="password" className={checkValidInput.isValidNewPassword ? "form-control" : "form-control is-invalid"} placeholder="New password"
+                                        value={valueInput.newPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'newPassword')} />
+                                </div>
+                                <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
+                                    <input type="password" className={checkValidInput.isValidConfirmNewPassword ? "form-control" : "form-control is-invalid"} placeholder="Confirm new password"
+                                        value={valueInput.confirmNewPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'confirmNewPassword')} />
+                                </div>
+                                <div className='col-12 text-end mt-0 mt-lg-3'>
+                                    <button className='btn btn-success' onClick={() => { handleSaveNewPassword() }}>Save changes</button>
+                                </div>
+                            </div>
+                        </>
+                        :
+                        <></>
+                }
             </div>
-        </div>
+        </div >
     )
 }
 

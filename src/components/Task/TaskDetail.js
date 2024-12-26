@@ -234,20 +234,18 @@ const TaskDetail = (props) => {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="col-lg-8 mb-2">
+                                <div className="col-lg-12 mb-3">
                                     <label className="form-label">Description:</label>
                                     <textarea className={isValidInput.description === true ? 'form-control' : 'form-control is-invalid'}
-                                        rows="5" value={description} onChange={(e) => { handleChangeDes(e.target.value) }}></textarea>
+                                        rows="3" value={description} onChange={(e) => { handleChangeDes(e.target.value) }}></textarea>
                                 </div>
-                                <div className='col-lg-4 mb-2'>
+                                <div className='col-lg-12 mb-2'>
                                     <div className='row'>
-                                        <div className="col-12 mb-3 mb-lg-3">
-                                            <label className="form-label">Posted by:</label>
-                                            <input type="text" className="form-control" value={postBy} disabled />
+                                        <div className="col-12 col-lg-6">
+                                            <span className="fst-italic">Posted by:</span>&nbsp;<span className='fw-medium'>{postBy}</span>
                                         </div>
-                                        <div className="col-12">
-                                            <label className="form-label">Posted on:</label>
-                                            <input type="text" className="form-control" value={postAt} disabled />
+                                        <div className="col-12 col-lg-6">
+                                            <span className="fst-italic">Posted on:</span>&nbsp;<span className='fw-medium'>{postAt}</span>
                                         </div>
                                     </div>
                                 </div>

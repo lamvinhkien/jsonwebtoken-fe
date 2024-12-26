@@ -90,19 +90,9 @@ const Login = (props) => {
 
     return (
         <div className="Login">
-            <div className="login-container container position-absolute top-50 start-50 translate-middle px-md-5 pb-5 px-4">
+            <div className="login-container container position-absolute top-50 start-50 translate-middle">
                 <div className="row">
-                    <div className="col-12 mb-2 d-lg-none d-block">
-                        <div style={{ textAlign: "center", marginBottom: "15px" }}>
-                            <img
-                                src={logo}
-                                alt="Logo"
-                                style={{ width: "120px", height: "auto" }}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="left mt-3 col-12 col-lg-6 d-none d-lg-block">
+                    <div className="left mt-3 col-lg-6 d-none d-lg-block">
                         <div className="left-child">
                             <div style={{ textAlign: "center", margin: "0" }}>
                                 <img
@@ -122,9 +112,21 @@ const Login = (props) => {
                         </div>
                     </div>
 
-                    <div className="right col-lg-6">
+                    <div className="right col-12 col-lg-6">
                         <div className="right-child d-flex flex-column">
-                            <div className="fw-bold fs-4 mb-3 text-center">
+                            <div className="d-lg-none d-block d-flex justify-content-between align-items-center mb-3">
+                                <div className="fw-bold fs-4">
+                                    <span className="title-form-login">Account Login</span>
+                                </div>
+                                <div>
+                                    <img
+                                        src={logo}
+                                        alt="Logo"
+                                        style={{ width: "50px", height: "auto" }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="d-none d-lg-block fw-bold fs-4 mb-3 text-center">
                                 <span className="title-form-login">Account Login</span>
                             </div>
                             <input type="text"

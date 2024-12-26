@@ -15,12 +15,14 @@ const Register = (props) => {
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
     const [username, setUsername] = useState("")
+    const [dateOfBirth, setDateOfBirth] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
     const defaultCheckValidInput = {
         isValidEmail: true,
         isValidPhone: true,
         isValidUsername: true,
+        isValidDateOfBirth: true,
         isValidPassword: true,
         isValidConfirmPassword: true
     }
@@ -45,6 +47,12 @@ const Register = (props) => {
             return false;
         }
 
+        if (!dateOfBirth) {
+            setCheckValidInput({ ...defaultCheckValidInput, isValidDateOfBirth: false })
+            toast.error("Date of birth is required!")
+            return false;
+        }
+
         if (!password) {
             setCheckValidInput({ ...defaultCheckValidInput, isValidPassword: false })
             toast.error("Password is required!")
@@ -60,6 +68,11 @@ const Register = (props) => {
         return true;
     }
 
+    const [isVisible, setVisible] = useState(false);
+    const handleShowPassword = () => {
+        setVisible(!isVisible);
+    }
+
     useEffect(() => {
         if (user && user.auth === true) {
             history.push("/")
@@ -67,10 +80,9 @@ const Register = (props) => {
     }, [history, user])
 
     const handleRegister = async () => {
-
         let check = isValidInput()
         if (check) {
-            let res = await registerNewUser(email, phone, username, password)
+            let res = await registerNewUser(email, phone, username, dateOfBirth, password)
             let result = res.EC
             let message = res.EM
             let dataInvalid = res.DT
@@ -99,7 +111,7 @@ const Register = (props) => {
 
     return (
         <div className="Register">
-            <div className="register-container container-fluid position-absolute top-50 start-50 translate-middle pb-5">
+            <div className="register-container container position-absolute top-50 start-50 translate-middle">
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-10 col-lg-6">
                         <div className="child d-flex flex-column">
@@ -112,9 +124,18 @@ const Register = (props) => {
                                 value={phone} onChange={(event) => setPhone(event.target.value)} />
                             <input type="text" className={checkValidInput.isValidUsername ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Username"
                                 value={username} onChange={(event) => setUsername(event.target.value)} />
-                            <input type="password" className={checkValidInput.isValidPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Password"
-                                value={password} onChange={(event) => setPassword(event.target.value)} />
-                            <input type="password" className={checkValidInput.isValidConfirmPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Confirm password"
+                            <input type="date" className={checkValidInput.isValidDateOfBirth ? "form-control mt-3" : "form-control mt-3 is-invalid"}
+                                value={dateOfBirth} onChange={(event) => setDateOfBirth(event.target.value)} />
+                            <div className="input-group mt-3">
+                                <input type={!isVisible ? "password" : "text"}
+                                    className={checkValidInput.isValidPassword ? "form-control" : "form-control is-invalid"} placeholder="Password"
+                                    value={password} onChange={(event) => setPassword(event.target.value)} />
+                                <button className="btn btn-outline-secondary" onClick={() => { handleShowPassword() }}>
+                                    <i className={!isVisible ? "fa fa-eye" : "fa fa-eye-slash"}></i>
+                                </button>
+                            </div>
+                            <input type={!isVisible ? "password" : "text"}
+                                className={checkValidInput.isValidConfirmPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Confirm password"
                                 value={confirmPassword} onChange={(event) => setconfirmPassword(event.target.value)} />
                             <button className="mt-3 btn register-btn" onClick={() => handleRegister()}>Create New</button>
                             <hr />

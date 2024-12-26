@@ -42,8 +42,8 @@ const Task = (props) => {
         }
         toast.error(res.EM)
     }
-    const handleRefresh = async () => {
-        await fetchTask(savedPage ? savedPage : page, savedLimit ? savedLimit : limit, savedCondition ? savedCondition : condition)
+    const handleRefresh = () => {
+        fetchTask(savedPage ? savedPage : page, savedLimit ? savedLimit : limit, savedCondition ? savedCondition : condition)
     }
     const handlePageClick = (event) => {
         setPage(event.selected + 1)
@@ -118,12 +118,12 @@ const Task = (props) => {
                                             moment().isAfter(moment(item.endDate)) ?
                                                 <div className='card-header bg-danger-subtle'>
                                                     <span className='fst-italic'>Overdue:&nbsp;</span>
-                                                    <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
+                                                    <span className='fw-medium'>{moment(item.endDate).format('MMM D, h:mm A')}</span>
                                                 </div>
                                                 :
                                                 <div className='card-header bg-warning-subtle'>
                                                     <span className='fst-italic'>Due:&nbsp;</span>
-                                                    <span className='fw-medium'>{moment(item.endDate).format('lll')}</span>
+                                                    <span className='fw-medium'>{moment(item.endDate).format('MMM D, h:mm A')}</span>
                                                 </div>
                                         }
                                         <div className="card-body">
@@ -139,7 +139,7 @@ const Task = (props) => {
                                                     <span className='fst-italic'>by</span>&nbsp;<span className='fw-medium'>{item.postBy}</span>
                                                 </div>
                                                 <div className='col-lg-6 d-lg-flex justify-content-lg-end col-12 d-flex justify-content-center fw-medium'>
-                                                    <span className='fst-italic'><i className="fa fa-clock-o"></i>&nbsp;{moment(item.createdAt).startOf('hour').fromNow()}</span>
+                                                    <span className='fst-italic'><i className="fa fa-clock-o"></i>&nbsp;{moment(item.createdAt).startOf('minute').fromNow()}</span>
                                                 </div>
                                             </div>
                                         </div>

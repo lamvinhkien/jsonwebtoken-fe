@@ -60,8 +60,8 @@ const NavHeader = (props) => {
                         <Nav.Link className='text-end' onClick={() => { handleNavigate('/profile') }}>
                             Signed in as: <span className='fw-bold text-info'>{user.username}</span>
                         </Nav.Link>
-                        <Nav.Link className='text-end' onClick={() => { handleShowLogout() }}>
-                            Logout
+                        <Nav.Link className='text-end text-danger fw-medium' onClick={() => { handleShowLogout() }}>
+                            <i className="fa fa-sign-out"></i> Logout
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

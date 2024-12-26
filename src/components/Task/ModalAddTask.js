@@ -57,7 +57,7 @@ const ModalAddTask = (props) => {
         formData.append('title', title)
         formData.append('description', description)
         formData.append('endDate', endAt)
-        formData.append('postBy', user.username)
+        formData.append('postBy', user?.username)
         uploadedFiles.forEach((file, index) => {
             formData.append(`files`, file);
         });

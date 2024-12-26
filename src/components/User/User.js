@@ -160,7 +160,7 @@ const User = (props) => {
                                                 user.id === item.id || (item.Group && item.Group.name === user.data.name) ? <><button className="btn opacity-0">.</button></>
                                                     :
                                                     <div className="text-nowrap">
-                                                        <button className="btn btn-warning text-white mx-2" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.sex })}><i className="fa fa-pencil-square-o"></i></button>
+                                                        <button className="btn btn-warning text-white mx-2" onClick={() => showUpdate({ ...item, group: item.Group ? item.Group.id : null, gender: item.gender ? item.gender : 'Others' })}><i className="fa fa-pencil-square-o"></i></button>
                                                         <button className="btn btn-danger" onClick={() => showConfirmDelete(item)}><i className="fa fa-trash-o"></i></button>
                                                     </div>
                                             }

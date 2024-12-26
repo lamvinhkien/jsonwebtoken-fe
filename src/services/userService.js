@@ -1,7 +1,7 @@
 import axios from "../Setup/axios";
 
-const registerNewUser = (email, phone, username, password) => {
-    let res = axios.post("/register", { email: email, phone: phone, username: username, password: password })
+const registerNewUser = (email, phone, username, dateOfBirth, password) => {
+    let res = axios.post("/register", { email: email, phone: phone, username: username, dateOfBirth: dateOfBirth, password: password })
     return res;
 }
 
