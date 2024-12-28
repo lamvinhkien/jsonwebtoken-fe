@@ -71,7 +71,7 @@ const App = () => {
                                                         style={{ width: "80px", height: "auto" }}
                                                     />
                                                 </div>
-                                                {user.data && user.data.name === "Admin" && (
+                                                {user.data && user.data.name === "Admin" ?
                                                     <>
                                                         <SubMenu label="Assign Role" icon={<i className="fa fa-users"></i>}>
                                                             <MenuItem component={<Link to="/group" />}> Group</MenuItem>
@@ -85,22 +85,11 @@ const App = () => {
                                                             <MenuItem component={<Link to="/task" />}> Task</MenuItem>
                                                         </SubMenu>
                                                     </>
-                                                )}
-                                                {user.data && user.data.name === "Manager" && (
-                                                    <>
-                                                        <SubMenu label="User Account" icon={<i className="fa fa-user"></i>}>
-                                                            <MenuItem component={<Link to="/user" />}> User</MenuItem>
-                                                        </SubMenu>
-                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
-                                                            <MenuItem component={<Link to="/task" />}> Task</MenuItem>
-                                                        </SubMenu>
-                                                    </>
-                                                )}
-                                                {user.data && user.data.name === "Employee" && (
+                                                    :
                                                     <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
                                                         <MenuItem component={<Link to="/task" />}> Task</MenuItem>
                                                     </SubMenu>
-                                                )}
+                                                }
                                             </Menu>
                                             {
                                                 broken ?
@@ -137,7 +126,7 @@ const App = () => {
                                             </div>
                                         }
                                         <div className='app-content col-lg-12' style={user && user.auth ? { minHeight: '617px' } : { minHeight: '685px' }}>
-                                            <div className='' style={{ height: '100%', padding: '7px 15px 0px 10px' }}>
+                                            <div className='' style={{ height: '100%', padding: '10px 15px 0px 10px' }}>
                                                 <AppRoutes />
                                             </div>
                                         </div>

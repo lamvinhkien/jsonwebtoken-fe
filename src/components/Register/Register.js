@@ -11,10 +11,10 @@ const Register = (props) => {
         history.push("/login")
     }
     const { user } = useContext(UserContext);
-
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
     const [username, setUsername] = useState("")
+    const [gender, setGender] = useState("Male")
     const [dateOfBirth, setDateOfBirth] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setconfirmPassword] = useState("")
@@ -82,7 +82,7 @@ const Register = (props) => {
     const handleRegister = async () => {
         let check = isValidInput()
         if (check) {
-            let res = await registerNewUser(email, phone, username, dateOfBirth, password)
+            let res = await registerNewUser(email, phone, gender, username, dateOfBirth, password)
             let result = res.EC
             let message = res.EM
             let dataInvalid = res.DT
@@ -113,34 +113,63 @@ const Register = (props) => {
         <div className="Register">
             <div className="register-container container position-absolute top-50 start-50 translate-middle">
                 <div className="row justify-content-center">
-                    <div className="col-12 col-md-10 col-lg-6">
-                        <div className="child d-flex flex-column">
-                            <div className="fw-bold fs-4 mb-3 text-center">
+                    <div className="col-11 col-lg-7">
+                        <div className="child row">
+                            <div className="fw-bold fs-4 mb-3 text-center col-12">
                                 <span className="title-form-register">Create Account</span>
                             </div>
-                            <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
-                                value={email} onChange={(event) => setEmail(event.target.value)} />
-                            <input type="text" className={checkValidInput.isValidPhone ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Phone number"
-                                value={phone} onChange={(event) => setPhone(event.target.value)} />
-                            <input type="text" className={checkValidInput.isValidUsername ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Username"
-                                value={username} onChange={(event) => setUsername(event.target.value)} />
-                            <input type="date" className={checkValidInput.isValidDateOfBirth ? "form-control mt-3" : "form-control mt-3 is-invalid"}
-                                value={dateOfBirth} onChange={(event) => setDateOfBirth(event.target.value)} />
-                            <div className="input-group mt-3">
-                                <input type={!isVisible ? "password" : "text"}
-                                    className={checkValidInput.isValidPassword ? "form-control" : "form-control is-invalid"} placeholder="Password"
-                                    value={password} onChange={(event) => setPassword(event.target.value)} />
-                                <button className="btn btn-outline-secondary" onClick={() => { handleShowPassword() }}>
-                                    <i className={!isVisible ? "fa fa-eye" : "fa fa-eye-slash"}></i>
-                                </button>
+                            <div className="col-12 mb-3">
+                                <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
+                                    value={email} onChange={(event) => setEmail(event.target.value)} />
                             </div>
-                            <input type={!isVisible ? "password" : "text"}
-                                className={checkValidInput.isValidConfirmPassword ? "form-control mt-3" : "form-control mt-3 is-invalid"} placeholder="Confirm password"
-                                value={confirmPassword} onChange={(event) => setconfirmPassword(event.target.value)} />
-                            <button className="mt-3 btn register-btn" onClick={() => handleRegister()}>Create New</button>
-                            <hr />
-                            <div className="text-center">
-                                <button className="btn create-new-account" onClick={() => handleLogin()}>Already have an account? Login.</button>
+                            <div className="col-12 mb-3">
+                                <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control is-invalid"} placeholder="Phone number"
+                                    value={phone} onChange={(event) => setPhone(event.target.value)} />
+                            </div>
+                            <div className="col-12 mb-3">
+                                <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control is-invalid"} placeholder="Username"
+                                    value={username} onChange={(event) => setUsername(event.target.value)} />
+                            </div>
+                            <div className="col-lg-7 mb-3">
+                                <label className="mb-1 mx-1">Date of Birth</label>
+                                <input type="date" className={checkValidInput.isValidDateOfBirth ? "form-control" : "form-control is-invalid"}
+                                    value={dateOfBirth} onChange={(event) => setDateOfBirth(event.target.value)} />
+                            </div>
+                            <div className="col-lg-5 mb-3">
+                                <label className="mb-1 mx-1">Gender</label>
+                                <select className="form-select"
+                                    value={gender}
+                                    onChange={(event) => setGender(event.target.value)}
+                                >
+                                    <option defaultValue={"Male"}>Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                            <div className="col-12 mb-3">
+                                <div className="input-group">
+                                    <input type={!isVisible ? "password" : "text"}
+                                        className={checkValidInput.isValidPassword ? "form-control" : "form-control is-invalid"} placeholder="Password"
+                                        value={password} onChange={(event) => setPassword(event.target.value)} />
+                                    <button className="btn btn-outline-secondary" onClick={() => { handleShowPassword() }}>
+                                        <i className={!isVisible ? "fa fa-eye" : "fa fa-eye-slash"}></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="col-12 mb-3">
+                                <input type={!isVisible ? "password" : "text"}
+                                    className={checkValidInput.isValidConfirmPassword ? "form-control" : "form-control is-invalid"} placeholder="Confirm password"
+                                    value={confirmPassword} onChange={(event) => setconfirmPassword(event.target.value)} />
+                            </div>
+                            <div className="col-12">
+                                <div className="row align-items-center">
+                                    <div className="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-start">
+                                        <button className="btn register-btn" onClick={() => handleRegister()}>Create New</button>
+                                    </div>
+                                    <div className="col-12 col-lg-8 d-flex mt-2 justify-content-center justify-content-lg-end mt-lg-0">
+                                        <button className="btn create-new-account" onClick={() => handleLogin()}>Already have an account? Login.</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

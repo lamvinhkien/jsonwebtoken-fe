@@ -3,17 +3,19 @@ import { useHistory } from "react-router-dom";
 import './Profile.scss';
 import _ from 'lodash';
 import { UserContext } from '../Context/Context';
-import { changeInfor, changePassword } from '../../services/userService';
+import { changeInfor, changePassword, changeAvatar } from '../../services/userService';
 import { toast } from 'react-toastify';
-import logo from '../../assets/logo-project.png'
+import userAavatar from '../../assets/user-avatar.png'
+import moment from 'moment';
 
 const Profile = () => {
     let history = useHistory();
-
     const [valueInput, setValueInput] = useState({
         email: '',
         phone: '',
+        avatar: '',
         username: '',
+        dateOfBirth: '',
         gender: '',
         address: '',
         group: '',
@@ -26,6 +28,7 @@ const Profile = () => {
         isValidEmail: true,
         isValidPhone: true,
         isValidUsername: true,
+        isValidDateOfBirth: true,
         isValidGender: true,
         isValidAddress: true,
         isValidCurrentPassword: true,
@@ -42,8 +45,25 @@ const Profile = () => {
         setValueInput(_valueInput)
     }
 
+    const handleChangeAvavatar = async (event) => {
+        if (event?.target.files) {
+            let formData = new FormData()
+            formData.append('avatar', event.target.files[0])
+            formData.append('id', user.id)
+            formData.append('groupId', user.data.id)
+            let res = await changeAvatar(formData)
+            if (res && res.EC === '1') {
+                await fetchUser()
+                toast.success(res.EM)
+            } else {
+                toast.error(res.EM)
+            }
+            event.target.value = null
+        }
+    }
+
     const handleSaveEmailPhone = async () => {
-        let res = await changeInfor(user.id, user.email, user.data.id, user.typeAccount, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username, gender: valueInput.gender, address: valueInput.address })
+        let res = await changeInfor(user.id, user.email, user.data.id, user.typeAccount, { email: valueInput.email, phone: valueInput.phone, username: valueInput.username, dateOfBirth: valueInput.dateOfBirth, gender: valueInput.gender, address: valueInput.address })
         if (res && res.EC === '1') {
             await fetchUser()
             setCheckValidInput(defaultValid)
@@ -59,6 +79,10 @@ const Profile = () => {
 
             if (res.DT === 'username') {
                 setCheckValidInput({ ...defaultValid, isValidUsername: false })
+            }
+
+            if (res.DT === 'dateOfBirth') {
+                setCheckValidInput({ ...defaultValid, isValidDateOfBirth: false })
             }
             toast.error(res.EM)
         }
@@ -97,24 +121,27 @@ const Profile = () => {
 
     useEffect(() => {
         if (user && user.auth === true && user.data) {
-            setValueInput({ email: user.email, phone: user.phone, username: user.username, gender: user.gender, address: user.address, group: user.data.name })
+            setValueInput({ email: user.email, phone: user.phone, avatar: user.avatar, username: user.username, dateOfBirth: user.dateOfBirth ? moment(user.dateOfBirth).format('YYYY-MM-DD') : null, gender: user.gender, address: user.address, group: user.data.name })
         }
-    }, [])
+    }, [user])
 
     return (
         <div className="Profile-component">
             <div className='content-card-body'>
-                <div className='row'>
+                <div className='row align-items-center'>
                     <div className='col-12 mb-3'>
                         <span className='fs-4 fw-bold text-info'><i className="fa fa-address-book"></i>&nbsp;Change your information</span>
                     </div>
                     <div className='col-12 col-lg-4 text-center'>
                         <div className=''>
-                            <img src={logo} style={{ width: '200px', height: '200px' }} />
+                            <img src={valueInput.avatar ? process.env.REACT_APP_URL_FILES_BE + valueInput.avatar : userAavatar}
+                                style={{ width: '210px', height: '210px', borderRadius: '50%' }} />
                         </div>
-                        <div className='mt-2'>
-                            <label className='btn btn-outline-info' htmlFor='avatar'>Upload</label>
-                            <input type='file' hidden id='avatar' />
+                        <div className='mt-3'>
+                            <label className='btn btn-outline-info' htmlFor='avatar'>Upload Avatar</label>
+                            <input type='file' hidden id='avatar'
+                                onChange={(event) => { handleChangeAvavatar(event) }}
+                            />
                         </div>
                     </div>
                     <div className='col-12 col-lg-8'>
@@ -122,41 +149,46 @@ const Profile = () => {
                             {
                                 user.typeAccount === 'LOCAL' &&
                                 <div className='col-12'>
-                                    <label>Email</label>
+                                    <label className='mb-1'>Email</label>
                                     <input
                                         type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
                                         value={valueInput.email} onChange={(event) => handleOnChangeInput(event.target.value, 'email')}
                                     />
                                 </div>
                             }
-                            <div className='col-12 col-lg-5 mt-3'>
-                                <label>Name</label>
+                            <div className='col-12 col-lg-6 mt-3'>
+                                <label className='mb-1'>Name</label>
                                 <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control is-invalid"} placeholder="Username"
                                     value={valueInput.username} onChange={(event) => handleOnChangeInput(event.target.value, 'username')} />
                             </div>
-                            <div className='col-12 col-lg-4 mt-3'>
-                                <label>Phone</label>
+                            <div className='col-12 col-lg-6 mt-3'>
+                                <label className='mb-1'>Phone</label>
                                 <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control is-invalid"} placeholder="Phone number"
                                     value={valueInput.phone} onChange={(event) => handleOnChangeInput(event.target.value, 'phone')} />
                             </div>
-                            <div className='col-12 col-lg-3 mt-3'>
-                                <label>Gender</label>
+                            <div className='col-12 col-lg-4 mt-3'>
+                                <label className='mb-1'>Date of birth</label>
+                                <input type="date" className={checkValidInput.isValidDateOfBirth ? "form-control" : "form-control is-invalid"}
+                                    value={valueInput.dateOfBirth} onChange={(event) => handleOnChangeInput(event.target.value, 'dateOfBirth')} />
+                            </div>
+                            <div className='col-12 col-lg-4 mt-3'>
+                                <label className='mb-1'>Gender</label>
                                 <select className="form-select" value={valueInput.gender} onChange={(event) => handleOnChangeInput(event.target.value, "gender")}>
                                     <option defaultValue={"Male"}>Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Others">Others</option>
                                 </select>
                             </div>
-                            <div className='col-12 col-lg-9 mt-3'>
-                                <label>Address</label>
-                                <input type="text" className={checkValidInput.isValidAddress ? "form-control" : "form-control is-invalid"} placeholder="Address"
-                                    value={valueInput.address} onChange={(event) => handleOnChangeInput(event.target.value, 'address')} />
-                            </div>
-                            <div className='col-12 col-lg-3 mt-3'>
-                                <label>Group</label>
+                            <div className='col-12 col-lg-4 mt-3'>
+                                <label className='mb-1'>Group</label>
                                 <input
                                     type="text" className='form-control' value={valueInput.group} disabled
                                 />
+                            </div>
+                            <div className='col-12 col-lg-12 mt-3'>
+                                <label className='mb-1'>Address</label>
+                                <input type="text" className={checkValidInput.isValidAddress ? "form-control" : "form-control is-invalid"} placeholder="Address"
+                                    value={valueInput.address} onChange={(event) => handleOnChangeInput(event.target.value, 'address')} />
                             </div>
                             <div className='col-12 text-end mt-3'>
                                 <button className='btn btn-success' onClick={() => { handleSaveEmailPhone() }}>Save changes</button>
@@ -164,37 +196,36 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-
-                {
-                    user.typeAccount === 'LOCAL' ?
-                        <>
-                            <hr />
-                            <div className='row'>
-                                <div className='col-12 mb-3'>
-                                    <span className='fs-4 fw-bold text-info'><i className="fa fa-lock"></i>&nbsp;Change your password</span>
-                                </div>
-                                <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
-                                    <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
-                                        value={valueInput.currentPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'currentPassword')} />
-                                </div>
-                                <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
-                                    <input type="password" className={checkValidInput.isValidNewPassword ? "form-control" : "form-control is-invalid"} placeholder="New password"
-                                        value={valueInput.newPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'newPassword')} />
-                                </div>
-                                <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
-                                    <input type="password" className={checkValidInput.isValidConfirmNewPassword ? "form-control" : "form-control is-invalid"} placeholder="Confirm new password"
-                                        value={valueInput.confirmNewPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'confirmNewPassword')} />
-                                </div>
-                                <div className='col-12 text-end mt-0 mt-lg-3'>
-                                    <button className='btn btn-success' onClick={() => { handleSaveNewPassword() }}>Save changes</button>
-                                </div>
-                            </div>
-                        </>
-                        :
-                        <></>
-                }
             </div>
-        </div >
+
+            {
+                user.typeAccount === 'LOCAL' ?
+                    <div className='content-card-body mt-3'>
+                        <div className='row'>
+                            <div className='col-12 mb-3'>
+                                <span className='fs-4 fw-bold text-info'><i className="fa fa-lock"></i>&nbsp;Change your password</span>
+                            </div>
+                            <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
+                                <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
+                                    value={valueInput.currentPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'currentPassword')} />
+                            </div>
+                            <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
+                                <input type="password" className={checkValidInput.isValidNewPassword ? "form-control" : "form-control is-invalid"} placeholder="New password"
+                                    value={valueInput.newPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'newPassword')} />
+                            </div>
+                            <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
+                                <input type="password" className={checkValidInput.isValidConfirmNewPassword ? "form-control" : "form-control is-invalid"} placeholder="Confirm new password"
+                                    value={valueInput.confirmNewPassword} onChange={(event) => handleOnChangeInput(event.target.value, 'confirmNewPassword')} />
+                            </div>
+                            <div className='col-12 text-end mt-0 mt-lg-3'>
+                                <button className='btn btn-success' onClick={() => { handleSaveNewPassword() }}>Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    <></>
+            }
+        </div>
     )
 }
 

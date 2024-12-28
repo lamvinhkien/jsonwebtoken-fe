@@ -194,7 +194,7 @@ const TaskDetail = (props) => {
                                                                             {file.FilePath.replace(/^files-\d+-/, '')}
                                                                         </td>
                                                                         <td className='text-end text-nowrap'>
-                                                                            <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
+                                                                            <a href={process.env.REACT_APP_URL_FILES_BE + file.FilePath} className='btn btn-primary btn-sm'>
                                                                                 <i className="fa fa-download"></i>
                                                                             </a>
                                                                             <button

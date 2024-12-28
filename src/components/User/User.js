@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import ModalUser from "./ModalUser";
 import ModalDelete from "./ModalDelete";
 import { UserContext } from "../Context/Context";
+import userAvatar from '../../assets/user-avatar.png'
 
 const User = (props) => {
     // Data
@@ -96,6 +97,7 @@ const User = (props) => {
             email: "",
             password: "",
             phone: "",
+            avatar: "",
             username: "",
             address: "",
             gender: "Male",
@@ -137,6 +139,7 @@ const User = (props) => {
                         <thead className="">
                             <tr>
                                 <th scope="col">No</th>
+                                <th scope="col">Avatar</th>
                                 <th scope="col">Username</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
@@ -150,6 +153,9 @@ const User = (props) => {
                                 return (
                                     <tr key={"row" + index} className="text-nowrap">
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
+                                        <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>
+                                            <img src={item.avatar ? process.env.REACT_APP_URL_FILES_BE + item.avatar : userAvatar} style={{ width: '35px', height: '35px' }} />
+                                        </td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.phone ? item.phone : ''}</td>
@@ -229,7 +235,7 @@ const User = (props) => {
                 show={isShowConfirmDelete}
                 hideConfirm={hideConfirmDelete}
                 handleDeleteUser={handleDeleteUser}
-                dataModal={dataModalDelete.email}
+                dataModal={dataModalDelete.username}
                 title={'user'}
             />
         </div>

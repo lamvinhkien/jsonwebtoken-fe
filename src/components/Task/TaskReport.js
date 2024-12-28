@@ -170,7 +170,7 @@ const TaskReport = (props) => {
                                                             {moment(file.createdAt).format('lll')}
                                                         </td>
                                                         <td className='text-end'>
-                                                            <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
+                                                            <a href={process.env.REACT_APP_URL_FILES_BE + file.FilePath} className='btn btn-primary btn-sm'>
                                                                 <i className="fa fa-download"></i>
                                                             </a>
                                                             <button
@@ -216,7 +216,7 @@ const TaskReport = (props) => {
                                                     <td>{moment(file.createdAt).format('lll')}</td>
                                                     <td>{file.FilePath.replace(/^report-\d+-/, '')}</td>
                                                     <td className='text-end'>
-                                                        <a href={file.GetFilePath} className='btn btn-primary btn-sm'>
+                                                        <a href={process.env.REACT_APP_URL_FILES_BE + file.FilePath} className='btn btn-primary btn-sm'>
                                                             <i className="fa fa-download"></i>
                                                         </a>
                                                     </td>

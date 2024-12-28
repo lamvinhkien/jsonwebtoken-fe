@@ -1,7 +1,7 @@
 import axios from "../Setup/axios";
 
-const registerNewUser = (email, phone, username, dateOfBirth, password) => {
-    let res = axios.post("/register", { email: email, phone: phone, username: username, dateOfBirth: dateOfBirth, password: password })
+const registerNewUser = (email, phone, gender, username, dateOfBirth, password) => {
+    let res = axios.post("/register", { email: email, phone: phone, gender: gender, username: username, dateOfBirth: dateOfBirth, password: password })
     return res;
 }
 
@@ -45,6 +45,11 @@ const changeInfor = (id, email, groupId, typeAccount, changeData) => {
     return res
 }
 
+const changeAvatar = (formData) => {
+    let res = axios.post('/user/change-avatar', formData)
+    return res
+}
+
 const changePassword = (email, changeData) => {
     let res = axios.post('/user/change-password', { email: email, changeData: changeData })
     return res
@@ -63,5 +68,5 @@ const resetPassword = (email, codeOTP, newPassword, confirmPassword) => {
 export {
     registerNewUser, loginUser, getAllUser, createNewUser, updateUser,
     deleteUser, getUserAccount, logoutUser, changeInfor, changePassword,
-    sendOTP, resetPassword
+    sendOTP, resetPassword, changeAvatar
 }

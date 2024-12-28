@@ -7,7 +7,7 @@ import { getAllGroup } from '../../services/groupService';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import { UserContext } from '../Context/Context';
-import logo from '../../assets/logo-project.png'
+import userAvatar from '../../assets/user-avatar.png'
 import moment from 'moment/moment';
 
 const ModalCreate = (props) => {
@@ -16,6 +16,7 @@ const ModalCreate = (props) => {
         email: "",
         password: "",
         phone: "",
+        avatar: "",
         username: "",
         address: "",
         gender: "Male",
@@ -55,7 +56,7 @@ const ModalCreate = (props) => {
     const handleValidateInput = () => {
         let arr = props.showModal === "CREATE" ?
             ["email", "phone", "password", "username", "dateOfBirth"] :
-            [""]
+            ["group"]
 
         let check = true;
         for (let i = 0; i < arr.length; i++) {
@@ -64,7 +65,11 @@ const ModalCreate = (props) => {
                 _value[arr[i]] = false
                 setIsValidInput(_value)
                 check = false
-                toast.error(`Please enter ${arr[i]}.`)
+                if (arr[i] === 'dateOfBirth') {
+                    toast.error(`Please enter date of birth.`)
+                } else {
+                    toast.error(`Please enter ${arr[i]}.`)
+                }
                 break;
             }
         }
@@ -113,13 +118,14 @@ const ModalCreate = (props) => {
                 </Modal.Header>
                 <Modal.Body className="grid-example">
                     <Container>
-                        <Row>
+                        <Row className='align-items-center'>
                             {
                                 props.showModal === 'UPDATE' ?
                                     <>
-                                        <div className='col-12 mb-2 col-lg-5 mb-lg-0 text-center'>
+                                        <div className='col-12 mb-3 col-lg-5 mb-lg-0 text-center'>
                                             <div className=''>
-                                                <img src={logo} style={{ width: '200px', height: '200px' }} />
+                                                <img src={valueInput.avatar ? process.env.REACT_APP_URL_FILES_BE + valueInput.avatar : userAvatar}
+                                                    style={{ width: '200px', height: '200px', borderRadius: '50%' }} />
                                             </div>
                                         </div>
                                         <div className='col-12 col-lg-7' style={{ fontSize: '17px' }}>
@@ -137,10 +143,13 @@ const ModalCreate = (props) => {
                                                     <span className='fw-medium'>Gender:</span>&nbsp;<span>{valueInput.gender}</span>
                                                 </div>
                                                 <div className='col-12 mb-3'>
-                                                    <span className='fw-medium'>Date of birth:</span>&nbsp;<span>{moment(valueInput.dateOfBirth).format('DD-MM-YYYY')}</span>
+                                                    <span className='fw-medium'>Date of birth:</span>&nbsp;<span>{valueInput.dateOfBirth ? moment(valueInput.dateOfBirth).format('LL') : null}</span>
                                                 </div>
                                                 <div className='col-12 mb-3'>
                                                     <span className='fw-medium'>Address:</span>&nbsp;<span>{valueInput.address}</span>
+                                                </div>
+                                                <div className='col-12 mb-3'>
+                                                    <span className='fw-medium'>Type Account:</span>&nbsp;<span>{valueInput.typeAccount}</span>
                                                 </div>
                                                 <div className="col-12 d-flex justify-content-start align-items-center">
                                                     <span className='fw-medium'>Group:</span>&nbsp;
