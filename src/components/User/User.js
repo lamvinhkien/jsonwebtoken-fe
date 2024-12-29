@@ -120,7 +120,7 @@ const User = (props) => {
 
 
     return (
-        <div className="User">
+        <>
             <div className="content-card-body">
                 <div className="row align-items-center">
                     <div className="col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-start">
@@ -154,7 +154,7 @@ const User = (props) => {
                                     <tr key={"row" + index} className="text-nowrap">
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>
-                                            <img src={item.avatar ? process.env.REACT_APP_URL_FILES_BE + item.avatar : userAvatar} style={{ width: '35px', height: '35px' }} />
+                                            <img src={item.avatar ? process.env.REACT_APP_URL_FILES_BE + item.avatar : userAvatar} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
                                         </td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
@@ -238,7 +238,7 @@ const User = (props) => {
                 dataModal={dataModalDelete.username}
                 title={'user'}
             />
-        </div>
+        </>
     )
 }
 export default User;

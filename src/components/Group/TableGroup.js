@@ -106,7 +106,7 @@ const TableGroup = forwardRef((props, ref) => {
 
 
     return (
-        <div className="Table-Group">
+        <>
             <div className='table-responsive' style={{ minHeight: '330px' }}>
                 <table className="table table-striped table-hover">
                     <thead className="">
@@ -197,7 +197,7 @@ const TableGroup = forwardRef((props, ref) => {
                 data={dataModalUpdate}
                 fetchData={fetchGroups}
             />
-        </div>
+        </>
     )
 })
 

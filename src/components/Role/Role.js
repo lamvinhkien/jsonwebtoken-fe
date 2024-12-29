@@ -55,7 +55,7 @@ const Role = () => {
     }, [page, limit])
 
     return (
-        <div className='Role-component'>
+        <>
             <div className='content-card-body'>
                 <div className='row'>
                     <div className='col-12 d-flex justify-content-center col-sm-4 d-sm-flex justify-content-sm-start'>
@@ -150,7 +150,7 @@ const Role = () => {
                 data={dataModalUpdate}
                 fetchData={fetchRoles}
             />
-        </div>
+        </>
     )
 }
 

@@ -138,7 +138,7 @@ const TaskDetail = (props) => {
 
 
     return (
-        <div className="TaskDetail">
+        <>
             <div className='content-card-body'>
                 {
                     isCheckRole === true ?
@@ -352,7 +352,7 @@ const TaskDetail = (props) => {
                 hide={handleShowDelete}
                 delete={handleDeleteTask}
             />
-        </div>
+        </>
     )
 }
 

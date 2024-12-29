@@ -100,7 +100,7 @@ const Profile = () => {
             })
             setCheckValidInput(defaultValid)
             logoutContext()
-            history.push("/login")
+            history.push("/")
             toast.success('Save new password success! Please login again.')
         } else {
             if (res.DT === 'current' || res.DT === 'incorrect') {
@@ -126,11 +126,11 @@ const Profile = () => {
     }, [user])
 
     return (
-        <div className="Profile-component">
+        <>
             <div className='content-card-body'>
                 <div className='row align-items-center'>
                     <div className='col-12 mb-3'>
-                        <span className='fs-4 fw-bold text-info'><i className="fa fa-address-book"></i>&nbsp;Change your information</span>
+                        <span className='fs-4 fw-bold text-info'><i className="fa fa-address-book"></i>&nbsp;Change Information</span>
                     </div>
                     <div className='col-12 col-lg-4 text-center'>
                         <div className=''>
@@ -203,7 +203,7 @@ const Profile = () => {
                     <div className='content-card-body mt-3'>
                         <div className='row'>
                             <div className='col-12 mb-3'>
-                                <span className='fs-4 fw-bold text-info'><i className="fa fa-lock"></i>&nbsp;Change your password</span>
+                                <span className='fs-4 fw-bold text-info'><i className="fa fa-lock"></i>&nbsp;Change Password</span>
                             </div>
                             <div className='col-12 col-lg-4 mb-3 mb-lg-0'>
                                 <input type="password" className={checkValidInput.isValidCurrentPassword ? "form-control" : "form-control is-invalid"} placeholder="Current password"
@@ -225,7 +225,7 @@ const Profile = () => {
                     :
                     <></>
             }
-        </div>
+        </>
     )
 }
 

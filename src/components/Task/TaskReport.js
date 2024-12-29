@@ -98,145 +98,143 @@ const TaskReport = (props) => {
 
 
     return (
-        <div className="TaskReport">
-            <Modal show={props.show} onHide={handleHide} size={isCheckRole === false ? 'lg' : 'xl'}>
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        {isCheckRole === false ? 'Upload your report' : 'Task report'}
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="grid-example">
-                    {isCheckRole === false ?
-                        <Container>
-                            <Row className='justify-content-center'>
-                                <div className="col-12">
-                                    <label className="form-label">Documents:</label>
-                                    <div className='table-responsive'>
-                                        <table className='table'>
-                                            <tbody>
-                                                {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
-                                                    <tr key={index}>
-                                                        <td>
-                                                            {index + 1}.
-                                                        </td>
-                                                        <td className='w-100'>
-                                                            {file.name}
-                                                        </td>
-                                                        <td className='text-end'>
-                                                            <button
-                                                                className="btn btn-danger btn-sm"
-                                                                onClick={() => handleRemoveFile(index)}
-                                                            >
-                                                                <i className="fa fa-trash-o"></i>
-                                                            </button>
-                                                        </td>
-
-                                                    </tr>
-                                                ))
-                                                    :
-                                                    <tr className='text-center'>
-                                                        <td className='fst-italic'>No files available.....</td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div className="input-group">
-                                        <input type="file" multiple className={isValidInput.uploadedFiles === true ? 'form-control' : 'form-control is-invalid'}
-                                            onChange={handleFileChange} />
-                                        <button className="btn btn-success" onClick={() => { handleUploadReport() }}>Upload</button>
-                                    </div>
-                                </div>
-                            </Row>
-                            <hr />
-                            <Row>
-                                <div className='col-12 d-flex justify-content-between'>
-                                    <div className='fs-5 fw-medium'>Your Report</div>
-                                    <button className="btn btn-primary btn-sm" onClick={() => getReportEmployee()}><i className="fa fa-refresh"></i> Refresh</button>
-                                </div>
-                                <div className='table-responsive mt-2'>
+        <Modal show={props.show} onHide={handleHide} size={isCheckRole === false ? 'lg' : 'xl'}>
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    {isCheckRole === false ? 'Upload your report' : 'Task report'}
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="grid-example">
+                {isCheckRole === false ?
+                    <Container>
+                        <Row className='justify-content-center'>
+                            <div className="col-12">
+                                <label className="form-label">Documents:</label>
+                                <div className='table-responsive'>
                                     <table className='table'>
                                         <tbody>
-                                            {existingFiles && existingFiles.length > 0 ?
-                                                existingFiles.map((file, index) => (
-                                                    <tr key={index} className='text-nowrap'>
-                                                        <td>
-                                                            {index + 1}.
-                                                        </td>
-                                                        <td>
-                                                            {file.FilePath.replace(/^report-\d+-/, '')}
-                                                        </td>
-                                                        <td>
-                                                            {moment(file.createdAt).format('lll')}
-                                                        </td>
-                                                        <td className='text-end'>
-                                                            <a href={process.env.REACT_APP_URL_FILES_BE + file.FilePath} className='btn btn-primary btn-sm'>
-                                                                <i className="fa fa-download"></i>
-                                                            </a>
-                                                            <button
-                                                                className="btn btn-danger btn-sm"
-                                                                style={{ marginLeft: "7px" }}
-                                                                onClick={() => { handleDeleteReport(file.id) }}
-                                                            >
-                                                                <i className="fa fa-trash-o"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                )) :
+                                            {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
+                                                <tr key={index}>
+                                                    <td>
+                                                        {index + 1}.
+                                                    </td>
+                                                    <td className='w-100'>
+                                                        {file.name}
+                                                    </td>
+                                                    <td className='text-end'>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => handleRemoveFile(index)}
+                                                        >
+                                                            <i className="fa fa-trash-o"></i>
+                                                        </button>
+                                                    </td>
+
+                                                </tr>
+                                            ))
+                                                :
                                                 <tr className='text-center'>
-                                                    <td className='fst-italic'>No task report available.....</td>
+                                                    <td className='fst-italic'>No files available.....</td>
                                                 </tr>
                                             }
                                         </tbody>
                                     </table>
                                 </div>
-                            </Row>
-                        </Container>
-                        :
-                        <Container>
-                            <div className='table-responsive'>
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Posted on</th>
-                                            <th scope="col">Document</th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
+                                <div className="input-group">
+                                    <input type="file" multiple className={isValidInput.uploadedFiles === true ? 'form-control' : 'form-control is-invalid'}
+                                        onChange={handleFileChange} />
+                                    <button className="btn btn-success" onClick={() => { handleUploadReport() }}>Upload</button>
+                                </div>
+                            </div>
+                        </Row>
+                        <hr />
+                        <Row>
+                            <div className='col-12 d-flex justify-content-between'>
+                                <div className='fs-5 fw-medium'>Your Report</div>
+                                <button className="btn btn-primary btn-sm" onClick={() => getReportEmployee()}><i className="fa fa-refresh"></i> Refresh</button>
+                            </div>
+                            <div className='table-responsive mt-2'>
+                                <table className='table'>
                                     <tbody>
                                         {existingFiles && existingFiles.length > 0 ?
                                             existingFiles.map((file, index) => (
                                                 <tr key={index} className='text-nowrap'>
-                                                    <th scope="row">{index + 1}</th>
-                                                    <td>{file.username}</td>
-                                                    <td>{file.email}</td>
-                                                    <td>{moment(file.createdAt).format('lll')}</td>
-                                                    <td>{file.FilePath.replace(/^report-\d+-/, '')}</td>
+                                                    <td>
+                                                        {index + 1}.
+                                                    </td>
+                                                    <td>
+                                                        {file.FilePath.replace(/^report-\d+-/, '')}
+                                                    </td>
+                                                    <td>
+                                                        {moment(file.createdAt).format('lll')}
+                                                    </td>
                                                     <td className='text-end'>
                                                         <a href={process.env.REACT_APP_URL_FILES_BE + file.FilePath} className='btn btn-primary btn-sm'>
                                                             <i className="fa fa-download"></i>
                                                         </a>
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            style={{ marginLeft: "7px" }}
+                                                            onClick={() => { handleDeleteReport(file.id) }}
+                                                        >
+                                                            <i className="fa fa-trash-o"></i>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             )) :
                                             <tr className='text-center'>
-                                                <td className='fst-italic' colSpan={6}>No task report available.....</td>
+                                                <td className='fst-italic'>No task report available.....</td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
                             </div>
-                        </Container>
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={handleHide} variant='secondary'>Close</Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+                        </Row>
+                    </Container>
+                    :
+                    <Container>
+                        <div className='table-responsive'>
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Posted on</th>
+                                        <th scope="col">Document</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {existingFiles && existingFiles.length > 0 ?
+                                        existingFiles.map((file, index) => (
+                                            <tr key={index} className='text-nowrap'>
+                                                <th scope="row">{index + 1}</th>
+                                                <td>{file.username}</td>
+                                                <td>{file.email}</td>
+                                                <td>{moment(file.createdAt).format('lll')}</td>
+                                                <td>{file.FilePath.replace(/^report-\d+-/, '')}</td>
+                                                <td className='text-end'>
+                                                    <a href={process.env.REACT_APP_URL_FILES_BE + file.FilePath} className='btn btn-primary btn-sm'>
+                                                        <i className="fa fa-download"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        )) :
+                                        <tr className='text-center'>
+                                            <td className='fst-italic' colSpan={6}>No task report available.....</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </Container>
+                }
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={handleHide} variant='secondary'>Close</Button>
+            </Modal.Footer>
+        </Modal>
     )
 }
 

@@ -47,31 +47,29 @@ const ModalUpdate = (props) => {
     }, [props.data])
 
     return (
-        <div className="ModalUpdate">
-            <Modal show={props.show} centered aria-labelledby="contained-modal-title-vcenter" onHide={handleHideModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Update role: <span className='fw-normal'>{valueInput.url}</span>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="grid-example">
-                    <Container>
-                        <Row>
-                            <Col xs={12} className=''>
-                                <label className='fw-medium'>Description:</label>
-                                <input type='text' className='form-control mt-1'
-                                    onChange={(event) => { handleOnChangeInput(event.target.value, 'description') }}
-                                    value={valueInput.description} />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={handleHideModal} variant='secondary'>Close</Button>
-                    <Button onClick={() => { handleUpdate() }} variant='success'>Update</Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+        <Modal show={props.show} centered aria-labelledby="contained-modal-title-vcenter" onHide={handleHideModal}>
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Update role: <span className='fw-normal'>{valueInput.url}</span>
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="grid-example">
+                <Container>
+                    <Row>
+                        <Col xs={12} className=''>
+                            <label className='fw-medium'>Description:</label>
+                            <input type='text' className='form-control mt-1'
+                                onChange={(event) => { handleOnChangeInput(event.target.value, 'description') }}
+                                value={valueInput.description} />
+                        </Col>
+                    </Row>
+                </Container>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={handleHideModal} variant='secondary'>Close</Button>
+                <Button onClick={() => { handleUpdate() }} variant='success'>Update</Button>
+            </Modal.Footer>
+        </Modal>
     )
 }
 

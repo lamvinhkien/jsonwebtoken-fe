@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AppRoutes from './routes/App-Routes';
+import AuthRoutes from './routes/Auth-Routes';
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./components/Context/Context";
 import RingLoader from "react-spinners/RingLoader";
@@ -26,27 +27,26 @@ const App = () => {
 
     return (
         <Router>
-            <div className='min-vw-100'>
-                {
-                    user && user.isLoading === true ?
-                        <div className='loading-app'>
-                            <RingLoader
-                                color={"#0CBDDF"}
-                                loading={user.isLoading}
-                                cssOverride={""}
-                                size={80}
-                                aria-label="Loading Spinner"
-                                data-testid="loader"
-                            />
-                            <span>
-                                Loading.....
-                            </span>
-                        </div>
-                        :
-                        <>
-                            <div className='d-flex align-items-start'>
-                                {
-                                    user && user.auth === true &&
+            {
+                user && user.isLoading === true ?
+                    <div className='loading-app'>
+                        <RingLoader
+                            color={"#0CBDDF"}
+                            loading={user.isLoading}
+                            cssOverride={""}
+                            size={80}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        />
+                        <span>
+                            Loading.....
+                        </span>
+                    </div>
+                    :
+                    <>
+                        {
+                            user && user.auth === true ?
+                                <div className='min-vw-100 d-flex justify-content-start align-items-start'>
                                     <div className='app-sidebar'
                                         style={{
                                             width: broken ? '0px' : collapse ? '80px' : '240px',
@@ -71,7 +71,7 @@ const App = () => {
                                                         style={{ width: "80px", height: "auto" }}
                                                     />
                                                 </div>
-                                                {user.data && user.data.name === "Admin" ?
+                                                {user.data && user.data.name === "Admin" &&
                                                     <>
                                                         <SubMenu label="Assign Role" icon={<i className="fa fa-users"></i>}>
                                                             <MenuItem component={<Link to="/group" />}> Group</MenuItem>
@@ -85,10 +85,20 @@ const App = () => {
                                                             <MenuItem component={<Link to="/task" />}> Task</MenuItem>
                                                         </SubMenu>
                                                     </>
-                                                    :
-                                                    <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
-                                                        <MenuItem component={<Link to="/task" />}> Task</MenuItem>
-                                                    </SubMenu>
+                                                }
+                                                {user.data && user.data.name === "Manager" &&
+                                                    <>
+                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
+                                                            <MenuItem component={<Link to="/task" />}> Task</MenuItem>
+                                                        </SubMenu>
+                                                    </>
+                                                }
+                                                {user.data && user.data.name === "Employee" &&
+                                                    <>
+                                                        <SubMenu label="Task Report" icon={<i className="fa fa-tasks"></i>}>
+                                                            <MenuItem component={<Link to="/task" />}> Task</MenuItem>
+                                                        </SubMenu>
+                                                    </>
                                                 }
                                             </Menu>
                                             {
@@ -106,51 +116,53 @@ const App = () => {
                                             }
                                         </Sidebar>
                                     </div>
-                                }
-                                <div className='app-main w-100'
-                                    style={{
-                                        marginLeft: user?.auth === true ? broken ? '0px' : collapse ? '80px' : '240px' : '0px',
-                                        paddingRight: broken ? '0px' : '15px',
-                                        transition: 'all 0.3s ease-in-out'
-                                    }}>
-                                    <div className='row align-items-start'>
-                                        {
-                                            user && user.auth === true &&
-                                            <div className='app-header col-lg-12'>
-                                                <div className='px-2 border-bottom' style={{ backgroundColor: "#f4ffff" }}>
-                                                    <NavHeader
-                                                        broken={broken}
-                                                        button={() => setToggled(!toggled)}
-                                                    />
-                                                </div>
-                                            </div>
-                                        }
-                                        <div className='app-content col-lg-12' style={user && user.auth ? { minHeight: '617px' } : { minHeight: '685px' }}>
-                                            <div className='' style={{ height: '100%', padding: '10px 15px 0px 10px' }}>
-                                                <AppRoutes />
-                                            </div>
+                                    <div className='app-main w-100'
+                                        style={{
+                                            marginLeft: broken ? '0px' : collapse ? '80px' : '240px',
+                                            transition: 'all 0.3s ease-in-out'
+                                        }}>
+                                        <div className='app-header' style={{
+                                            paddingRight: broken ? '12px' : '22px',
+                                            paddingLeft: broken ? '12px' : '0px',
+                                            borderBottom: '1.5px solid #eef0f3',
+                                            backgroundColor: "#f4ffff"
+                                        }}>
+                                            <NavHeader
+                                                broken={broken}
+                                                button={() => setToggled(!toggled)}
+                                            />
+                                        </div>
+                                        <div className='app-content' style={{
+                                            minHeight: '617px',
+                                            padding: broken ? '10px 10px 0px 10px' : '10px 25px 0px 10px',
+                                        }}>
+                                            <AppRoutes />
+                                        </div>
+                                        <div className='app-footer'>
+                                            <Footer />
                                         </div>
                                     </div>
-                                    <div className='app-footer'>
-                                        <Footer />
-                                    </div>
                                 </div>
-                            </div>
-                            <ToastContainer
-                                position="bottom-center"
-                                autoClose={5000}
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                                theme="light"
-                            />
-                        </>
-                }
-            </div>
+                                :
+                                <div className='min-vh-100 min-vw-100' style={{ backgroundColor: '#f0f2f5' }}>
+                                    <AuthRoutes />
+                                    <Footer />
+                                </div>
+                        }
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={4000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
+                    </>
+            }
         </Router>
     )
 }

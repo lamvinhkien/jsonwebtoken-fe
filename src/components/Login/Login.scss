@@ -1,11 +1,7 @@
 .Login {
-    background-color: #f0f2f5;
-}
-
-.login-container {
     .left {
         .left-child {
-            margin-top: 90px;
+            margin-top: 85px;
 
             .description {
                 font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
@@ -22,7 +18,7 @@
             border-radius: 8px;
             box-shadow: 0px 0px 5px rgba(150, 150, 150, 0.54);
             padding: 15px 18px 25px 18px;
-            
+
             .title-form-login {
                 color: #0CBDDF;
             }
@@ -57,6 +53,7 @@
                     color: #1ca8ce;
                     font-size: 15px;
                     font-weight: 500;
+
                     &:hover {
                         color: #168cac;
                     }
@@ -84,5 +81,4 @@
             }
         }
     }
-
 }

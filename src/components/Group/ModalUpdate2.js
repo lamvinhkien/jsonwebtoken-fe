@@ -21,7 +21,7 @@ const ModalUpdate2 = (props) => {
 
     const handleOnChangeInput = (event, name) => {
         let _valueInput = _.cloneDeep(valueInput)
-        if(name === 'name'){
+        if (name === 'name') {
             setIsValidInput(true)
         }
         _valueInput[name] = event
@@ -59,38 +59,36 @@ const ModalUpdate2 = (props) => {
     }, [props.data])
 
     return (
-        <div className="ModalUpdate">
-            <Modal show={props.show} centered aria-labelledby="contained-modal-title-vcenter" onHide={handleHideModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Update group
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="grid-example">
-                    <Container>
-                        <Row>
-                            <Col xs={12}>
-                                <label>Name<span className='text-danger'>*</span></label>
-                                <input type='text' className={isValidInput ? 'form-control' : 'form-control is-invalid'}
-                                    onChange={(event) => { handleOnChangeInput(event.target.value, 'name') }}
-                                    value={valueInput.name} />
-                            </Col>
-                            <Col xs={12} className='mt-2'>
-                                <label>Description</label>
-                                <input type='text' className='form-control'
-                                    onChange={(event) => { handleOnChangeInput(event.target.value, 'description') }}
-                                    value={valueInput.description} />
-                            </Col>
-                        </Row>
+        <Modal show={props.show} centered aria-labelledby="contained-modal-title-vcenter" onHide={handleHideModal}>
+            <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    Update group
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="grid-example">
+                <Container>
+                    <Row>
+                        <Col xs={12}>
+                            <label>Name<span className='text-danger'>*</span></label>
+                            <input type='text' className={isValidInput ? 'form-control' : 'form-control is-invalid'}
+                                onChange={(event) => { handleOnChangeInput(event.target.value, 'name') }}
+                                value={valueInput.name} />
+                        </Col>
+                        <Col xs={12} className='mt-2'>
+                            <label>Description</label>
+                            <input type='text' className='form-control'
+                                onChange={(event) => { handleOnChangeInput(event.target.value, 'description') }}
+                                value={valueInput.description} />
+                        </Col>
+                    </Row>
 
-                    </Container>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={handleHideModal} variant='secondary'>Close</Button>
-                    <Button onClick={() => { handleUpdate() }} variant='success'>Update</Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
+                </Container>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={handleHideModal} variant='secondary'>Close</Button>
+                <Button onClick={() => { handleUpdate() }} variant='success'>Update</Button>
+            </Modal.Footer>
+        </Modal>
     )
 }
 

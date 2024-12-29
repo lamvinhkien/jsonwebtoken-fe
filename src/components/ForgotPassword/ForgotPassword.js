@@ -53,7 +53,7 @@ const ForgotPassword = (props) => {
         setConfrimPassword(event)
     }
     const returnToLoginPage = () => {
-        history.push('/login')
+        history.push('/')
     }
     const handleSendOTP = async () => {
         let res = await sendOTP(emailUser)
@@ -95,7 +95,7 @@ const ForgotPassword = (props) => {
         if (res.EC === '1') {
             setIsValidInput({ ...defaultIsValidInput })
             toast.success('Congratulations! Reset password successfully.')
-            history.push('/login')
+            history.push('/')
         }
     }
     const renderTooltipSend = (props) => (
@@ -109,95 +109,93 @@ const ForgotPassword = (props) => {
         </Tooltip>
     );
 
-    useEffect(() => {
-        if (user && user.auth === true) {
-            history.push("/")
-        }
-    }, [history, user])
+    // useEffect(() => {
+    //     if (user && user.auth === true) {
+    //         history.push("/")
+    //     }
+    // }, [history, user])
 
 
     return (
-        <div className="ForgotPassword">
-            <div className="forgotpassword-container container position-absolute top-50 start-50 translate-middle">
-                <div className="row justify-content-center">
-                    <div className="col-12 col-md-10 col-lg-5">
-                        <div className="child d-flex flex-column">
-                            <div className="">
-                                <span className='fw-bold fs-5 title-form-forgot'>Find your account</span>
-                                <OverlayTrigger
-                                    placement="right"
-                                    delay={{ show: 50, hide: 150 }}
-                                    overlay={renderTooltipSend}
-                                >
-                                    <i className="fa fa-info-circle mx-2 title-form-forgot"></i>
-                                </OverlayTrigger>
+        <div className='ForgotPassword containter py-3 px-3 py-lg-5 px-lg-5'>
+            <div className="row justify-content-center">
+                <div className="col-12 col-md-10 col-lg-5">
+                    <div className="child d-flex flex-column">
+                        <div className="">
+                            <span className='fw-bold fs-5 title-form-forgot'>Find your account</span>
+                            <OverlayTrigger
+                                placement="right"
+                                delay={{ show: 50, hide: 150 }}
+                                overlay={renderTooltipSend}
+                            >
+                                <i className="fa fa-info-circle mx-2 title-form-forgot"></i>
+                            </OverlayTrigger>
+                        </div>
+                        <div className="row justify-content-end mt-2">
+                            <div className='col-12'>
+                                <input type="text" className={isValidInput.emailUser === true ? "form-control" : "form-control is-invalid"}
+                                    placeholder="Please type your email or phone number"
+                                    value={emailUser}
+                                    onChange={(event) => { handleEmailValue(event.target.value) }}
+                                />
                             </div>
-                            <div className="row justify-content-end mt-2">
-                                <div className='col-12'>
-                                    <input type="text" className={isValidInput.emailUser === true ? "form-control" : "form-control is-invalid"}
-                                        placeholder="Please type your email or phone number"
-                                        value={emailUser}
-                                        onChange={(event) => { handleEmailValue(event.target.value) }}
-                                    />
-                                </div>
-                                <div className='col-12 col-md-5 mt-2'>
-                                    <button className="btn btn-primary w-100" disabled={seconds > 0 ? true : false} onClick={() => { handleSendOTP() }}>
-                                        {seconds > 0 ? (
-                                            <span>
-                                                {seconds < 10 ? `0${seconds}` : seconds}s
-                                            </span>
-                                        ) : (
-                                            <span>Send OTP</span>
-                                        )}
-                                    </button>
-                                </div>
+                            <div className='col-12 col-md-5 mt-2'>
+                                <button className="btn btn-primary w-100" disabled={seconds > 0 ? true : false} onClick={() => { handleSendOTP() }}>
+                                    {seconds > 0 ? (
+                                        <span>
+                                            {seconds < 10 ? `0${seconds}` : seconds}s
+                                        </span>
+                                    ) : (
+                                        <span>Send OTP</span>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="child d-flex flex-column mt-4">
+                        <div className="">
+                            <span className='fw-bold fs-5 title-form-forgot'>Reset your password</span>
+                            <OverlayTrigger
+                                placement="right"
+                                delay={{ show: 50, hide: 150 }}
+                                overlay={renderTooltipConfirm}
+                            >
+                                <i className="fa fa-info-circle mx-2 title-form-forgot"></i>
+                            </OverlayTrigger>
+                        </div>
+                        <div className='row justify-content-end mt-2'>
+                            <div className='col-12'>
+                                <input type="text" className={isValidInput.codeOTP === true ? "form-control" : "form-control is-invalid"}
+                                    placeholder="Please type your code OTP"
+                                    value={codeOTP}
+                                    onChange={(event) => { handleCodeValue(event.target.value) }}
+                                />
+
+                                <input type="password" className={isValidInput.newPassword === true ? "form-control mt-3" : "form-control is-invalid mt-3"}
+                                    placeholder="New password"
+                                    value={newPassword}
+                                    onChange={(event) => { handleNewPwValue(event.target.value) }}
+                                />
+
+                                <input type="password" className={isValidInput.confirmPassword === true ? "form-control mt-3" : "form-control is-invalid mt-3"}
+                                    placeholder="Cofirm new password"
+                                    value={confirmPassword}
+                                    onChange={(event) => { handleCfPwValue(event.target.value) }}
+                                />
+                            </div>
+
+                            <div className='col-12 col-md-5 mt-2'>
+                                <button className='btn btn-success w-100' onClick={() => { handleResetPassword() }}>
+                                    Reset password
+                                </button>
                             </div>
                         </div>
 
-                        <div className="child d-flex flex-column mt-4">
-                            <div className="">
-                                <span className='fw-bold fs-5 title-form-forgot'>Reset your password</span>
-                                <OverlayTrigger
-                                    placement="right"
-                                    delay={{ show: 50, hide: 150 }}
-                                    overlay={renderTooltipConfirm}
-                                >
-                                    <i className="fa fa-info-circle mx-2 title-form-forgot"></i>
-                                </OverlayTrigger>
-                            </div>
-                            <div className='row justify-content-end mt-2'>
-                                <div className='col-12'>
-                                    <input type="text" className={isValidInput.codeOTP === true ? "form-control" : "form-control is-invalid"}
-                                        placeholder="Please type your code OTP"
-                                        value={codeOTP}
-                                        onChange={(event) => { handleCodeValue(event.target.value) }}
-                                    />
+                    </div>
 
-                                    <input type="password" className={isValidInput.newPassword === true ? "form-control mt-3" : "form-control is-invalid mt-3"}
-                                        placeholder="New password"
-                                        value={newPassword}
-                                        onChange={(event) => { handleNewPwValue(event.target.value) }}
-                                    />
-
-                                    <input type="password" className={isValidInput.confirmPassword === true ? "form-control mt-3" : "form-control is-invalid mt-3"}
-                                        placeholder="Cofirm new password"
-                                        value={confirmPassword}
-                                        onChange={(event) => { handleCfPwValue(event.target.value) }}
-                                    />
-                                </div>
-
-                                <div className='col-12 col-md-5 mt-2'>
-                                    <button className='btn btn-success w-100' onClick={() => { handleResetPassword() }}>
-                                        Reset password
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div className='back-forget text-end mt-1'>
-                            <span className="" onClick={() => returnToLoginPage()}>Return to login page <i className="fa fa-undo"></i></span>
-                        </div>
+                    <div className='back-forget text-end mt-1'>
+                        <span className="" onClick={() => returnToLoginPage()}>Return to login page <i className="fa fa-undo"></i></span>
                     </div>
                 </div>
             </div>

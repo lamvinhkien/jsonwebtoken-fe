@@ -9,7 +9,7 @@ const PrivateRoutes = (props) => {
             <Route exact={props.exact} path={props.path} component={props.component}></Route>
         )
     } else {
-        return <Redirect to='/login'></Redirect>
+        return <Redirect to='/'></Redirect>
     }
 
 }

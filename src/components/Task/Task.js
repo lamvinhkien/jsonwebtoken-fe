@@ -74,7 +74,7 @@ const Task = (props) => {
     }, [location]);
 
     return (
-        <div className='Task'>
+        <>
             <div className="content-card-body">
                 <div className='row align-items-center'>
                     <div className="col-12 col-lg-5 fs-4 fw-bold text-info">
@@ -194,7 +194,7 @@ const Task = (props) => {
                 show={isShowCreate}
                 hide={showCreate}
             />
-        </div>
+        </>
     )
 }
 
