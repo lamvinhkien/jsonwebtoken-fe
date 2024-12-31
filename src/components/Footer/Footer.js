@@ -2,7 +2,7 @@ import './Footer.scss';
 const Footer = () => {
     return (
         <div className="Footer">
-            <span>@2025 lamvinhkien</span>
+            <span>@lamvinhkien</span>
         </div>
     )
 }

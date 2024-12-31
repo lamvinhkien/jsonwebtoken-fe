@@ -50,6 +50,11 @@ const changeAvatar = (formData) => {
     return res
 }
 
+const removeAvatar = (id, groupId) => {
+    let res = axios.post('/user/remove-avatar', { id: id, groupId: groupId })
+    return res
+}
+
 const changePassword = (email, changeData) => {
     let res = axios.post('/user/change-password', { email: email, changeData: changeData })
     return res
@@ -68,5 +73,5 @@ const resetPassword = (email, codeOTP, newPassword, confirmPassword) => {
 export {
     registerNewUser, loginUser, getAllUser, createNewUser, updateUser,
     deleteUser, getUserAccount, logoutUser, changeInfor, changePassword,
-    sendOTP, resetPassword, changeAvatar
+    sendOTP, resetPassword, changeAvatar, removeAvatar
 }

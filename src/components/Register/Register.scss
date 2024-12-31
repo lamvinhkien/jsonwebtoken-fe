@@ -10,26 +10,26 @@
         padding: 15px 0px 20px 0px;
 
         .register-btn {
-            background-color: #0CBDDF;
             border: none;
+            background-color: #57c940;
             color: #fff;
             font-weight: 650;
+            font-size: 16px;
 
             &:hover {
-                background-color: #0db1d2;
+                background-color: #5fce49;
             }
         }
 
-        .create-new-account {
-            border: none;
-            background-color: #42b72a;
-            color: #fff;
-            font-weight: 650;
+        .back-register {
+            cursor: pointer;
+            color: #1ca8ce;
+            font-size: 15px;
+            font-weight: 500;
 
             &:hover {
-                background-color: #3daa28;
+                color: #168cac;
             }
         }
     }
 }
-

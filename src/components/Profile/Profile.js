@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import './Profile.scss';
 import _ from 'lodash';
 import { UserContext } from '../Context/Context';
-import { changeInfor, changePassword, changeAvatar } from '../../services/userService';
+import { changeInfor, changePassword, changeAvatar, removeAvatar } from '../../services/userService';
 import { toast } from 'react-toastify';
 import userAavatar from '../../assets/user-avatar.png'
 import moment from 'moment';
@@ -23,7 +23,6 @@ const Profile = () => {
         newPassword: '',
         confirmNewPassword: ''
     })
-
     const defaultValid = {
         isValidEmail: true,
         isValidPhone: true,
@@ -36,7 +35,6 @@ const Profile = () => {
         isValidConfirmNewPassword: true
     }
     const [checkValidInput, setCheckValidInput] = useState(defaultValid)
-
     const { user, fetchUser, logoutContext } = useContext(UserContext)
 
     const handleOnChangeInput = (value, name) => {
@@ -46,11 +44,11 @@ const Profile = () => {
     }
 
     const handleChangeAvavatar = async (event) => {
-        if (event?.target.files) {
+        if (event) {
             let formData = new FormData()
-            formData.append('avatar', event.target.files[0])
             formData.append('id', user.id)
             formData.append('groupId', user.data.id)
+            formData.append('avatar', event.target.files[0])
             let res = await changeAvatar(formData)
             if (res && res.EC === '1') {
                 await fetchUser()
@@ -60,6 +58,21 @@ const Profile = () => {
             }
             event.target.value = null
         }
+    }
+
+    const handleRemoveAvatar = async () => {
+        if (valueInput.avatar !== '') {
+            let res = await removeAvatar(user.id, user.data.id)
+            if (res && res.EC === '1') {
+                await fetchUser()
+                toast.success(res.EM)
+            } else {
+                toast.error(res.EM)
+            }
+        } else {
+            toast.error(`You don't have avatar.`)
+        }
+
     }
 
     const handleSaveEmailPhone = async () => {
@@ -137,11 +150,16 @@ const Profile = () => {
                             <img src={valueInput.avatar ? process.env.REACT_APP_URL_FILES_BE + valueInput.avatar : userAavatar}
                                 style={{ width: '210px', height: '210px', borderRadius: '50%' }} />
                         </div>
-                        <div className='mt-3'>
-                            <label className='btn btn-outline-info' htmlFor='avatar'>Upload Avatar</label>
-                            <input type='file' hidden id='avatar'
-                                onChange={(event) => { handleChangeAvavatar(event) }}
-                            />
+                        <div className='mt-3 d-flex justify-content-center gap-2'>
+                            <div>
+                                <button className='btn btn-outline-danger' onClick={() => { handleRemoveAvatar() }}>Remove</button>
+                            </div>
+                            <div>
+                                <label className='btn btn-outline-info' htmlFor='avatar'>Upload</label>
+                                <input type='file' hidden id='avatar'
+                                    onChange={(event) => { handleChangeAvavatar(event) }}
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className='col-12 col-lg-8'>

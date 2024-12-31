@@ -4,6 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../Context/Context";
 import { toast } from 'react-toastify';
 import { registerNewUser } from "../../services/userService";
+import logo from '../../assets/logo-project.png'
 
 const Register = (props) => {
     let history = useHistory();
@@ -114,9 +115,20 @@ const Register = (props) => {
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-7">
                     <div className="child row">
-                        <div className="fw-bold fs-4 mb-3 text-center col-12">
-                            <span className="title-form-register">Create Account</span>
+                        <div className="mb-3 d-flex justify-content-between">
+                            <div>
+                                <div className="fw-bold fs-4 mb-1 col-12">
+                                    <span className="title-form-register">Create a new account</span>
+                                </div>
+                                <div className="text-secondary fst-italic">
+                                    <span className="">It's quick and easy.</span>
+                                </div>
+                            </div>
+                            <div>
+                                <img src={logo} style={{ width: '62px', height: '62px' }} />
+                            </div>
                         </div>
+                        <hr className="opacity-25" />
                         <div className="col-12 mb-3">
                             <input type="text" className={checkValidInput.isValidEmail ? "form-control" : "form-control is-invalid"} placeholder="Email address"
                                 value={email} onChange={(event) => setEmail(event.target.value)} />
@@ -125,7 +137,7 @@ const Register = (props) => {
                             <input type="text" className={checkValidInput.isValidPhone ? "form-control" : "form-control is-invalid"} placeholder="Phone number"
                                 value={phone} onChange={(event) => setPhone(event.target.value)} />
                         </div>
-                        <div className="col-12 mb-2">
+                        <div className="col-12 mb-3">
                             <input type="text" className={checkValidInput.isValidUsername ? "form-control" : "form-control is-invalid"} placeholder="Username"
                                 value={username} onChange={(event) => setUsername(event.target.value)} />
                         </div>
@@ -163,10 +175,10 @@ const Register = (props) => {
                         <div className="col-12">
                             <div className="row align-items-center">
                                 <div className="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-start">
-                                    <button className="btn register-btn" onClick={() => handleRegister()}>Create New</button>
+                                    <button className="btn register-btn w-100" onClick={() => handleRegister()}>Sign Up</button>
                                 </div>
                                 <div className="col-12 col-lg-8 d-flex mt-2 justify-content-center justify-content-lg-end mt-lg-0">
-                                    <button className="btn create-new-account" onClick={() => handleLogin()}>Already have an account? Login.</button>
+                                    <label className="back-register" onClick={() => handleLogin()}>Already have an account? Login.</label>
                                 </div>
                             </div>
                         </div>
