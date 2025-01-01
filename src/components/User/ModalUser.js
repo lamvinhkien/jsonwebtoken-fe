@@ -173,7 +173,7 @@ const ModalCreate = (props) => {
                                 :
                                 <>
                                     <div className="form-group mb-2 col-12">
-                                        <label className="py-1">Email</label>
+                                        <label className="py-1">Email<sup className='text-danger fw-bold'>*</sup></label>
                                         <input type="text"
                                             className={isValidInput.email ? "form-control" : "form-control is-invalid"}
                                             placeholder="Email address" value={valueInput.email}
@@ -181,7 +181,7 @@ const ModalCreate = (props) => {
                                         />
                                     </div>
                                     <div className="form-group mb-2 col-12 col-lg-6">
-                                        <label className="py-1">Phone</label>
+                                        <label className="py-1">Phone<sup className='text-danger fw-bold'>*</sup></label>
                                         <input type="text"
                                             className={isValidInput.phone ? "form-control" : "form-control is-invalid"}
                                             placeholder="Phone number" value={valueInput.phone}
@@ -189,21 +189,21 @@ const ModalCreate = (props) => {
                                         />
                                     </div>
                                     <div className="form-group mb-2 col-12 col-lg-6">
-                                        <label className="py-1">Username</label>
+                                        <label className="py-1">Username<sup className='text-danger fw-bold'>*</sup></label>
                                         <input type="text" className={isValidInput.username ? "form-control" : "form-control is-invalid"}
                                             placeholder="Username" value={valueInput.username}
                                             onChange={(event) => handleOnChangeInput(event.target.value, "username")}
                                         />
                                     </div>
                                     <div className="form-group mb-2 col-12 col-lg-6">
-                                        <label className="py-1">Date of birth</label>
+                                        <label className="py-1">Date of birth<sup className='text-danger fw-bold'>*</sup></label>
                                         <input type="date" className={isValidInput.dateOfBirth ? "form-control" : "form-control is-invalid"}
                                             value={valueInput.dateOfBirth}
                                             onChange={(event) => handleOnChangeInput(event.target.value, "dateOfBirth")}
                                         />
                                     </div>
                                     <div className="form-group mb-2 col-12 col-lg-6">
-                                        <label className="py-1">Gender</label>
+                                        <label className="py-1">Gender<sup className='text-danger fw-bold'>*</sup></label>
                                         <select className="form-select"
                                             value={valueInput.gender}
                                             onChange={(event) => handleOnChangeInput(event.target.value, "gender")}
@@ -214,20 +214,7 @@ const ModalCreate = (props) => {
                                         </select>
                                     </div>
                                     <div className="form-group mb-2 col-12">
-                                        <label className="py-1">Address</label>
-                                        <input type="text" className="form-control" placeholder="Address" value={valueInput.address}
-                                            onChange={(event) => handleOnChangeInput(event.target.value, "address")}
-                                        />
-                                    </div>
-                                    <div className="form-group mb-2 col-12">
-                                        <label className="py-1">Password</label>
-                                        <input type="password" className={isValidInput.password ? "form-control" : "form-control is-invalid"}
-                                            placeholder="Password" value={valueInput.password}
-                                            onChange={(event) => handleOnChangeInput(event.target.value, "password")}
-                                        />
-                                    </div>
-                                    <div className="form-group mb-2 col-12">
-                                        <label className="py-1">Group</label>
+                                        <label className="py-1">Group<sup className='text-danger fw-bold'>*</sup></label>
                                         <select className={isValidInput.group ? "form-select" : "form-select is-invalid"}
                                             value={valueInput.group}
                                             onChange={(event) => handleOnChangeInput(event.target.value, "group")}
@@ -242,6 +229,19 @@ const ModalCreate = (props) => {
                                                     <option>Group loading...</option>
                                             }
                                         </select>
+                                    </div>
+                                    <div className="form-group mb-2 col-12">
+                                        <label className="py-1">Password<sup className='text-danger fw-bold'>*</sup></label>
+                                        <input type="password" className={isValidInput.password ? "form-control" : "form-control is-invalid"}
+                                            placeholder="Password" value={valueInput.password}
+                                            onChange={(event) => handleOnChangeInput(event.target.value, "password")}
+                                        />
+                                    </div>
+                                    <div className="form-group mb-2 col-12">
+                                        <label className="py-1">Address</label>
+                                        <input type="text" className="form-control" placeholder="Address" value={valueInput.address}
+                                            onChange={(event) => handleOnChangeInput(event.target.value, "address")}
+                                        />
                                     </div>
                                 </>
                         }

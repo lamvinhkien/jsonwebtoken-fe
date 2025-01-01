@@ -114,7 +114,7 @@ const TaskReport = (props) => {
                                     <table className='table'>
                                         <tbody>
                                             {uploadedFiles && uploadedFiles.length > 0 ? uploadedFiles.map((file, index) => (
-                                                <tr key={index}>
+                                                <tr key={index} className='text-nowrap'>
                                                     <td>
                                                         {index + 1}.
                                                     </td>
@@ -196,7 +196,7 @@ const TaskReport = (props) => {
                         <div className='table-responsive'>
                             <table className="table">
                                 <thead>
-                                    <tr>
+                                    <tr className='text-nowrap'>
                                         <th scope="col">#</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>

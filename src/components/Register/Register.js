@@ -118,7 +118,7 @@ const Register = (props) => {
                         <div className="mb-3 d-flex justify-content-between">
                             <div>
                                 <div className="fw-bold fs-4 mb-1 col-12">
-                                    <span className="title-form-register">Create a new account</span>
+                                    <span className="title-form-register">Create new account</span>
                                 </div>
                                 <div className="text-secondary fst-italic">
                                     <span className="">It's quick and easy.</span>

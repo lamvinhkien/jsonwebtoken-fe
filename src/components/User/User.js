@@ -137,7 +137,7 @@ const User = (props) => {
                 <div className="table-responsive" style={{ minHeight: '495px' }}>
                     <table className="table table-striped table-hover">
                         <thead className="">
-                            <tr>
+                            <tr className="text-nowrap">
                                 <th scope="col">No</th>
                                 <th scope="col">Avatar</th>
                                 <th scope="col">Username</th>

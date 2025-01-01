@@ -44,17 +44,21 @@ const Profile = () => {
     }
 
     const handleChangeAvavatar = async (event) => {
-        if (event) {
-            let formData = new FormData()
-            formData.append('id', user.id)
-            formData.append('groupId', user.data.id)
-            formData.append('avatar', event.target.files[0])
-            let res = await changeAvatar(formData)
-            if (res && res.EC === '1') {
-                await fetchUser()
-                toast.success(res.EM)
+        if (event && event.target.files.length > 0) {
+            if (event.target.files[0].type.startsWith("image/")) {
+                let formData = new FormData()
+                formData.append('id', user.id)
+                formData.append('groupId', user.data.id)
+                formData.append('avatar', event.target.files[0])
+                let res = await changeAvatar(formData)
+                if (res && res.EC === '1') {
+                    await fetchUser()
+                    toast.success(res.EM)
+                } else {
+                    toast.error(res.EM)
+                }
             } else {
-                toast.error(res.EM)
+                toast.error('Please upload image file.')
             }
             event.target.value = null
         }
@@ -72,7 +76,6 @@ const Profile = () => {
         } else {
             toast.error(`You don't have avatar.`)
         }
-
     }
 
     const handleSaveEmailPhone = async () => {
@@ -156,7 +159,7 @@ const Profile = () => {
                             </div>
                             <div>
                                 <label className='btn btn-outline-info' htmlFor='avatar'>Upload</label>
-                                <input type='file' hidden id='avatar'
+                                <input type='file' hidden id='avatar' accept='image/*'
                                     onChange={(event) => { handleChangeAvavatar(event) }}
                                 />
                             </div>
