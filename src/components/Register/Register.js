@@ -1,7 +1,6 @@
 import "./Register.scss"
 import { useHistory } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
-import { UserContext } from "../Context/Context";
+import { useState } from "react";
 import { toast } from 'react-toastify';
 import { registerNewUser } from "../../services/userService";
 import logo from '../../assets/logo-project.png'
@@ -11,7 +10,6 @@ const Register = (props) => {
     const handleLogin = () => {
         history.push("/")
     }
-    const { user } = useContext(UserContext);
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
     const [username, setUsername] = useState("")
@@ -68,18 +66,10 @@ const Register = (props) => {
 
         return true;
     }
-
     const [isVisible, setVisible] = useState(false);
     const handleShowPassword = () => {
         setVisible(!isVisible);
     }
-
-    // useEffect(() => {
-    //     if (user && user.auth === true) {
-    //         history.push("/home")
-    //     }
-    // }, [history, user])
-
     const handleRegister = async () => {
         let check = isValidInput()
         if (check) {
@@ -125,7 +115,7 @@ const Register = (props) => {
                                 </div>
                             </div>
                             <div>
-                                <img src={logo} style={{ width: '62px', height: '62px' }} />
+                                <img src={logo} style={{ width: '62px', height: '62px' }} alt="logo" />
                             </div>
                         </div>
                         <hr className="opacity-25" />

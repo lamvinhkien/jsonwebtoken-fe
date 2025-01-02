@@ -154,7 +154,7 @@ const User = (props) => {
                                     <tr key={"row" + index} className="text-nowrap">
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{index + 1 + offset}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>
-                                            <img src={item.avatar ? process.env.REACT_APP_URL_FILES_BE + item.avatar : userAvatar} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
+                                            <img src={item.avatar ? process.env.REACT_APP_URL_FILES_BE + item.avatar : userAvatar} style={{ width: '35px', height: '35px', borderRadius: '50%' }} alt={`avatar${index}`} />
                                         </td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.username ? item.username : ''}</td>
                                         <td className={user.id === item.id ? 'text-primary fw-medium' : ''}>{item.email ? item.email : ''}</td>
@@ -175,28 +175,27 @@ const User = (props) => {
                                 )
                             })
                                 : <tr>
-                                    <td colSpan={7} className="text-center">Loading data........</td>
+                                    <td colSpan={7} className="text-center">No users available.....</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
 
-                <div className="row">
-                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
-                        <label className="fw-medium">Limit records: </label>
-                        <select className="form-select-sm"
-                            value={limit}
-                            onChange={(event) => handleSetLimit(event.target.value)}
-                        >
-                            <option value={8}>8</option>
-                            <option value={16}>16</option>
-                        </select>
-                    </div>
-
-                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-end mt-md-2">
-                        {
-                            totalPage > 0 &&
+                {
+                    totalPage > 0 &&
+                    <div className="row">
+                        <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
+                            <label className="fw-medium">Limit records: </label>
+                            <select className="form-select-sm"
+                                value={limit}
+                                onChange={(event) => handleSetLimit(event.target.value)}
+                            >
+                                <option value={8}>8</option>
+                                <option value={16}>16</option>
+                            </select>
+                        </div>
+                        <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-end mt-md-2">
                             <ReactPaginate
                                 nextLabel=">"
                                 onPageChange={handlePageClick}
@@ -218,9 +217,9 @@ const User = (props) => {
                                 renderOnZeroPageCount={null}
                                 forcePage={page - 1}
                             />
-                        }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
 
             <ModalUser

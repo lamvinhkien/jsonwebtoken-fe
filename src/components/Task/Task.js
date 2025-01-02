@@ -110,7 +110,7 @@ const Task = (props) => {
                 <hr />
                 <div className='row' style={{ minHeight: '550px' }}>
                     {
-                        task && task.length > 0 && task.map((item, index) => {
+                        task && task.length > 0 ? task.map((item, index) => {
                             return (
                                 <div className='col-lg-6 col-12 mb-4' key={index + offset}>
                                     <div className="card">
@@ -147,23 +147,27 @@ const Task = (props) => {
                                 </div>
                             )
                         })
+                            :
+                            <div className='col-12 fst-italic text-center'>
+                                No tasks available.....
+                            </div>
                     }
                 </div>
-                <div className="row">
-                    <div className="col-12 d-flex align-items-center justify-content-center col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
-                        <label className="fw-medium">Limit records: </label>
-                        <select className="form-select-sm"
-                            value={limit}
-                            onChange={(event) => handleSetLimit(event.target.value)}
-                        >
-                            <option value={4}>4</option>
-                            <option value={8}>8</option>
-                        </select>
-                    </div>
+                {
+                    totalPage > 0 &&
+                    <div className="row">
+                        <div className="col-12 d-flex align-items-center justify-content-center col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
+                            <label className="fw-medium">Limit records: </label>
+                            <select className="form-select-sm"
+                                value={limit}
+                                onChange={(event) => handleSetLimit(event.target.value)}
+                            >
+                                <option value={4}>4</option>
+                                <option value={8}>8</option>
+                            </select>
+                        </div>
 
-                    <div className="col-12 d-flex align-items-center justify-content-center mt-3 col-md-6 d-md-flex justify-content-md-end mt-md-2">
-                        {
-                            totalPage > 0 &&
+                        <div className="col-12 d-flex align-items-center justify-content-center mt-3 col-md-6 d-md-flex justify-content-md-end mt-md-2">
                             <ReactPaginate
                                 nextLabel=">"
                                 onPageChange={handlePageClick}
@@ -185,9 +189,9 @@ const Task = (props) => {
                                 renderOnZeroPageCount={null}
                                 forcePage={page - 1}
                             />
-                        }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
 
             <ModalAddTask

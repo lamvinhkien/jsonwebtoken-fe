@@ -124,7 +124,7 @@ const ModalCreate = (props) => {
                                     <div className='col-12 mb-3 col-lg-5 mb-lg-0 text-center'>
                                         <div className=''>
                                             <img src={valueInput.avatar ? process.env.REACT_APP_URL_FILES_BE + valueInput.avatar : userAvatar}
-                                                style={{ width: '200px', height: '200px', borderRadius: '50%' }} />
+                                                style={{ width: '200px', height: '200px', borderRadius: '50%' }} alt='avatar' />
                                         </div>
                                     </div>
                                     <div className='col-12 col-lg-7' style={{ fontSize: '17px' }}>

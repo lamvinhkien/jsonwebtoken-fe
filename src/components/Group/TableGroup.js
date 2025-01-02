@@ -133,56 +133,53 @@ const TableGroup = forwardRef((props, ref) => {
                                 )
                             })
                                 : <tr>
-                                    <td colSpan={5} className="text-center">Loading data........</td>
+                                    <td colSpan={5} className="text-center fst-italic">No groups available.....</td>
                                 </tr>
                             }
                         </>
                     </tbody>
                 </table>
             </div>
+            {
+                totalPage > 0 &&
+                <div className='row'>
+                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
+                        <label className="fw-medium">Limit records: </label>
+                        <select className="form-select-sm mx-2"
+                            value={limit}
+                            onChange={(event) => handleSetLimit(event.target.value)}
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                        </select>
+                    </div>
 
-            <div className='row'>
-                <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
-                    <label className="fw-medium">Limit records: </label>
-                    <select className="form-select-sm mx-2"
-                        value={limit}
-                        onChange={(event) => handleSetLimit(event.target.value)}
-                    >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                    </select>
+                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-end mt-md-2">
+                        <ReactPaginate
+                            nextLabel=">"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={1}
+                            marginPagesDisplayed={1}
+                            pageCount={totalPage}
+                            previousLabel="<"
+                            pageClassName="page-item"
+                            pageLinkClassName="page-link"
+                            previousClassName="page-item"
+                            previousLinkClassName="page-link"
+                            nextClassName="page-item"
+                            nextLinkClassName="page-link"
+                            breakLabel="..."
+                            breakClassName="page-item"
+                            breakLinkClassName="page-link"
+                            containerClassName="pagination"
+                            activeClassName="active"
+                            renderOnZeroPageCount={null}
+                            forcePage={page - 1}
+                        />
+                    </div>
                 </div>
-
-                <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-end mt-md-2">
-                    <>
-                        {
-                            totalPage > 0 &&
-                            <ReactPaginate
-                                nextLabel=">"
-                                onPageChange={handlePageClick}
-                                pageRangeDisplayed={1}
-                                marginPagesDisplayed={1}
-                                pageCount={totalPage}
-                                previousLabel="<"
-                                pageClassName="page-item"
-                                pageLinkClassName="page-link"
-                                previousClassName="page-item"
-                                previousLinkClassName="page-link"
-                                nextClassName="page-item"
-                                nextLinkClassName="page-link"
-                                breakLabel="..."
-                                breakClassName="page-item"
-                                breakLinkClassName="page-link"
-                                containerClassName="pagination"
-                                activeClassName="active"
-                                renderOnZeroPageCount={null}
-                                forcePage={page - 1}
-                            />
-                        }
-                    </>
-                </div>
-            </div>
-
+            }
+            
             <ModalDelete
                 title={`group`}
                 show={isShowDelete}

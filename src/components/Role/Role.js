@@ -95,7 +95,7 @@ const Role = () => {
                                     )
                                 })
                                     : <tr>
-                                        <td colSpan={5} className="text-center">Loading data........</td>
+                                        <td colSpan={5} className="text-center fst-italic">No roles available.....</td>
                                     </tr>
                                 }
                             </>
@@ -103,21 +103,21 @@ const Role = () => {
                     </table>
                 </div>
 
-                <div className='row'>
-                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
-                        <label className="fw-medium">Limit records: </label>
-                        <select className="form-select-sm mx-2"
-                            value={limit}
-                            onChange={(event) => handleSetLimit(event.target.value)}
-                        >
-                            <option value={8}>8</option>
-                            <option value={16}>16</option>
-                        </select>
-                    </div>
+                {
+                    totalPage > 0 &&
+                    <div className='row'>
+                        <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-start mt-md-0 gap-2">
+                            <label className="fw-medium">Limit records: </label>
+                            <select className="form-select-sm mx-2"
+                                value={limit}
+                                onChange={(event) => handleSetLimit(event.target.value)}
+                            >
+                                <option value={8}>8</option>
+                                <option value={16}>16</option>
+                            </select>
+                        </div>
 
-                    <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-end mt-md-2">
-                        {
-                            totalPage > 0 &&
+                        <div className="col-12 d-flex align-items-center justify-content-center mt-2 col-md-6 d-md-flex justify-content-md-end mt-md-2">
                             <ReactPaginate
                                 nextLabel=">"
                                 onPageChange={handlePageClick}
@@ -139,9 +139,9 @@ const Role = () => {
                                 renderOnZeroPageCount={null}
                                 forcePage={page - 1}
                             />
-                        }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
 
             <ModalUpdate

@@ -136,7 +136,7 @@ const Assign = (props) => {
                                     )
                                 })
                                 :
-                                <option>Group loading.......</option>
+                                <option>No groups available.....</option>
                         }
                     </select>
                 </div>
@@ -170,7 +170,7 @@ const Assign = (props) => {
                                                 </div>
                                             )
                                         })
-                                        : <div className='col-12'>Loading data......</div>
+                                        : <div className='col-12'>No roles available.....</div>
                                 }
                             </div>
                             <div className='col-12 col-md-3 col-lg-2 mt-3'>

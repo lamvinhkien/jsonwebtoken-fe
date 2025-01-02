@@ -1,6 +1,6 @@
 import "./Login.scss"
 import { useHistory } from "react-router-dom";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { toast } from "react-toastify";
 import { loginUser } from "../../services/userService";
 import { UserContext } from "../Context/Context";
@@ -22,7 +22,7 @@ const Login = (props) => {
 
     const [isValidInput, setIsValidInput] = useState(defaultValidInput)
 
-    const { user, loginContext } = useContext(UserContext);
+    const { loginContext } = useContext(UserContext);
 
     const handleLogin = async () => {
         if (!valueLogin) {
@@ -81,12 +81,6 @@ const Login = (props) => {
     const handleForgotPassword = async () => {
         history.push('/forgot-password')
     }
-
-    // useEffect(() => {
-    //     if (user && user.auth === true) {
-    //         history.push("/")
-    //     }
-    // }, [history, user])
 
     return (
         <div className="Login container py-3 px-3 py-lg-5 px-lg-5">

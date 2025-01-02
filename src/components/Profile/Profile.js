@@ -60,8 +60,10 @@ const Profile = () => {
             } else {
                 toast.error('Please upload image file.')
             }
-            event.target.value = null
+        } else {
+            toast.error('Please upload image file.')
         }
+        event.target.value = null
     }
 
     const handleRemoveAvatar = async () => {
@@ -150,7 +152,7 @@ const Profile = () => {
                     </div>
                     <div className='col-12 col-lg-4 text-center'>
                         <div className=''>
-                            <img src={valueInput.avatar ? process.env.REACT_APP_URL_FILES_BE + valueInput.avatar : userAavatar}
+                            <img src={valueInput.avatar ? process.env.REACT_APP_URL_FILES_BE + valueInput.avatar : userAavatar} alt='avatar'
                                 style={{ width: '210px', height: '210px', borderRadius: '50%' }} />
                         </div>
                         <div className='mt-3 d-flex justify-content-center gap-2'>

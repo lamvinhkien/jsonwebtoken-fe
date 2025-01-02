@@ -1,13 +1,11 @@
 import './ForgotPassword.scss'
 import { useHistory } from 'react-router-dom'
 import { sendOTP, resetPassword } from '../../services/userService';
-import { useState, useEffect, useContext } from 'react';
-import { UserContext } from "../Context/Context";
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 const ForgotPassword = (props) => {
     const history = useHistory()
-    const { user } = useContext(UserContext);
     const [emailUser, setEmailUser] = useState('')
     const [codeOTP, setCodeOTP] = useState('')
     const [newPassword, setNewPassword] = useState('')
@@ -96,13 +94,6 @@ const ForgotPassword = (props) => {
             history.push('/')
         }
     }
-
-    // useEffect(() => {
-    //     if (user && user.auth === true) {
-    //         history.push("/")
-    //     }
-    // }, [history, user])
-
 
     return (
         <div className='ForgotPassword containter py-3 px-3 py-lg-5 px-lg-5'>
