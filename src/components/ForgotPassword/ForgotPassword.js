@@ -120,11 +120,11 @@ const ForgotPassword = (props) => {
                                 <div className='col-12 col-md-3'>
                                     <button className="btn submit-btn w-100" disabled={seconds > 0 ? true : false} onClick={() => { handleSendOTP() }}>
                                         {seconds > 0 ? (
-                                            <span>
+                                            <>
                                                 {seconds < 10 ? `0${seconds}` : seconds}s
-                                            </span>
+                                            </>
                                         ) : (
-                                            <span>Send</span>
+                                            <>Send</>
                                         )}
                                     </button>
                                 </div>
